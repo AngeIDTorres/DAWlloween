@@ -1,0 +1,95 @@
+@import url('https://fonts.googleapis.com/css2?family=Creepster&family=Special+Elite&display=swap');
+
+:root {
+  --purple-dark: #231733;
+  --purple-mid: #3A2346;
+  --blue-night: #1D263B;
+  --blue-reflect: #2A3A56;
+  --red-blood: #5E1818;
+  --red-rust: #4E1414;
+  --amber-light: #C68E42;
+  --amber-glow: #DDA95A;
+  --parchment-bg: #D3C6A6;
+  --parchment-txt: #E0D5B5;
+  --iron: #33373B;
+  --iron-worn: #4A4F54;
+}
+
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+body {
+  min-height: 100vh;
+  background-color: var(--purple-dark);
+  color: var(--parchment-txt);
+  font-family: 'Special Elite', cursive;
+  overflow-x: hidden;
+}
+
+.warning-container {
+  border: 4px solid var(--red-blood);
+  background: rgba(29, 38, 59, 0.85);
+  box-shadow: 0 0 30px rgba(110, 34, 34, 0.6);
+  padding: 3rem;
+  max-width: 650px;
+  width: 100%;
+  margin: 2rem auto;
+  text-align: center;
+}
+
+h1 {
+  font-family: 'Creepster', cursive;
+  font-size: 3.5rem;
+  color: var(--amber-glow);
+  text-shadow: 2px 2px 8px var(--red-blood);
+  letter-spacing: 2px;
+  margin-bottom: 1rem;
+}
+
+h2 {
+  font-family: 'Creepster', cursive;
+  font-size: 2rem;
+  color: var(--red-rust);
+  margin-bottom: 1.5rem;
+  text-transform: uppercase;
+}
+
+p {
+  font-size: 1.2rem;
+  line-height: 1.8;
+  color: var(--parchment-bg);
+  margin-bottom: 1.5rem;
+}
+
+.badge {
+  display: inline-block;
+  padding: 0.5rem 1.2rem;
+  background-color: var(--red-blood);
+  color: var(--parchment-txt);
+  border: 1px solid var(--amber-light);
+  font-size: 1rem;
+  text-transform: uppercase;
+  letter-spacing: 1px;
+}
+
+.blackout-curtain {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100vw;
+  height: 100vh;
+  background-color: #000;
+  opacity: 0;
+  pointer-events: none;
+  z-index: 9999;
+  transition: opacity 1.4s ease;
+}
+
+.blackout-curtain.active {
+  opacity: 1;
+  pointer-events: all;
+}
+

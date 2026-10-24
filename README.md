@@ -21,18 +21,17 @@ Proyecto web temático de terror institucional ambientado en un colegio clausura
 
 ---
 
-## Índice de Documentación (`docs/`)
+## Documentación Técnica
 
-A continuación se detalla la finalidad de cada documento presente en la carpeta [`docs/`](file:///Z:/docs/):
+La documentación del proyecto se organiza de manera modular y desacoplada dentro del directorio [`docs/`](docs/). Consulta el [**Índice de Documentación Técnica (`docs/README.md`)**](docs/README.md) para el detalle funcional y técnico completo.
 
-* [**despliegue.md**](file:///Z:/docs/despliegue.md): Explica la arquitectura de despliegue con Docker, la configuración del Virtual Host `halloween.conf`, la resolución DNS mediante el archivo `hosts` del sistema operativo y las políticas de permisos (`chmod`).
-* [**stack.md**](file:///Z:/docs/stack.md): Define el stack de tecnologías empleado, la paleta cromática exacta (HEX) inspirada en el cómic de terror de los 90 y las tipografías de Google Fonts utilizadas en la interfaz.
-* [**autenticacion.md**](file:///Z:/docs/autenticacion.md): *(Fase 2)* Describe el ciclo de vida de las sesiones en PHP, la estructura de la matriz bidimensional de usuarios y los formularios de login, registro y recuperación de contraseña.
-* [**mapa-navegacion.md**](file:///Z:/docs/mapa-navegacion.md): *(Fase 3)* Detalla la arquitectura de navegación, la animación de la verja y el candado, el efecto de linterna interactiva y las pautas de Interacción Persona-Ordenador (IPO).
-* [**recetas.md**](file:///Z:/docs/recetas.md): *(Fase 4)* Documenta el catálogo del comedor escolar, el carrusel de recetas en bandeja metálica y los estilos distintivos de platos destacados.
-* [**correo.md**](file:///Z:/docs/correo.md): *(Fase 4)* Describe el funcionamiento del buzón interactivo en la máquina de escribir del despacho y la integración del envío de correos vía SMTP.
-* [**minijuego.md**](file:///Z:/docs/minijuego.md): *(Fase 5)* Especifica la lógica 2D del minijuego con matrices en JavaScript, el sistema de detección de colisiones, la IA del enemigo y el mecanismo de vidas y drop de objetos.
-* [**manual-usuario.md**](file:///Z:/docs/manual-usuario.md): *(Fase 6)* Guía de uso no técnica redactada en lenguaje sencillo y accesible para cualquier usuario final.
+| Documento | Temática Principal |
+| :--- | :--- |
+| [**despliegue.md**](docs/despliegue.md) | Contenedores Docker Compose, Virtual Host Apache y resolución DNS `halloween.dev`. |
+| [**stack.md**](docs/stack.md) | Tecnologías centrales, estándar zero-comments, paleta cómic de los 90 y arquitectura CSS. |
+| [**autenticacion.md**](docs/autenticacion.md) | Sesiones en backend PHP, matriz de credenciales y flujos de recuperación. |
+| [**mapa-navegacion.md**](docs/mapa-navegacion.md) | Escenario de entrada, candado interactivo, haz de linterna y accesibilidad IPO. |
+| [**audio.md**](docs/audio.md) | Motor Web Audio API, catálogo de efectos ElevenLabs SFX y precarga optimizada. |
 
 ---
 

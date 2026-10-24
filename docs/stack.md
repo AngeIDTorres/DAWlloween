@@ -39,3 +39,14 @@ Se descarta el uso de tonos verdes para evitar la estética convencional de Hall
 * **Encabezados y Títulos:** `Creepster` (Google Fonts). Uso reservado a carteles de advertencia, cabeceras principales y logotipos temáticos.
 * **Cuerpo y Formularios:** `Special Elite` (Google Fonts). Tipografía estilo máquina de escribir antigua con alta legibilidad para textos descriptivos, etiquetas de formulario y fichas de recetas.
 
+---
+
+## 4. Estructura Modular de Hojas de Estilo (CSS)
+
+Para optimizar la carga y la mantenibilidad, los estilos se encuentran desacoplados por contexto de uso:
+
+* **`app/css/globals.css`:** Variables cromáticas (`:root`), reseteo universal, tipografías globales, contenedores de alerta genéricos (`.warning-container`, `.badge`) y cortina de transición (`.blackout-curtain`).
+* **`app/css/login.css`:** Escenario de entrada (`.login-stage`), cancelas batientes (`.gate-container`), animación física del candado (`.padlock-wrapper`), cerradura y llave antigua interactiva (`.antique-key`).
+* **`app/css/auth.css`:** Formularios temáticos de registro y recuperación de clave (`altaUsuario.php`, `cambioPass.php`).
+* **`app/css/style.css`:** Puente de compatibilidad que importa las hojas modulares.
+
