@@ -1,0 +1,7 @@
+# En la máquina cliente (tu PC), apuntar a la IP del servidor Docker:
+192.168.2.214 halloween.dev
+
+# O si se ejecuta en local:
+# 127.0.0.1 halloween.dev
+
+
