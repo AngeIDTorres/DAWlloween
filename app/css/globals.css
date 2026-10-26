@@ -2,17 +2,17 @@
 
 :root {
   --purple-dark: #231733;
-  --purple-mid: #3A2346;
-  --blue-night: #1D263B;
-  --blue-reflect: #2A3A56;
-  --red-blood: #5E1818;
-  --red-rust: #4E1414;
-  --amber-light: #C68E42;
-  --amber-glow: #DDA95A;
-  --parchment-bg: #D3C6A6;
-  --parchment-txt: #E0D5B5;
-  --iron: #33373B;
-  --iron-worn: #4A4F54;
+  --purple-mid: #3a2346;
+  --blue-night: #1d263b;
+  --blue-reflect: #2a3a56;
+  --red-blood: #5e1818;
+  --red-rust: #4e1414;
+  --amber-light: #c68e42;
+  --amber-glow: #dda95a;
+  --parchment-bg: #d3c6a6;
+  --parchment-txt: #e0d5b5;
+  --iron: #33373b;
+  --iron-worn: #4a4f54;
 }
 
 * {
@@ -92,4 +92,3 @@ p {
   opacity: 1;
   pointer-events: all;
 }
-

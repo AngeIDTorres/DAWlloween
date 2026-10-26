@@ -51,4 +51,3 @@ La documentación del proyecto se organiza de manera modular y desacoplada dentr
    ```bash
    make down
    ```
-

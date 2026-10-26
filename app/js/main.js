@@ -1,18 +1,9 @@
 const AudioEngine = {
   ctx: null,
   cache: {},
-  preloadList: [
-    'candado_salto.mp3',
-    'candado_expandir.mp3',
-    'llave_insertar.mp3',
-    'llave_girar.mp3',
-    'candado_error.mp3',
-    'candado_desbloqueo.mp3',
-    'candado_caida.mp3',
-    'verja_abrir.mp3'
-  ],
+  preloadList: ['candado_salto.mp3', 'candado_expandir.mp3', 'llave_insertar.mp3', 'llave_girar.mp3', 'candado_error.mp3', 'candado_desbloqueo.mp3', 'candado_caida.mp3', 'verja_abrir.mp3'],
   preload() {
-    this.preloadList.forEach(filename => {
+    this.preloadList.forEach((filename) => {
       const path = '../audio/' + filename;
       if (!this.cache[path]) {
         const audio = new Audio();
@@ -202,9 +193,9 @@ const AudioEngine = {
     const ambientFile = 'ambiente_noche.ogg';
     if (this.ctx) {
       fetch('../audio/' + ambientFile)
-        .then(res => res.arrayBuffer())
-        .then(buf => this.ctx.decodeAudioData(buf))
-        .then(decoded => {
+        .then((res) => res.arrayBuffer())
+        .then((buf) => this.ctx.decodeAudioData(buf))
+        .then((decoded) => {
           if (!this.ambientPlaying) return;
           const source = this.ctx.createBufferSource();
           source.buffer = decoded;
@@ -234,7 +225,7 @@ const AudioEngine = {
     if (p !== undefined) {
       p.catch(() => {});
     }
-  }
+  },
 };
 
 AudioEngine.preload();
@@ -454,39 +445,39 @@ document.addEventListener('DOMContentLoaded', () => {
         method: 'POST',
         body: formData,
         headers: {
-          'X-Requested-With': 'XMLHttpRequest'
-        }
+          'X-Requested-With': 'XMLHttpRequest',
+        },
       })
-      .then(res => res.json())
-      .then(data => {
-        if (data.success) {
-          triggerOpenSequence();
-        } else {
-          isSubmitting = false;
-          setTimeout(() => {
-            if (antiqueKey) antiqueKey.classList.remove('turning');
-            padlockWrapper.classList.remove('shake');
-            void padlockWrapper.offsetWidth;
-            padlockWrapper.classList.add('shake');
-            AudioEngine.playShake();
+        .then((res) => res.json())
+        .then((data) => {
+          if (data.success) {
+            triggerOpenSequence();
+          } else {
+            isSubmitting = false;
             setTimeout(() => {
+              if (antiqueKey) antiqueKey.classList.remove('turning');
               padlockWrapper.classList.remove('shake');
-            }, 700);
+              void padlockWrapper.offsetWidth;
+              padlockWrapper.classList.add('shake');
+              AudioEngine.playShake();
+              setTimeout(() => {
+                padlockWrapper.classList.remove('shake');
+              }, 700);
 
-            let alertEl = document.querySelector('.plate-alert');
-            if (!alertEl) {
-              alertEl = document.createElement('div');
-              alertEl.className = 'plate-alert';
-              const plateContent = document.querySelector('.plate-content');
-              if (plateContent) plateContent.prepend(alertEl);
-            }
-            alertEl.textContent = data.error || 'Combinación errónea. Clave rechazada.';
-          }, 350);
-        }
-      })
-      .catch(() => {
-        loginForm.submit();
-      });
+              let alertEl = document.querySelector('.plate-alert');
+              if (!alertEl) {
+                alertEl = document.createElement('div');
+                alertEl.className = 'plate-alert';
+                const plateContent = document.querySelector('.plate-content');
+                if (plateContent) plateContent.prepend(alertEl);
+              }
+              alertEl.textContent = data.error || 'Combinación errónea. Clave rechazada.';
+            }, 350);
+          }
+        })
+        .catch(() => {
+          loginForm.submit();
+        });
     });
   }
 

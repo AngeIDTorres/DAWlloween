@@ -4,38 +4,39 @@ require_once __DIR__ . '/../includes/VarGlobales.php';
 $error = '';
 
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
-    $usuario = trim($_POST['usuario'] ?? '');
-    $password = trim($_POST['password'] ?? '');
-    $email = trim($_POST['email'] ?? '');
-    $perfil = trim($_POST['perfil'] ?? 'user');
-    $pregunta = trim($_POST['pregunta'] ?? '');
-    $respuesta = trim($_POST['respuesta'] ?? '');
+  $usuario = trim($_POST['usuario'] ?? '');
+  $password = trim($_POST['password'] ?? '');
+  $email = trim($_POST['email'] ?? '');
+  $perfil = trim($_POST['perfil'] ?? 'user');
+  $pregunta = trim($_POST['pregunta'] ?? '');
+  $respuesta = trim($_POST['respuesta'] ?? '');
 
-    if ($usuario === '' || $password === '' || $email === '' || $pregunta === '' || $respuesta === '') {
-        $error = 'Todos los campos son obligatorios.';
-    } elseif (!filter_var($email, FILTER_VALIDATE_EMAIL)) {
-        $error = 'El formato del correo electrónico no es válido.';
+  if ($usuario === '' || $password === '' || $email === '' || $pregunta === '' || $respuesta === '') {
+    $error = 'Todos los campos son obligatorios.';
+  } elseif (!filter_var($email, FILTER_VALIDATE_EMAIL)) {
+    $error = 'El formato del correo electrónico no es válido.';
+  } else {
+    $nuevoUser = [
+      'Usuario' => $usuario,
+      'Contraseña' => $password,
+      'Email' => $email,
+      'Perfil' => $perfil !== '' ? $perfil : 'user',
+      'Pregunta' => $pregunta,
+      'Respuesta' => $respuesta,
+      'UsuarioActual' => false
+    ];
+
+    if (AltaUsuario($nuevoUser)) {
+      redirect('login.php?registrado=1');
     } else {
-        $nuevoUser = [
-            'Usuario' => $usuario,
-            'Contraseña' => $password,
-            'Email' => $email,
-            'Perfil' => $perfil !== '' ? $perfil : 'user',
-            'Pregunta' => $pregunta,
-            'Respuesta' => $respuesta,
-            'UsuarioActual' => false
-        ];
-
-        if (AltaUsuario($nuevoUser)) {
-            redirect('login.php?registrado=1');
-        } else {
-            $error = 'El nombre de usuario ya está registrado en el colegio.';
-        }
+      $error = 'El nombre de usuario ya está registrado en el colegio.';
     }
+  }
 }
 ?>
 <!DOCTYPE html>
 <html lang="es">
+
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -43,6 +44,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
   <link rel="stylesheet" href="../css/globals.css">
   <link rel="stylesheet" href="../css/auth.css">
 </head>
+
 <body>
   <div class="warning-container">
     <h1>DAWlloween</h1>
@@ -92,5 +94,5 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     </div>
   </div>
 </body>
-</html>
 
+</html>

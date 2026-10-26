@@ -1,9 +1,10 @@
+---
 services:
   web:
     image: php:8.2-apache
     container_name: halloween_apache
     ports:
-      - "80:80"
+      - 80:80
     volumes:
       - ./app:/var/www/html
       - ./config/halloween.conf:/etc/apache2/sites-available/000-default.conf
@@ -11,4 +12,3 @@ services:
     environment:
       - TZ=Europe/Madrid
     restart: unless-stopped
-

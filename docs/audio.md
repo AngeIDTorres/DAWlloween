@@ -40,4 +40,6 @@ Ubicar los archivos exportados en la ruta `app/audio/`:
 | **`linterna_click.mp3`** | Encendido y apagado de la linterna sobre el mapa 2D. | 0.8 s | `Heavy vintage flashlight toggle switch clicking on and off, solid plastic and metal button click, crisp mechanical tactile snap` |
 | **`papel_examinar.mp3`** | Apertura y cierre del cartel MISSING o notas en mesas. | 1.2 s | `Old dry parchment paper unfolding and rustling, tactile dry newspaper page turn, aged paper handling foley, close-up` |
 | **`pasos_madera.mp3`** | Desplazamiento por pasillos interiores en el plano. | 2.0 s | `Slow footsteps creaking on old dusty wooden floorboards, eerie abandoned school hallway acoustics` |
+| **`puerta_clausurada.mp3`** | Intento de apertura de estancia sellada judicialmente. | 1.5 s | `Heavy iron chain links rattling against a locked wooden door, dull thud on barricaded door, rusted padlock refusing to budge, creepy interior acoustic` |
+| **`ambiente_interior.ogg`** | Fondo ambiental interior en bucle para el plano arquitectónico. | 12.0 s | `Low ominous interior drone inside a cavernous abandoned building, faint wind whistling through cracked window panes, distant subtle wood creak, eerie horror ambience, seamless loop` |
 

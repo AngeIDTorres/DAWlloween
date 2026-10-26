@@ -12,4 +12,3 @@ down:
 
 restart:
 	docker compose restart
-
