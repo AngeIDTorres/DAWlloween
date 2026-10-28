@@ -25,7 +25,9 @@ export function initHangingLamp(options = {}) {
 
     hangingLamp.classList.add('lamp-flickering');
     mapStage.classList.add('lamp-flickering-ambient');
-    if (AudioEngine) AudioEngine.playFlickerSpark();
+    if (AudioEngine) {
+      AudioEngine.playFlickerSpark();
+    }
 
     setTimeout(() => {
       hangingLamp.classList.remove('lamp-flickering');
@@ -46,10 +48,13 @@ export function initHangingLamp(options = {}) {
       }
       hangingLamp.classList.remove('lamp-flickering');
       mapStage.classList.remove('lamp-flickering-ambient');
+      if (AudioEngine && AudioEngine.startBulbHum) AudioEngine.startBulbHum();
     } else {
+      if (AudioEngine && AudioEngine.stopBulbHum) AudioEngine.stopBulbHum();
       scheduleNextFlicker();
     }
   });
 
   scheduleNextFlicker();
 }
+

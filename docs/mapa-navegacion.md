@@ -90,7 +90,6 @@ Actúa como el centro neurálgico de exploración del colegio clausurado tras fr
      * **Sala de Profesores:** Cadenas de acero en puertas acristaladas y legajos dispersos.
      * **Laboratorio de Ciencias:** Frascos fracturados y precinto por riesgo toxicológico.
      * **Gimnasio Polideportivo:** Gran cancha polideportiva que abarca todo el cuadrante sureste, precintada por colapso perimetral.
-     * *Interacción acústica sin bloqueos modales:* Al hacer clic sobre cualquiera de estas dependencias cerradas, no se abren ventanas emergentes; el sistema emite de manera inmediata un chasquido procedural de zumbador sordo (`MapEngine.playDenied()`), señalizando sin interrupciones la inviabilidad del acceso.
+     * *Interacción acústica sin bloqueos modales:* Al hacer clic sobre cualquiera de estas dependencias cerradas, no se abren ventanas emergentes; el sistema emite de manera inmediata el foley de cerrojo y cadenas atrancadas (AudioEngine.playDenied(), cargando puerta_clausurada.mp3 con respaldo procedural), señalizando sin interrupciones la inviabilidad del acceso.
 
-3. **Motor de Audio Sintético (`MapEngine`):** Emite zumbido eléctrico de fondo, conmutación táctil del interruptor de la linterna, interruptor acústico de la bombilla de techo (`playLightSwitch`), chisporroteo eléctrico de parpadeo aleatorio (`playFlickerSpark`) y sonido de denegación de acceso (`playDenied`) al interactuar con las salas inaccesibles.
-
+3. **Motor de Audio (AudioEngine):** Reproduce el fondo ambiental interior (mbiente_interior.ogg), conmutación táctil limpia de la linterna (playClick), tirón de cadenilla con tintineo metálico de la bombilla de techo (playLightSwitch), zumbido tenue de filamento encendido (startBulbHum), sutil micro-parpadeo en penumbra (playFlickerSpark), paso de página en el posit (playPaper) y denegación de acceso en aulas clausuradas (playDenied).

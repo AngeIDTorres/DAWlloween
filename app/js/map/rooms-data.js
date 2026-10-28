@@ -90,3 +90,4 @@ export const ROOMS_REGISTRY = {
     actionText: 'ACCESO DENEGADO [BLOQUEADO]'
   }
 };
+

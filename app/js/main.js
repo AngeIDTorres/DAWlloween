@@ -13,7 +13,7 @@ AudioEngine.preload([
   'candado_desbloqueo.mp3',
   'candado_caida.mp3',
   'verja_abrir.mp3'
-], '../audio/');
+], '../audio/login/');
 
 document.addEventListener('DOMContentLoaded', () => {
   const padlockWrapper = document.getElementById('padlockWrapper');
@@ -30,7 +30,7 @@ document.addEventListener('DOMContentLoaded', () => {
   let isSubmitting = false;
 
   const startAmbient = () => {
-    AudioEngine.playAmbientNight('../audio/');
+    AudioEngine.playAmbientNight('../audio/login/');
   };
   startAmbient();
   window.addEventListener('pointerdown', startAmbient, { once: true });

@@ -12,6 +12,7 @@ document.addEventListener('DOMContentLoaded', () => {
   const framePostit = document.getElementById('framePostit');
   const postitLinks = document.querySelectorAll('.postit-link');
   const roomZones = document.querySelectorAll('.room-zone, .frame-sticker-about');
+  const stickerAbout = document.getElementById('frameStickerAbout');
 
   const flashlight = new FlashlightController({
     elementId: 'mapFlashlight',
@@ -32,6 +33,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
   initNavigation({
     roomZones,
+    stickerAbout,
     roomsRegistry: ROOMS_REGISTRY,
     audioEngine: AudioEngine
   });
@@ -49,7 +51,22 @@ document.addEventListener('DOMContentLoaded', () => {
     audioEngine: AudioEngine
   });
 
+  AudioEngine.preload([
+    'linterna_click.mp3',
+    'bombilla_interruptor.mp3',
+    'bombilla_zumbido.mp3',
+    'bombilla_chisporroteo.mp3',
+    'bombilla_flicker_off.mp3',
+    'bombilla_flicker_on.mp3',
+    'puerta_clausurada.mp3',
+    'pasos_madera.mp3',
+    'papel_examinar.mp3',
+    'mapa_hover.mp3'
+  ], 'audio/mapa/');
+
   window.addEventListener('click', () => {
-    AudioEngine.startSyntheticAmbient();
+    AudioEngine.playAmbientInterior('audio/mapa/');
+    AudioEngine.preloadHoverBuffer('audio/mapa/');
+    AudioEngine.preloadBulbHumBuffer('audio/mapa/');
   }, { once: true });
 });

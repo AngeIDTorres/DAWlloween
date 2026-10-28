@@ -1,9 +1,11 @@
 export function initNavigation(options = {}) {
   const roomZones = options.roomZones || document.querySelectorAll('.room-zone, .frame-sticker-about');
+  const stickerAbout = options.stickerAbout || document.getElementById('frameStickerAbout');
   const roomsRegistry = options.roomsRegistry || {};
   const AudioEngine = options.audioEngine;
 
-  roomZones.forEach((zone) => {
+  const bindZone = (zone) => {
+    if (!zone) return;
     const roomId = zone.getAttribute('data-room-id');
 
     zone.addEventListener('mouseenter', () => {
@@ -11,6 +13,7 @@ export function initNavigation(options = {}) {
     });
 
     zone.addEventListener('click', (e) => {
+      e.preventDefault();
       e.stopPropagation();
       const data = roomsRegistry[roomId];
       if (!data) return;
@@ -24,5 +27,11 @@ export function initNavigation(options = {}) {
         if (AudioEngine) AudioEngine.playDenied();
       }
     });
-  });
+  };
+
+  roomZones.forEach(bindZone);
+  if (stickerAbout && !Array.from(roomZones).includes(stickerAbout)) {
+    bindZone(stickerAbout);
+  }
 }
+

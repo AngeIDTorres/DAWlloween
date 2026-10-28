@@ -31,3 +31,4 @@ export function playGateSequence(options = {}) {
     window.location.href = redirectUrl;
   }, 3850);
 }
+

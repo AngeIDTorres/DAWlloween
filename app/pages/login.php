@@ -50,9 +50,9 @@ $startExpanded = $hasError || $loginSuccess || isset($_GET['registrado']) || iss
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>DAWlloween - Entrada al Colegio</title>
-  <link rel="preload" href="../audio/ambiente_noche.ogg" as="fetch" crossorigin>
-  <link rel="preload" href="../audio/candado_salto.mp3" as="fetch" crossorigin>
-  <link rel="preload" href="../audio/candado_expandir.mp3" as="fetch" crossorigin>
+  <link rel="preload" href="../audio/login/ambiente_noche.ogg" as="fetch" crossorigin>
+  <link rel="preload" href="../audio/login/candado_salto.mp3" as="fetch" crossorigin>
+  <link rel="preload" href="../audio/login/candado_expandir.mp3" as="fetch" crossorigin>
   <link rel="stylesheet" href="../css/globals.css">
   <link rel="stylesheet" href="../css/login.css">
   <?php if ($loginSuccess): ?>
@@ -114,8 +114,8 @@ $startExpanded = $hasError || $loginSuccess || isset($_GET['registrado']) || iss
 
           <button type="submit" class="keyhole-btn" id="keyholeBtn" title="Gira la llave para entrar">
             <div class="antique-key <?= $loginSuccess ? 'turning turned' : '' ?>" id="antiqueKey">
-              <?php if (file_exists(__DIR__ . '/../img/llave_antigua.png')): ?>
-                <img src="../img/llave_antigua.png" alt="Llave" class="key-img">
+              <?php if (file_exists(__DIR__ . '/../img/login/llave_antigua.png')): ?>
+                <img src="../img/login/llave_antigua.png" alt="Llave" class="key-img">
               <?php else: ?>
                 <svg viewBox="0 0 36 72" class="key-svg" xmlns="http://www.w3.org/2000/svg">
                   <circle cx="18" cy="14" r="11" fill="none" stroke="#DDA95A" stroke-width="2.5"/>

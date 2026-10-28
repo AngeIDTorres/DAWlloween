@@ -1,33 +1,33 @@
 .map-page {
-  margin: 0;
-  padding: 0;
-  width: 100vw;
-  height: 100vh;
-  overflow: hidden;
-  background: #06090e;
-  font-family: 'Special Elite', 'Courier New', monospace;
-  color: #c8d6e5;
-  user-select: none;
+    margin: 0;
+    padding: 0;
+    width: 100vw;
+    height: 100vh;
+    overflow: hidden;
+    background: #06090E;
+    font-family: 'Special Elite', 'Courier New', monospace;
+    color: #C8D6E5;
+    user-select: none;
 }
 
 .map-stage {
-  position: relative;
-  width: 100vw;
-  height: 100vh;
-  margin: 0;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  background:
-    radial-gradient(circle at 50% 50%, rgba(10, 20, 32, 0.2) 0%, rgba(2, 4, 7, 0.8) 100%),
-    url('../img/bg_mapa_pared.png') center center / cover no-repeat;
-  overflow: hidden;
-  cursor: none;
+    position: relative;
+    width: 100vw;
+    height: 100vh;
+    margin: 0;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background:
+        radial-gradient(circle at 50% 50%, rgba(10, 20, 32, 0.2) 0%, rgba(2, 4, 7, 0.8) 100%),
+        url('../img/mapa/bg_mapa_pared.png') center center / cover no-repeat;
+    overflow: hidden;
+    cursor: none;
 }
 
 .map-stage.cursor-visible,
 .map-stage.room-lit {
-  cursor: default;
+    cursor: default;
 }
 
 .map-stage.cursor-visible .map-viewport,
@@ -38,592 +38,630 @@
 .map-stage.room-lit .map-inner-window,
 .map-stage.room-lit .map-svg-container,
 .map-stage.room-lit .map-svg-container svg {
-  cursor: default;
+    cursor: default;
 }
 
 .map-stage.cursor-visible .room-zone,
 .map-stage.room-lit .room-zone {
-  cursor: pointer;
+    cursor: pointer;
 }
 
 .map-stage.cursor-visible .room-zone.closed,
 .map-stage.room-lit .room-zone.closed {
-  cursor: not-allowed;
+    cursor: not-allowed;
 }
 
 .map-viewport {
-  position: relative;
-  width: min(88vw, 1340px);
-  aspect-ratio: 2198 / 1378;
-  max-height: min(82vh, 840px);
-  background: transparent;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  transform-origin: center center;
-  transition: transform 0.3s ease-out;
+    position: relative;
+    width: min(88vw, 1340px);
+    aspect-ratio: 2198 / 1378;
+    max-height: min(82vh, 840px);
+    background: transparent;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transform-origin: center center;
+    transition: transform 0.3s ease-out;
 }
 
 .map-inner-window {
-  position: absolute;
-  top: 15.82%;
-  left: 10.37%;
-  width: 79.3%;
-  height: 68.87%;
-  overflow: hidden;
-  z-index: 10;
+    position: absolute;
+    top: 15.82%;
+    left: 10.37%;
+    width: 79.3%;
+    height: 68.87%;
+    overflow: hidden;
+    z-index: 10;
 }
 
 .map-paper-layer {
-  position: absolute;
-  inset: 0;
-  pointer-events: none;
-  background: url('../img/papel_mapa_pergamino.png') center / 100% 100% no-repeat;
-  filter: brightness(0.82) contrast(1.08);
-  z-index: 1;
+    position: absolute;
+    inset: 0;
+    pointer-events: none;
+    background: url('../img/mapa/papel_mapa_pergamino.png') center / 100% 100% no-repeat;
+    filter: brightness(0.82) contrast(1.08);
+    z-index: 1;
 }
 
 .map-svg-container {
-  position: absolute;
-  inset: 0;
-  width: 100%;
-  height: 100%;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  z-index: 5;
+    position: absolute;
+    inset: 0;
+    width: 100%;
+    height: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    z-index: 5;
 }
 
 .map-glass-overlay {
-  position: absolute;
-  inset: 0;
-  pointer-events: none;
-  background: url('../img/cristal_quebrado.png') center / 100% 100% no-repeat;
-  mix-blend-mode: screen;
-  opacity: 0.65;
-  z-index: 10;
+    position: absolute;
+    inset: 0;
+    pointer-events: none;
+    background: url('../img/mapa/cristal_quebrado.png') center / 100% 100% no-repeat;
+    mix-blend-mode: screen;
+    opacity: 0.65;
+    z-index: 10;
 }
 
 .map-frame-overlay {
-  position: absolute;
-  inset: 0;
-  pointer-events: none;
-  background: url('../img/marco_madera_vacio.png') center / 100% 100% no-repeat;
-  z-index: 20;
-  filter: drop-shadow(0 20px 45px rgba(0, 0, 0, 0.95)) drop-shadow(0 6px 18px rgba(0, 0, 0, 0.8));
+    position: absolute;
+    inset: 0;
+    pointer-events: none;
+    background: url('../img/mapa/marco_madera_vacio.png') center / 100% 100% no-repeat;
+    z-index: 20;
+    filter: drop-shadow(0 20px 45px rgba(0, 0, 0, 0.95)) drop-shadow(0 6px 18px rgba(0, 0, 0, 0.8));
 }
 
 .map-svg-container svg {
-  width: 100%;
-  height: 100%;
-  max-height: 100%;
-  object-fit: contain;
-  filter: drop-shadow(0 0 8px rgba(0, 0, 0, 0.6));
+    width: 100%;
+    height: 100%;
+    max-height: 100%;
+    object-fit: contain;
+    filter: drop-shadow(0 0 8px rgba(0, 0, 0, 0.6));
 }
 
 .room-zone {
-  transition: all 0.25s ease;
+    transition: all 0.25s ease;
 }
 
 .room-zone:hover > rect:first-child {
-  fill: rgba(221, 169, 90, 0.35) !important;
-  stroke: #dda95a !important;
-  stroke-width: 4px !important;
-  filter: drop-shadow(0 0 12px rgba(221, 169, 90, 0.6));
+    fill: rgba(221, 169, 90, 0.35) !important;
+    stroke: #DDA95A !important;
+    stroke-width: 4px !important;
+    filter: drop-shadow(0 0 12px rgba(221, 169, 90, 0.6));
 }
 
 .room-zone.closed:hover > rect:first-child {
-  fill: rgba(90, 15, 15, 0.5) !important;
-  stroke: #9e1b1b !important;
-  stroke-width: 3.5px !important;
-  filter: drop-shadow(0 0 12px rgba(158, 27, 27, 0.6));
+    fill: rgba(90, 15, 15, 0.5) !important;
+    stroke: #9E1B1B !important;
+    stroke-width: 3.5px !important;
+    filter: drop-shadow(0 0 12px rgba(158, 27, 27, 0.6));
 }
 
 .frame-sticker-about {
-  position: absolute;
-  left: 74%;
-  bottom: 1.8%;
-  width: 144px;
-  height: 108px;
-  background: url('../img/etiqueta_sobre_mi_blank.png') center / 100% 100% no-repeat;
-  z-index: 35;
-  cursor: pointer;
-  text-decoration: none;
-  transform-origin: 50% 4px;
-  transform: perspective(600px) rotateX(0deg) rotate(1.5deg);
-  transition:
-    transform 0.35s cubic-bezier(0.25, 1, 0.5, 1),
-    filter 0.35s ease;
-  user-select: none;
-  filter: drop-shadow(0 4px 10px rgba(0, 0, 0, 0.75));
+    position: absolute;
+    left: 74%;
+    bottom: 1.8%;
+    width: 144px;
+    height: 108px;
+    background: url('../img/mapa/etiqueta_sobre_mi_blank.png') center / 100% 100% no-repeat;
+    z-index: 35;
+    cursor: pointer;
+    text-decoration: none;
+    transform-origin: 50% 4px;
+    transform: perspective(600px) rotateX(0deg) rotate(1.5deg);
+    transition: transform 0.35s cubic-bezier(0.25, 1, 0.5, 1), filter 0.35s ease;
+    user-select: none;
+    filter: drop-shadow(0 4px 10px rgba(0, 0, 0, 0.75));
 }
 
 .frame-sticker-about:hover {
-  transform: perspective(600px) rotateX(24deg) rotate(0.5deg) translateZ(8px);
-  filter: drop-shadow(0 16px 22px rgba(0, 0, 0, 0.88)) drop-shadow(0 2px 6px rgba(0, 0, 0, 0.6));
+    transform: perspective(600px) rotateX(24deg) rotate(0.5deg) translateZ(8px);
+    filter: drop-shadow(0 16px 22px rgba(0, 0, 0, 0.88)) drop-shadow(0 2px 6px rgba(0, 0, 0, 0.6));
 }
 
 .sticker-header-text {
-  position: absolute;
-  top: 13%;
-  left: 8%;
-  width: 84%;
-  height: 25%;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  font-family: 'Special Elite', monospace;
-  font-size: 11.5px;
-  font-weight: bold;
-  color: #f8efe2;
-  letter-spacing: 2.5px;
-  text-shadow: 0 1px 2px rgba(0, 0, 0, 0.8);
-  pointer-events: none;
+    position: absolute;
+    top: 13%;
+    left: 8%;
+    width: 84%;
+    height: 25%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-family: 'Special Elite', monospace;
+    font-size: 11.5px;
+    font-weight: bold;
+    color: #F8EFE2;
+    letter-spacing: 2.5px;
+    text-shadow: 0 1px 2px rgba(0, 0, 0, 0.8);
+    pointer-events: none;
 }
 
 .sticker-body-text {
-  position: absolute;
-  top: 40%;
-  left: 8%;
-  width: 84%;
-  height: 52%;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  font-family: 'Special Elite', monospace;
-  font-size: 18.5px;
-  font-weight: bold;
-  color: #1a1412;
-  letter-spacing: 1px;
-  pointer-events: none;
+    position: absolute;
+    top: 40%;
+    left: 8%;
+    width: 84%;
+    height: 52%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-family: 'Special Elite', monospace;
+    font-size: 18.5px;
+    font-weight: bold;
+    color: #1A1412;
+    letter-spacing: 1px;
+    pointer-events: none;
 }
 
 .frame-postit {
-  position: absolute;
-  top: 1.8%;
-  left: 50%;
-  width: 104px;
-  height: 104px;
-  background: url('../img/posit.png') center / 100% 100% no-repeat;
-  color: #1a1412;
-  padding: 18px 8px 8px;
-  transform-origin: 50% 0%;
-  transform: perspective(600px) rotateX(0deg) translateX(-50%) rotate(0.5deg);
-  transition:
-    width 0.3s cubic-bezier(0.25, 1, 0.5, 1),
-    height 0.3s cubic-bezier(0.25, 1, 0.5, 1),
-    transform 0.35s cubic-bezier(0.25, 1, 0.5, 1),
-    filter 0.35s ease;
-  z-index: 35;
-  user-select: none;
-  filter: drop-shadow(0 6px 14px rgba(0, 0, 0, 0.75));
-  cursor: pointer;
-  box-sizing: border-box;
-  overflow: hidden;
+    position: absolute;
+    top: 1.8%;
+    left: 50%;
+    width: 104px;
+    height: 104px;
+    background: url('../img/mapa/posit.png') center / 100% 100% no-repeat;
+    color: #1A1412;
+    padding: 18px 8px 8px;
+    transform-origin: 50% 0%;
+    transform: perspective(600px) rotateX(0deg) translateX(-50%) rotate(0.5deg);
+    transition: width 0.3s cubic-bezier(0.25, 1, 0.5, 1), height 0.3s cubic-bezier(0.25, 1, 0.5, 1), transform 0.35s cubic-bezier(0.25, 1, 0.5, 1), filter 0.35s ease;
+    z-index: 35;
+    user-select: none;
+    filter: drop-shadow(0 6px 14px rgba(0, 0, 0, 0.75));
+    cursor: pointer;
+    box-sizing: border-box;
+    overflow: hidden;
 }
 
 .frame-postit:hover:not(.expanded) {
-  transform: perspective(600px) rotateX(18deg) translateX(-50%) rotate(1deg) translateZ(8px);
-  filter: drop-shadow(0 16px 22px rgba(0, 0, 0, 0.88)) drop-shadow(0 2px 6px rgba(0, 0, 0, 0.6));
+    transform: perspective(600px) rotateX(18deg) translateX(-50%) rotate(1deg) translateZ(8px);
+    filter: drop-shadow(0 16px 22px rgba(0, 0, 0, 0.88)) drop-shadow(0 2px 6px rgba(0, 0, 0, 0.6));
 }
 
 .frame-postit.expanded {
-  width: 242px;
-  height: 232px;
-  min-height: 232px;
-  padding: 26px 20px 16px 36px;
-  transform: perspective(600px) rotateX(0deg) translateX(-50%);
-  filter: drop-shadow(0 20px 32px rgba(0, 0, 0, 0.92)) drop-shadow(0 4px 10px rgba(0, 0, 0, 0.7));
-  cursor: default;
-  overflow: visible;
+    width: 242px;
+    height: 232px;
+    min-height: 232px;
+    padding: 26px 20px 16px 36px;
+    transform: perspective(600px) rotateX(0deg) translateX(-50%);
+    filter: drop-shadow(0 20px 32px rgba(0, 0, 0, 0.92)) drop-shadow(0 4px 10px rgba(0, 0, 0, 0.7));
+    cursor: default;
+    overflow: visible;
 }
 
 .postit-tape {
-  display: none;
+    display: none;
 }
 
 .postit-collapsed-view {
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  height: 100%;
-  width: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    height: 100%;
+    width: 100%;
 }
 
 .frame-postit.expanded .postit-collapsed-view {
-  display: none;
+    display: none;
 }
 
 .postit-title-main {
-  font-family: 'Special Elite', monospace;
-  font-size: 19px;
-  font-weight: bold;
-  color: #1a1412;
-  letter-spacing: 1px;
+    font-family: 'Special Elite', monospace;
+    font-size: 19px;
+    font-weight: bold;
+    color: #1A1412;
+    letter-spacing: 1px;
 }
 
 .postit-expanded-view {
-  display: none;
-  flex-direction: column;
-  opacity: 0;
+    display: none;
+    flex-direction: column;
+    opacity: 0;
 }
 
 .frame-postit.expanded .postit-expanded-view {
-  display: flex;
-  opacity: 1;
-  animation: postitFadeIn 0.25s ease forwards;
+    display: flex;
+    opacity: 1;
+    animation: postitFadeIn 0.25s ease forwards;
 }
 
 @keyframes postitFadeIn {
-  from {
-    opacity: 0;
-    transform: translateY(-4px);
-  }
-  to {
-    opacity: 1;
-    transform: translateY(0);
-  }
+    from {
+        opacity: 0;
+        transform: translateY(-4px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
 }
 
 .postit-header {
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  border-bottom: 1.5px solid rgba(26, 20, 18, 0.25);
-  padding-bottom: 6px;
-  margin-bottom: 12px;
-  margin-left: 4px;
-  margin-right: 4px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    border-bottom: 1.5px solid rgba(26, 20, 18, 0.25);
+    padding-bottom: 6px;
+    margin-bottom: 12px;
+    margin-left: 4px;
+    margin-right: 4px;
 }
 
 .postit-header-title {
-  font-family: 'Special Elite', monospace;
-  font-size: 14px;
-  font-weight: bold;
-  color: #1a1412;
-  letter-spacing: 1.5px;
+    font-family: 'Special Elite', monospace;
+    font-size: 14px;
+    font-weight: bold;
+    color: #1A1412;
+    letter-spacing: 1.5px;
 }
 
 .postit-close-btn {
-  background: none;
-  border: none;
-  font-family: 'Special Elite', monospace;
-  font-size: 19px;
-  font-weight: bold;
-  color: #1a1412;
-  cursor: pointer;
-  line-height: 1;
-  padding: 0 2px;
-  opacity: 0.65;
-  transition:
-    opacity 0.2s ease,
-    transform 0.2s ease;
+    background: none;
+    border: none;
+    font-family: 'Special Elite', monospace;
+    font-size: 19px;
+    font-weight: bold;
+    color: #1A1412;
+    cursor: pointer;
+    line-height: 1;
+    padding: 0 2px;
+    opacity: 0.65;
+    transition: opacity 0.2s ease, transform 0.2s ease;
 }
 
 .postit-close-btn:hover {
-  opacity: 1;
-  transform: scale(1.2);
+    opacity: 1;
+    transform: scale(1.2);
 }
 
 .postit-content {
-  display: flex;
-  flex-direction: column;
-  gap: 10px;
-  margin-left: 6px;
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+    margin-left: 6px;
 }
 
 .postit-link {
-  font-family: 'Special Elite', monospace;
-  font-size: 17px;
-  font-weight: bold;
-  color: #1a1412;
-  letter-spacing: 0.5px;
-  cursor: pointer;
-  transition:
-    color 0.2s ease,
-    transform 0.2s ease;
-  padding: 2px 0;
+    font-family: 'Special Elite', monospace;
+    font-size: 17px;
+    font-weight: bold;
+    color: #1A1412;
+    letter-spacing: 0.5px;
+    cursor: pointer;
+    transition: color 0.2s ease, transform 0.2s ease;
+    padding: 2px 0;
 }
 
 .postit-link:hover {
-  color: #7a1818;
-  transform: translateX(4px);
+    color: #7A1818;
+    transform: translateX(4px);
 }
 
 .hanging-lamp {
-  position: absolute;
-  top: 0;
-  left: calc(50% - 220px);
-  width: 96px;
-  height: 194px;
-  z-index: 50;
-  cursor: pointer;
-  transform-origin: 50% 0%;
-  animation: lampSwayCycle 7.8s ease-in-out infinite;
-  user-select: none;
-  will-change: transform;
+    position: absolute;
+    top: 0;
+    left: calc(50% - 220px);
+    width: 96px;
+    height: 194px;
+    z-index: 50;
+    cursor: pointer;
+    transform-origin: 50% 0%;
+    animation: lampSwayCycle 7.8s ease-in-out infinite;
+    user-select: none;
+    will-change: transform;
 }
 
 .map-stage.room-lit .hanging-lamp,
 .hanging-lamp.lamp-flickering {
-  z-index: 65;
+    z-index: 65;
 }
 
 @keyframes lampSwayCycle {
-  0% {
-    transform: rotate(-6deg);
-  }
-  50% {
-    transform: rotate(6deg);
-  }
-  100% {
-    transform: rotate(-6deg);
-  }
+    0% {
+        transform: rotate(-6deg);
+    }
+    50% {
+        transform: rotate(6deg);
+    }
+    100% {
+        transform: rotate(-6deg);
+    }
 }
 
 .lamp-graphic {
-  position: absolute;
-  inset: 0;
-  width: 100%;
-  height: 100%;
-  pointer-events: none;
-  transition: opacity 0.25s ease;
+    position: absolute;
+    inset: 0;
+    width: 100%;
+    height: 100%;
+    pointer-events: none;
+    transition: opacity 0.25s ease;
 }
 
 .lamp-graphic.lamp-off {
-  background: url('../img/bombilla_apagada.png') center top / contain no-repeat;
-  opacity: 1;
+    background: url('../img/mapa/bombilla_apagada.png') center top / contain no-repeat;
+    opacity: 1;
 }
 
 .lamp-graphic.lamp-on {
-  background: url('../img/bombilla_encendida.png') center top / contain no-repeat;
-  opacity: 0;
-  filter: drop-shadow(0 0 10px rgba(255, 180, 50, 0.5));
+    background: url('../img/mapa/bombilla_encendida.png') center top / contain no-repeat;
+    opacity: 0;
+    filter: drop-shadow(0 0 10px rgba(255, 180, 50, 0.5));
 }
 
 .map-stage.room-lit .hanging-lamp .lamp-graphic.lamp-off {
-  opacity: 0;
+    opacity: 0;
 }
 
 .map-stage.room-lit .hanging-lamp .lamp-graphic.lamp-on {
-  opacity: 1;
+    opacity: 1;
 }
 
 .lamp-glow-aura {
-  position: absolute;
-  top: 76%;
-  left: 50%;
-  transform: translate(-50%, -50%) scale(0.8);
-  width: 110px;
-  height: 110px;
-  border-radius: 50%;
-  background: radial-gradient(circle, rgba(255, 195, 90, 0.45) 0%, rgba(230, 140, 30, 0.18) 45%, transparent 75%);
-  opacity: 0;
-  pointer-events: none;
-  transition:
-    opacity 0.3s ease,
-    transform 0.3s ease;
-  filter: blur(8px);
-  z-index: 1;
+    position: absolute;
+    top: 76%;
+    left: 50%;
+    transform: translate(-50%, -50%) scale(0.8);
+    width: 110px;
+    height: 110px;
+    border-radius: 50%;
+    background: radial-gradient(circle, rgba(255, 195, 90, 0.45) 0%, rgba(230, 140, 30, 0.18) 45%, transparent 75%);
+    opacity: 0;
+    pointer-events: none;
+    transition: opacity 0.3s ease, transform 0.3s ease;
+    filter: blur(8px);
+    z-index: 1;
 }
 
 .map-stage.room-lit .hanging-lamp .lamp-glow-aura {
-  opacity: 0.85;
-  transform: translate(-50%, -50%) scale(1.15);
+    opacity: 0.85;
+    transform: translate(-50%, -50%) scale(1.15);
 }
 
 .lamp-light-cone {
-  position: absolute;
-  top: 76%;
-  left: 50%;
-  transform: translate(-50%, -30px);
-  width: min(72vw, 540px);
-  height: min(60vh, 460px);
-  pointer-events: none;
-  opacity: 0;
-  transition: opacity 0.4s ease;
-  z-index: -1;
-  background: radial-gradient(ellipse 48% 48% at 50% 46%, rgba(250, 195, 110, 0.28) 0%, rgba(220, 150, 60, 0.14) 32%, rgba(180, 100, 30, 0.04) 58%, transparent 76%);
-  -webkit-backdrop-filter: brightness(1.22) contrast(1.04);
-  backdrop-filter: brightness(1.22) contrast(1.04);
-  -webkit-mask-image: radial-gradient(ellipse 48% 48% at 50% 46%, #000 0%, #000 16%, rgba(0, 0, 0, 0.52) 40%, rgba(0, 0, 0, 0.1) 58%, transparent 76%);
-  mask-image: radial-gradient(ellipse 48% 48% at 50% 46%, #000 0%, #000 16%, rgba(0, 0, 0, 0.52) 40%, rgba(0, 0, 0, 0.1) 58%, transparent 76%);
+    position: absolute;
+    top: 76%;
+    left: 50%;
+    transform: translate(-50%, -30px);
+    width: min(72vw, 540px);
+    height: min(60vh, 460px);
+    pointer-events: none;
+    opacity: 0;
+    transition: opacity 0.4s ease;
+    z-index: -1;
+    background: radial-gradient(
+        ellipse 48% 48% at 50% 46%,
+        rgba(250, 195, 110, 0.28) 0%,
+        rgba(220, 150, 60, 0.14) 32%,
+        rgba(180, 100, 30, 0.04) 58%,
+        transparent 76%
+    );
+    -webkit-backdrop-filter: brightness(1.22) contrast(1.04);
+    backdrop-filter: brightness(1.22) contrast(1.04);
+    -webkit-mask-image: radial-gradient(
+        ellipse 48% 48% at 50% 46%,
+        #000 0%,
+        #000 16%,
+        rgba(0, 0, 0, 0.52) 40%,
+        rgba(0, 0, 0, 0.1) 58%,
+        transparent 76%
+    );
+    mask-image: radial-gradient(
+        ellipse 48% 48% at 50% 46%,
+        #000 0%,
+        #000 16%,
+        rgba(0, 0, 0, 0.52) 40%,
+        rgba(0, 0, 0, 0.1) 58%,
+        transparent 76%
+    );
 }
 
 .map-stage.room-lit .hanging-lamp .lamp-light-cone {
-  opacity: 1;
+    opacity: 1;
 }
 
 .map-stage.room-lit .map-darkness-veil {
-  opacity: 0.72;
-  background: radial-gradient(ellipse 80% 75% at 50% 50%, rgba(5, 8, 14, 0.45) 0%, rgba(3, 5, 9, 0.72) 50%, rgba(1, 2, 4, 0.95) 85%);
-  pointer-events: none;
+    opacity: 0.72;
+    background: radial-gradient(
+        ellipse 80% 75% at 50% 50%,
+        rgba(5, 8, 14, 0.45) 0%,
+        rgba(3, 5, 9, 0.72) 50%,
+        rgba(1, 2, 4, 0.95) 85%
+    );
+    pointer-events: none;
 }
 
 .map-stage.room-lit .map-paper-layer {
-  filter: brightness(0.92) contrast(1.04);
+    filter: brightness(0.92) contrast(1.04);
 }
 
 .map-stage.room-lit .map-flashlight {
-  opacity: 0 !important;
+    opacity: 0 !important;
 }
 
 @keyframes lampGraphicFlicker {
-  0%,
-  30%,
-  100% {
-    opacity: 0;
-  }
-  12%,
-  22% {
-    opacity: 0.85;
-  }
-  46%,
-  76% {
-    opacity: 1;
-  }
+    0%, 30%, 100% {
+        opacity: 0;
+    }
+    12%, 22% {
+        opacity: 0.85;
+    }
+    46%, 76% {
+        opacity: 1;
+    }
 }
 
 @keyframes lampAuraFlicker {
-  0%,
-  30%,
-  100% {
-    opacity: 0;
-    transform: translate(-50%, -50%) scale(0.8);
-  }
-  12%,
-  22% {
-    opacity: 0.7;
-    transform: translate(-50%, -50%) scale(1.1);
-  }
-  46%,
-  76% {
-    opacity: 1;
-    transform: translate(-50%, -50%) scale(1.3);
-  }
+    0%, 30%, 100% {
+        opacity: 0;
+        transform: translate(-50%, -50%) scale(0.8);
+    }
+    12%, 22% {
+        opacity: 0.7;
+        transform: translate(-50%, -50%) scale(1.1);
+    }
+    46%, 76% {
+        opacity: 1;
+        transform: translate(-50%, -50%) scale(1.3);
+    }
 }
 
 @keyframes lampConeFlicker {
-  0%,
-  30%,
-  100% {
-    opacity: 0;
-  }
-  12%,
-  22% {
-    opacity: 0.75;
-  }
-  46%,
-  76% {
-    opacity: 1;
-  }
+    0%, 30%, 100% {
+        opacity: 0;
+    }
+    12%, 22% {
+        opacity: 0.75;
+    }
+    46%, 76% {
+        opacity: 1;
+    }
 }
 
 .hanging-lamp.lamp-flickering .lamp-graphic.lamp-on {
-  animation: lampGraphicFlicker 0.42s ease-in-out;
+    animation: lampGraphicFlicker 0.42s ease-in-out;
 }
 
 .hanging-lamp.lamp-flickering .lamp-glow-aura {
-  animation: lampAuraFlicker 0.42s ease-in-out;
+    animation: lampAuraFlicker 0.42s ease-in-out;
 }
 
 .hanging-lamp.lamp-flickering .lamp-light-cone {
-  animation: lampConeFlicker 0.42s ease-in-out;
+    animation: lampConeFlicker 0.42s ease-in-out;
 }
 
 .map-stage.lamp-flickering-ambient .map-darkness-veil {
-  opacity: 0.55;
-  transition: opacity 0.08s ease;
+    opacity: 0.55;
+    transition: opacity 0.08s ease;
 }
 
 .map-stage.lamp-flickering-ambient .map-paper-layer {
-  filter: brightness(0.95) contrast(1.04);
-  transition: filter 0.08s ease;
+    filter: brightness(0.95) contrast(1.04);
+    transition: filter 0.08s ease;
 }
 
 .map-darkness-veil {
-  position: fixed;
-  top: 0;
-  left: 0;
-  width: 100vw;
-  height: 100vh;
-  pointer-events: none;
-  z-index: 60;
-  background: radial-gradient(circle 340px at var(--map-light-x, 50vw) var(--map-light-y, 50vh), transparent 0%, transparent 18%, rgba(2, 3, 6, 0.52) 48%, rgba(1, 2, 4, 0.86) 74%, rgba(1, 2, 4, 0.94) 100%);
-  transition: opacity 0.4s ease;
-  will-change: background;
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100vw;
+    height: 100vh;
+    pointer-events: none;
+    z-index: 60;
+    background: radial-gradient(
+        circle 340px at var(--map-light-x, 50vw) var(--map-light-y, 50vh),
+        transparent 0%,
+        transparent 18%,
+        rgba(2, 3, 6, 0.52) 48%,
+        rgba(1, 2, 4, 0.86) 74%,
+        rgba(1, 2, 4, 0.94) 100%
+    );
+    transition: opacity 0.4s ease;
+    will-change: background;
 }
 
 .map-darkness-veil.lights-off {
-  background: radial-gradient(circle 200px at var(--map-light-x, 50vw) var(--map-light-y, 50vh), transparent 0%, transparent 10%, rgba(1, 2, 4, 0.75) 50%, rgba(0, 1, 2, 0.98) 100%);
+    background: radial-gradient(
+        circle 200px at var(--map-light-x, 50vw) var(--map-light-y, 50vh),
+        transparent 0%,
+        transparent 10%,
+        rgba(1, 2, 4, 0.75) 50%,
+        rgba(0, 1, 2, 0.98) 100%
+    );
 }
 
 .map-flashlight {
-  position: fixed;
-  top: 0;
-  left: 0;
-  width: 580px;
-  height: 580px;
-  border-radius: 50%;
-  pointer-events: none;
-  transform: translate(-50%, -50%);
-  -webkit-backdrop-filter: brightness(1.38) contrast(1.1);
-  backdrop-filter: brightness(1.38) contrast(1.1);
-  background: radial-gradient(circle, rgba(255, 238, 195, 0.14) 0%, rgba(235, 200, 130, 0.05) 45%, transparent 75%);
-  -webkit-mask-image: radial-gradient(circle at 50% 50%, #000 0%, #000 18%, rgba(0, 0, 0, 0.75) 40%, rgba(0, 0, 0, 0.35) 60%, rgba(0, 0, 0, 0.08) 80%, transparent 96%);
-  mask-image: radial-gradient(circle at 50% 50%, #000 0%, #000 18%, rgba(0, 0, 0, 0.75) 40%, rgba(0, 0, 0, 0.35) 60%, rgba(0, 0, 0, 0.08) 80%, transparent 96%);
-  -webkit-mask-size: 100% 100%;
-  mask-size: 100% 100%;
-  -webkit-mask-repeat: no-repeat;
-  mask-repeat: no-repeat;
-  z-index: 70;
-  opacity: 0;
-  transition: opacity 0.35s ease;
-  will-change: transform;
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 580px;
+    height: 580px;
+    border-radius: 50%;
+    pointer-events: none;
+    transform: translate(-50%, -50%);
+    -webkit-backdrop-filter: brightness(1.38) contrast(1.1);
+    backdrop-filter: brightness(1.38) contrast(1.1);
+    background: radial-gradient(
+        circle,
+        rgba(255, 238, 195, 0.14) 0%,
+        rgba(235, 200, 130, 0.05) 45%,
+        transparent 75%
+    );
+    -webkit-mask-image: radial-gradient(
+        circle at 50% 50%,
+        #000 0%,
+        #000 18%,
+        rgba(0, 0, 0, 0.75) 40%,
+        rgba(0, 0, 0, 0.35) 60%,
+        rgba(0, 0, 0, 0.08) 80%,
+        transparent 96%
+    );
+    mask-image: radial-gradient(
+        circle at 50% 50%,
+        #000 0%,
+        #000 18%,
+        rgba(0, 0, 0, 0.75) 40%,
+        rgba(0, 0, 0, 0.35) 60%,
+        rgba(0, 0, 0, 0.08) 80%,
+        transparent 96%
+    );
+    -webkit-mask-size: 100% 100%;
+    mask-size: 100% 100%;
+    -webkit-mask-repeat: no-repeat;
+    mask-repeat: no-repeat;
+    z-index: 70;
+    opacity: 0;
+    transition: opacity 0.35s ease;
+    will-change: transform;
 }
 
 .map-flashlight::before {
-  content: '';
-  position: absolute;
-  inset: 0;
-  border-radius: 50%;
-  background-image: url('../img/luz_linterna_anim.png');
-  background-size: calc(580px * 10) 580px;
-  background-repeat: no-repeat;
-  animation: mapFlashlightFlicker 1.2s steps(10) infinite;
-  mix-blend-mode: screen;
-  opacity: 0.28;
-  filter: brightness(1.15) sepia(18%) saturate(135%);
-  pointer-events: none;
-  -webkit-mask-image: radial-gradient(circle at 50% 50%, #000 0%, #000 20%, rgba(0, 0, 0, 0.65) 42%, rgba(0, 0, 0, 0.22) 64%, transparent 86%);
-  mask-image: radial-gradient(circle at 50% 50%, #000 0%, #000 20%, rgba(0, 0, 0, 0.65) 42%, rgba(0, 0, 0, 0.22) 64%, transparent 86%);
+    content: '';
+    position: absolute;
+    inset: 0;
+    border-radius: 50%;
+    background-image: url('../img/common/luz_linterna_anim.png');
+    background-size: calc(580px * 10) 580px;
+    background-repeat: no-repeat;
+    animation: mapFlashlightFlicker 1.2s steps(10) infinite;
+    mix-blend-mode: screen;
+    opacity: 0.28;
+    filter: brightness(1.15) sepia(18%) saturate(135%);
+    pointer-events: none;
+    -webkit-mask-image: radial-gradient(circle at 50% 50%, #000 0%, #000 20%, rgba(0, 0, 0, 0.65) 42%, rgba(0, 0, 0, 0.22) 64%, transparent 86%);
+    mask-image: radial-gradient(circle at 50% 50%, #000 0%, #000 20%, rgba(0, 0, 0, 0.65) 42%, rgba(0, 0, 0, 0.22) 64%, transparent 86%);
 }
 
 .map-flashlight::after {
-  content: '';
-  position: absolute;
-  inset: 0;
-  border-radius: 50%;
-  background: radial-gradient(circle at 50% 50%, rgba(255, 235, 185, 0.14) 0%, rgba(225, 190, 120, 0.04) 45%, transparent 75%);
-  filter: blur(28px);
-  pointer-events: none;
-  mix-blend-mode: screen;
+    content: '';
+    position: absolute;
+    inset: 0;
+    border-radius: 50%;
+    background: radial-gradient(circle at 50% 50%, rgba(255, 235, 185, 0.14) 0%, rgba(225, 190, 120, 0.04) 45%, transparent 75%);
+    filter: blur(28px);
+    pointer-events: none;
+    mix-blend-mode: screen;
 }
 
 @keyframes mapFlashlightFlicker {
-  from {
-    background-position: 0px 0px;
-  }
-  to {
-    background-position: calc(580px * -10) 0px;
-  }
+    from {
+        background-position: 0px 0px;
+    }
+    to {
+        background-position: calc(580px * -10) 0px;
+    }
 }
 
 .map-flashlight.visible {
-  opacity: 1;
+    opacity: 1;
 }
 
 .map-flashlight.off {
-  opacity: 0 !important;
-  display: none !important;
+    opacity: 0 !important;
+    display: none !important;
 }
+
+
+

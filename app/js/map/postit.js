@@ -24,11 +24,18 @@ export function initPostit(options = {}) {
   });
 
   if (framePostit) {
+    framePostit.addEventListener('mouseenter', () => {
+      if (!framePostit.classList.contains('expanded') && AudioEngine) {
+        AudioEngine.playHover();
+      }
+    });
+
     framePostit.addEventListener('click', (e) => {
       if (e.target.closest('.postit-close-btn')) {
         e.stopPropagation();
         framePostit.classList.remove('expanded');
-        if (AudioEngine) AudioEngine.playClick();
+        if (AudioEngine && AudioEngine.playPaper) AudioEngine.playPaper();
+        else if (AudioEngine) AudioEngine.playClick();
         return;
       }
 
@@ -38,15 +45,18 @@ export function initPostit(options = {}) {
 
       if (!framePostit.classList.contains('expanded')) {
         framePostit.classList.add('expanded');
-        if (AudioEngine) AudioEngine.playClick();
+        if (AudioEngine && AudioEngine.playPaper) AudioEngine.playPaper();
+        else if (AudioEngine) AudioEngine.playClick();
       }
     });
 
     document.addEventListener('click', (e) => {
       if (framePostit.classList.contains('expanded') && !framePostit.contains(e.target)) {
         framePostit.classList.remove('expanded');
-        if (AudioEngine) AudioEngine.playClick();
+        if (AudioEngine && AudioEngine.playPaper) AudioEngine.playPaper();
+        else if (AudioEngine) AudioEngine.playClick();
       }
     });
   }
 }
+
