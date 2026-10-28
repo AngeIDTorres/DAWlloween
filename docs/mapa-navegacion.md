@@ -28,9 +28,21 @@ La pantalla de acceso actúa como metáfora visual de la entrada física a la in
 
 ---
 
-## 2. Lógica de Animación e Interacción en Cliente (`app/js/main.js`)
+## 2. Arquitectura Modular en Cliente (`app/js/`)
 
-Toda la interactividad se apoya en JavaScript Vanilla y la API de Web Audio para evitar dependencias externas.
+Toda la interactividad se apoya en JavaScript Vanilla modularizado por casos de uso mediante módulos ES nativos (`<script type="module">`) y la API de Web Audio para evitar dependencias externas.
+
+### Estructura de Módulos por Caso de Uso
+* **`core/audio.js` (`AudioEngine`):** Síntesis Web Audio API procedural (drones, armónicos de osciladores triangle/sawtooth/sine, zumbadores de rechazo, interruptores y chispas) y gestor de pre-carga y reproducción con fallback ante bloqueos de autoplay.
+* **`core/flashlight.js` (`FlashlightController`):** Controlador óptico del haz de linterna con seguimiento de ratón sincronizado a 60 FPS vía `requestAnimationFrame`, despacho de propiedades CSS personalizadas y alternancia mediante tecla `[F]`.
+* **`login/padlock.js` (`initPadlock`):** Máquina de estados del candado gótico (física de saltitos, silenciado en hover, expansión al click y repliegue suave al clicar fuera).
+* **`login/auth.js` (`initAuth`):** Manejador de credenciales, animación pivotante de la llave antigua (`antiqueKey`), validación en cliente, oscilación de error (`.shake`) y transmisión AJAX contra `login.php`.
+* **`login/gate-cutscene.js` (`playGateSequence`):** Coreografía cronometrada tras autenticación exitosa (desbloqueo de arco a 250ms, caída de candado a 950ms, apertura de hojas a 1450ms, cortina de fundido a 2450ms y redirección a `../index.html` a 3850ms).
+* **`map/rooms-data.js` (`ROOMS_REGISTRY`):** Fuente de verdad con el registro de dependencias, títulos, expedientes, estados judiciales y rutas.
+* **`map/navigation.js` (`initNavigation`):** Controladores de eventos para aulas SVG (`.room-zone`) y etiqueta adhesiva (`.frame-sticker-about`) con emisión de foley contextual.
+* **`map/hanging-lamp.js` (`initHangingLamp`):** Luminaria colgante con conmutación de estado iluminado (`.room-lit`), luz oscilante sincrónica y parpadeos aleatorios periódicos en penumbra.
+* **`map/postit.js` (`initPostit`):** Acordeón interactivo del posit texturizado, botón de cierre y enlaces de navegación directa.
+* **`main.js` y `map.js`:** Puntos de entrada y orquestadores declarativos de cada vista.
 
 ### Respuesta a Error de Autenticación
 * Cuando el backend PHP detecta credenciales inválidas o campos incompletos, marca el atributo `data-error="true"` o emite una respuesta AJAX con error.
