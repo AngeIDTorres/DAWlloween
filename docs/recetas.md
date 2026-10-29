@@ -51,8 +51,8 @@ Cada receta en `app/js/data/recetasData.js` cuenta con el siguiente esquema:
 
 ## 4. Capas de Renderizado y Profundidad (Z-Index)
 1. **Fondo de Escenario:** `.dining-stage` (`z-index: 0`).
-2. **Área Interactiva:** `.dining-interactive-area` (`z-index: 20`). Contiene el contenedor `.recipe-card-container` con la ficha de pergamino y las flechas de navegación góticas (`.nav-arrow`) ancladas a sus flancos laterales centradas verticalmente a media altura (`top: 50%`, `transform: translateY(-50%)`). Se encuentra físicamente por debajo de la oscuridad.
-3. **Lámpara de Tubos Colgante (Apagada):** `.dining-hanging-lamp` (`z-index: 50`). Situada detrás del velo de penumbra, requiere el haz de la linterna para verse con claridad. Presenta un ajuste de montaje superior elevado (`top: clamp(-46px, -4.2vw, -24px)`) para reducir la longitud visible de las cadenas de suspensión y una escala ampliada al 1.3x (`width: clamp(325px, 33.8vw, 520px)`). Cuenta con una animación de balanceo armónico adaptado (`diningLampSway` de 8.6s en bucle `ease-in-out infinite`) que combina oscilación angular leve (`±1.3deg`) con deriva horizontal lateral (`±7px`), simulando la inercia pesada de una luminaria industrial colgada de dos cadenas paralelas.
+2. **Área Interactiva:** `.dining-interactive-area` (`z-index: 20`). Contiene el contenedor `.recipe-card-container` con la ficha de pergamino y las flechas de navegación góticas (`.nav-arrow`). Se encuentra físicamente por debajo de la oscuridad.
+3. **Lámpara de Tubos Colgante (Apagada):** `.dining-hanging-lamp` (`z-index: 50`). Situada detrás del velo de penumbra, requiere el haz de la linterna para verse con claridad. Presenta un ajuste de montaje superior calibrado (`top: clamp(-54px, -4.5vh, -28px)`) y escala reactiva (`width: clamp(220px, 18.5vw, 360px); aspect-ratio: 2516 / 1317`). Cuenta con una animación de balanceo armónico adaptado (`diningLampSway` de 8.6s en bucle `ease-in-out infinite`) que combina oscilación angular leve (`±1.3deg`) con deriva horizontal lateral (`±7px`), simulando la inercia pesada de una luminaria industrial colgada de dos cadenas paralelas.
 4. **Velo de Penumbra:** `.dining-darkness-veil` (`z-index: 60`, `pointer-events: none`). Oculta el fondo, la ficha y la lámpara apagada.
 5. **Lámpara de Tubos (Encendida o Parpadeando):** `.dining-stage.room-lit .dining-hanging-lamp`, `.dining-hanging-lamp.lamp-flickering` (`z-index: 65`). Se eleva sobre la penumbra para proyectar su brillo. Su halo perimetral (`.lamp-glow-aura`) y el haz cónico proyectado hacia la ficha y la mesa (`.lamp-light-cone`) están calibrados en tono fluorescente blanco neutro `#f2efe4` (`rgba(242, 239, 228, ...)`), erradicando el matiz amarillento de tungsteno reservado para la bombilla incandescente del mapa en `index.html`.
 6. **Haz de Linterna:** `.dining-flashlight` (`z-index: 70`, `pointer-events: none`). Proyecta luz animada sobre el cursor.
@@ -68,3 +68,39 @@ Cada receta en `app/js/data/recetasData.js` cuenta con el siguiente esquema:
 - **Transición de Recetas:** `AudioEngine.playPaper()` al deslizar fichas con las flechas o teclado.
 - **Ambiente General:** `AudioEngine.playAmbientInterior()` sincronizado de forma continua mediante `sessionStorage` (`daw_ambient_pos` y `daw_ambient_ts`), ejecutado automáticamente en `DOMContentLoaded` para mantener el fondo continuo sin cortes al transicionar entre dependencias.
 - **Navegación y Pasos:** `AudioEngine.playFootsteps()` activado al pulsar «VOLVER AL PLANO» o tecla `[Escape]`, con retardo de 1.75s que sincroniza la cadencia completa de `pasos_madera.mp3` con el telón de fundido a negro.
+
+---
+
+## 6. Arquitectura Responsiva y Posicionamiento Centrado
+
+Para asegurar una visualización equilibrada en todo tipo de pantallas (2560x1440, 1920x1080, tablets y móviles) y eliminar solapamientos tanto con los embellecedores del pergamino como con la lámpara de techo:
+
+1. **Centrado Absoluto en Pantalla con Escala Ampliada (+25%):**
+   ```css
+   .recipe-card-container {
+     position: absolute;
+     top: 50%;
+     left: 50%;
+     transform: translate(-50%, -50%);
+     width: min(88vw, 675px, calc(87.5vh * (1792 / 2400)));
+     aspect-ratio: 1792 / 2400;
+     max-height: min(87.5vh, 900px);
+     z-index: 20;
+     pointer-events: auto;
+     container-type: size;
+   }
+   ```
+   La ficha se posiciona en el centro de la pantalla escalada un 25% más respecto a su tamaño base original (anchura de 540px a 675px y altura máxima de 720px a 900px). La luminaria superior se calibra a una cota equilibrada (`top: clamp(-54px, -4.5vh, -28px); width: clamp(220px, 18.5vw, 360px)`), dejando visibles sus cadenas colgantes y manteniendo una perspectiva espacial natural. Al ser hijos directos del contenedor, los botones góticos laterales (`.nav-arrow`) acompañan verticalmente a la ficha manteniéndose centrados en todo momento.
+
+2. **Protección de Ornamentos Superior e Inferior del Pergamino:**
+   El gráfico de pergamino (`ficha_receta.png`, 1792x2400) presenta ornamentos góticos tanto en su cabecera (y=0 a y=400px, 16.7%) como en su base (y=2030 a y=2260px, comenzando en el 84.6% desde la parte superior, es decir, a un 15.4% del borde inferior).
+   El acolchado de `.recipe-card-content` se calibra al `padding: 19% 18% 18.5% 18%`:
+   - El **19% superior** garantiza que el título comience por debajo de los remates de la cabecera.
+   - El **18.5% inferior** sitúa el pie de ficha (`.recipe-footer`) y el contador (`RECETA x / 7`) limpiamente por encima de los ornamentos góticos de la base, evitando cualquier solapamiento visual.
+
+3. **Tipografía Fluida Continua (Container Queries `cqmin`):**
+   Los títulos y textos emplean unidades relativas al contenedor (`cqmin`) con límites elásticos aumentados en proporción al 25% (`clamp(0.55rem, 3.7cqmin, 1.85rem)` en títulos, `clamp(0.38rem, 2.05cqmin, 0.95rem)` en bloques de texto, `clamp(0.44rem, 2.3cqmin, 1.0rem)` en metadatos y `clamp(0.44rem, 2.3cqmin, 1.02rem)` en contador), asegurando legibilidad sin desbordamientos al variar el tamaño de la ventana.
+
+4. **Adaptación Móvil y Viewports Compactos:**
+   - En viewports estrechos (`@media (max-width: 900px)`), las flechas se fijan a los laterales de la pantalla (`position: fixed; top: 50%; left/right: clamp(6px, 1.8vw, 16px)`), mientras que la ficha preserva su centrado vertical (`top: 50%; transform: translate(-50%, -50%)`), dimensiones escaladas (`width: min(84vw, 450px, calc(76vh * (1792 / 2400))); max-height: min(76vh, 600px)`) y sangrado protector (`padding: 19% 15% 18.5% 15%`).
+   - En pantallas apaisadas de baja altura (`@media (max-height: 600px)`), la lámpara se compacta a `top: -40px` y la tarjeta ajusta su altura al `76vh` centrado con padding protegido `18% 13% 18% 13%`.

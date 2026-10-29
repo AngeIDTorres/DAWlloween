@@ -185,9 +185,9 @@
 
 .dining-hanging-lamp {
   position: absolute;
-  top: clamp(-46px, -4.2vw, -24px);
+  top: clamp(-54px, -4.5vh, -28px);
   left: 50%;
-  width: clamp(325px, 33.8vw, 520px);
+  width: clamp(220px, 18.5vw, 360px);
   aspect-ratio: 2516 / 1317;
   height: auto;
   z-index: 50;
@@ -276,8 +276,8 @@
   top: 70%;
   left: 50%;
   transform: translate(-50%, -20px);
-  width: min(90vw, 840px);
-  height: min(80vh, 700px);
+  width: min(92vw, 920px);
+  height: min(88vh, 840px);
   pointer-events: none;
   opacity: 0;
   transition: opacity 0.4s ease;
@@ -385,7 +385,7 @@
   position: absolute;
   top: 50%;
   transform: translateY(-50%);
-  width: clamp(140px, 11vw, 210px);
+  width: clamp(100px, 9vw, 180px);
   aspect-ratio: 1;
   background: transparent;
   border: none;
@@ -402,12 +402,12 @@
 }
 
 .nav-arrow-prev {
-  right: calc(100% + clamp(12px, 1.4vw, 24px));
+  right: calc(100% + clamp(10px, 1.2vw, 24px));
   left: auto;
 }
 
 .nav-arrow-next {
-  left: calc(100% + clamp(12px, 1.4vw, 24px));
+  left: calc(100% + clamp(10px, 1.2vw, 24px));
   right: auto;
 }
 
@@ -432,13 +432,15 @@
 
 .recipe-card-container {
   position: absolute;
+  top: 50%;
   left: 50%;
-  bottom: 12.5%;
-  transform: translateX(-50%);
-  width: 29.5%;
+  transform: translate(-50%, -50%);
+  width: min(88vw, 675px, calc(87.5vh * (1792 / 2400)));
   aspect-ratio: 1792 / 2400;
+  max-height: min(87.5vh, 900px);
   z-index: 20;
   pointer-events: auto;
+  container-type: size;
 }
 
 .recipe-card {
@@ -466,41 +468,41 @@
   box-sizing: border-box;
   display: flex;
   flex-direction: column;
-  padding: 16.5% 19% 17.5% 19%;
+  padding: 19% 18% 18.5% 18%;
   color: #17110e;
 }
 
 .recipe-title {
   font-family: 'Creepster', cursive;
-  font-size: clamp(0.98rem, 1.32vw, 1.48rem);
+  font-size: clamp(0.55rem, 3.7cqmin, 1.85rem);
   color: #5A0F0F;
   text-shadow:
     1px 1px 0px rgba(245, 230, 205, 0.85),
     -0.5px -0.5px 0px rgba(30, 15, 10, 0.4),
     0 0 10px rgba(110, 18, 18, 0.3);
   line-height: 1.15;
-  margin: 0.1rem 0 0.35rem 0;
+  margin: 0.15rem 0 0.25rem 0;
   text-align: center;
   text-transform: uppercase;
   letter-spacing: 1.2px;
-  min-height: 2.3em;
+  min-height: auto;
   display: flex;
   align-items: center;
   justify-content: center;
   flex-shrink: 0;
   border-bottom: 2px groove rgba(120, 30, 30, 0.35);
-  padding: 0 0.4rem 0.3rem 0.4rem;
+  padding: 0 0.4rem 0.25rem 0.4rem;
   box-sizing: border-box;
   word-break: break-word;
 }
 
 .recipe-dish-wrapper {
   flex: 0 0 auto;
-  height: 33%;
+  height: 29%;
   display: flex;
   justify-content: center;
   align-items: center;
-  margin: 0.1rem 0 clamp(0.7rem, 1.4vw, 1.3rem) 0;
+  margin: 0.1rem 0 clamp(0.2rem, 1.4cqmin, 0.8rem) 0;
   overflow: visible;
   cursor: pointer;
 }
@@ -534,8 +536,8 @@
   display: flex;
   justify-content: center;
   align-items: center;
-  margin: clamp(0.35rem, 0.7vw, 0.75rem) 0 clamp(0.25rem, 0.45vw, 0.45rem) 0;
-  font-size: clamp(0.66rem, 0.82vw, 0.8rem);
+  margin: clamp(0.12rem, 0.9cqmin, 0.45rem) 0;
+  font-size: clamp(0.44rem, 2.3cqmin, 1.0rem);
   flex-shrink: 0;
 }
 
@@ -552,20 +554,20 @@
 }
 
 .recipe-block {
-  margin-top: clamp(0.45rem, 0.9vw, 0.95rem);
-  font-size: clamp(0.60rem, 0.75vw, 0.76rem);
-  line-height: 1.24;
+  margin-top: clamp(0.15rem, 1.2cqmin, 0.65rem);
+  font-size: clamp(0.38rem, 2.05cqmin, 0.95rem);
+  line-height: 1.2;
   flex-shrink: 0;
 }
 
 .recipe-block-elaboration {
-  margin-top: clamp(0.4rem, 0.8vw, 0.9rem);
+  margin-top: clamp(0.12rem, 1.05cqmin, 0.55rem);
 }
 
 .recipe-block-title {
-  font-size: clamp(0.66rem, 0.82vw, 0.82rem);
+  font-size: clamp(0.44rem, 2.35cqmin, 1.02rem);
   color: #5E1818;
-  margin: 0 0 clamp(0.18rem, 0.35vw, 0.32rem) 0;
+  margin: 0 0 clamp(0.08rem, 0.5cqmin, 0.22rem) 0;
   font-family: 'Special Elite', cursive;
   text-transform: uppercase;
   letter-spacing: 0.5px;
@@ -584,15 +586,15 @@
   justify-content: center;
   align-items: center;
   margin-top: auto;
-  margin-bottom: 0.35rem;
-  padding-top: 0.35rem;
+  margin-bottom: 0;
+  padding-top: clamp(0.12rem, 0.7cqmin, 0.28rem);
   border-top: 1.5px dashed rgba(110, 24, 24, 0.35);
   flex-shrink: 0;
 }
 
 .recipe-counter {
   font-family: 'Special Elite', cursive;
-  font-size: clamp(0.68rem, 0.86vw, 0.82rem);
+  font-size: clamp(0.44rem, 2.3cqmin, 1.02rem);
   color: #5E1818;
   font-weight: bold;
   letter-spacing: 2px;
@@ -621,21 +623,90 @@
 
 @media (max-width: 900px) {
   .recipe-card-container {
-    width: clamp(330px, 64vw, 480px);
-    bottom: 6%;
+    width: min(84vw, 450px, calc(76vh * (1792 / 2400)));
+    max-height: min(76vh, 600px);
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    bottom: auto;
   }
 
   .nav-arrow {
-    width: clamp(84px, 13vw, 130px);
+    position: fixed;
+    top: 50%;
+    transform: translateY(-50%);
+    width: clamp(52px, 12vw, 80px);
+    z-index: 45;
   }
 
   .nav-arrow-prev {
-    right: calc(100% + 6px);
-    left: auto;
+    left: clamp(6px, 1.8vw, 16px);
+    right: auto;
   }
 
   .nav-arrow-next {
-    left: calc(100% + 6px);
-    right: auto;
+    right: clamp(6px, 1.8vw, 16px);
+    left: auto;
+  }
+
+  .recipe-card-content {
+    padding: 19% 15% 18.5% 15%;
+  }
+
+  .dining-back-btn {
+    top: 0.75rem;
+    left: 0.75rem;
+    padding: 0.4rem 0.8rem;
+    font-size: 0.75rem;
+  }
+}
+
+@media (max-height: 600px) {
+  .dining-hanging-lamp {
+    width: clamp(150px, 22vw, 200px);
+    top: -26px;
+  }
+
+  .recipe-card-container {
+    width: min(84vw, 380px, calc(76vh * (1792 / 2400)));
+    max-height: 76vh;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    bottom: auto;
+  }
+
+  .recipe-card-content {
+    padding: 18% 13% 18% 13%;
+  }
+
+  .recipe-title {
+    min-height: auto;
+    margin-bottom: 0.12rem;
+    font-size: clamp(0.48rem, 3.4cqmin, 1.05rem);
+  }
+
+  .recipe-dish-wrapper {
+    height: 24%;
+    margin-bottom: 0.2rem;
+  }
+
+  .recipe-meta-row {
+    margin: 0.15rem 0;
+  }
+
+  .recipe-block {
+    margin-top: 0.15rem;
+    font-size: clamp(0.35rem, 1.95cqmin, 0.68rem);
+    line-height: 1.15;
+  }
+
+  .recipe-block-elaboration {
+    margin-top: 0.12rem;
+  }
+
+  .recipe-block-title {
+    margin-bottom: 0.06rem;
+    font-size: clamp(0.4rem, 2.1cqmin, 0.74rem);
   }
 }

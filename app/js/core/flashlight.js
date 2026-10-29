@@ -18,10 +18,10 @@ export class FlashlightController {
   }
 
   bindEvents() {
-    window.addEventListener('mousemove', (e) => {
+    const handlePointer = (clientX, clientY) => {
       if (!this.activeCondition()) return;
-      this.mouseX = e.clientX;
-      this.mouseY = e.clientY;
+      this.mouseX = clientX;
+      this.mouseY = clientY;
       if (!this.element.classList.contains('visible') && this.isOn) {
         this.element.classList.add('visible');
       }
@@ -31,7 +31,19 @@ export class FlashlightController {
           this.rafId = null;
         });
       }
-    });
+    };
+
+    window.addEventListener('mousemove', (e) => handlePointer(e.clientX, e.clientY));
+    window.addEventListener('touchmove', (e) => {
+      if (e.touches && e.touches[0]) {
+        handlePointer(e.touches[0].clientX, e.touches[0].clientY);
+      }
+    }, { passive: true });
+    window.addEventListener('touchstart', (e) => {
+      if (e.touches && e.touches[0]) {
+        handlePointer(e.touches[0].clientX, e.touches[0].clientY);
+      }
+    }, { passive: true });
 
     document.addEventListener('mouseleave', () => {
       this.element.classList.remove('visible');

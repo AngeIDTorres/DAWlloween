@@ -63,79 +63,81 @@ $startExpanded = $hasError || $loginSuccess || isset($_GET['registrado']) || iss
 </head>
 <body data-login-success="<?= $loginSuccess ? 'true' : 'false' ?>">
   <div class="login-stage <?= $startExpanded ? 'form-active' : '' ?>">
-    <div class="moon-light-system">
-      <div class="moon-glow"></div>
-      <div class="moon-rays"></div>
-      <div class="moon-rays secondary"></div>
-    </div>
-    <div class="darkness-veil" id="darknessVeil"></div>
-    <div class="flashlight-beam" id="flashlightBeam"></div>
+    <div class="login-scene-frame" id="loginSceneFrame">
+      <div class="moon-light-system">
+        <div class="moon-glow"></div>
+        <div class="moon-rays"></div>
+        <div class="moon-rays secondary"></div>
+      </div>
 
-    <div class="gate-container">
-      <div class="gate-leaf left" id="gateLeft"></div>
-      <div class="gate-leaf right" id="gateRight"></div>
-    </div>
+      <div class="gate-container">
+        <div class="gate-leaf left" id="gateLeft"></div>
+        <div class="gate-leaf right" id="gateRight"></div>
+      </div>
 
-    <div class="padlock-wrapper <?= $startExpanded ? 'expanded' : 'hopping' ?>" id="padlockWrapper" data-error="<?= $hasError ? 'true' : 'false' ?>">
-      <div class="padlock-hop-inner">
-        <div class="shackle-graphic" id="shackleGraphic"></div>
+      <div class="padlock-wrapper <?= $startExpanded ? 'expanded' : 'hopping' ?>" id="padlockWrapper" data-error="<?= $hasError ? 'true' : 'false' ?>">
+        <div class="padlock-hop-inner">
+          <div class="shackle-graphic" id="shackleGraphic"></div>
 
-        <div class="padlock-graphic">
-          <form method="POST" action="login.php" id="loginForm">
-            <div class="plate-content">
-            <?php if ($error !== ''): ?>
-              <div class="plate-alert">
-                <?= htmlspecialchars($error) ?>
-              </div>
-            <?php endif; ?>
-
-            <?php if ($mensaje !== ''): ?>
-              <div class="plate-success">
-                <?= htmlspecialchars($mensaje) ?>
-              </div>
-            <?php endif; ?>
-
-            <div class="plate-field">
-              <label for="usuario">USUARIO:</label>
-              <input type="text" id="usuario" name="usuario" autocomplete="off" required>
-            </div>
-
-            <div class="plate-field">
-              <label for="password">CLAVE:</label>
-              <input type="password" id="password" name="password" required>
-            </div>
-
-            <div class="plate-links">
-              <a href="altaUsuario.php">[ REGISTRO ]</a>
-              <span class="sep">•</span>
-              <a href="cambioPass.php">[ ¿CLAVE PERDIDA? ]</a>
-            </div>
-          </div>
-
-          <button type="submit" class="keyhole-btn" id="keyholeBtn" title="Gira la llave para entrar">
-            <div class="antique-key <?= $loginSuccess ? 'turning turned' : '' ?>" id="antiqueKey">
-              <?php if (file_exists(__DIR__ . '/../img/login/llave_antigua.png')): ?>
-                <img src="../img/login/llave_antigua.png" alt="Llave" class="key-img">
-              <?php else: ?>
-                <svg viewBox="0 0 36 72" class="key-svg" xmlns="http://www.w3.org/2000/svg">
-                  <circle cx="18" cy="14" r="11" fill="none" stroke="#DDA95A" stroke-width="2.5"/>
-                  <circle cx="18" cy="14" r="5" fill="none" stroke="#8A2E2E" stroke-width="1.8"/>
-                  <circle cx="18" cy="5" r="2.5" fill="#C68E42"/>
-                  <path d="M18 25 L18 64" stroke="#DDA95A" stroke-width="3.5" stroke-linecap="round"/>
-                  <path d="M18 48 L25 48" stroke="#DDA95A" stroke-width="2.5" stroke-linecap="square"/>
-                  <path d="M18 56 L27 56" stroke="#DDA95A" stroke-width="2.5" stroke-linecap="square"/>
-                  <path d="M22 60 L27 60" stroke="#DDA95A" stroke-width="2.5" stroke-linecap="square"/>
-                </svg>
+          <div class="padlock-graphic">
+            <form method="POST" action="login.php" id="loginForm">
+              <div class="plate-content">
+              <?php if ($error !== ''): ?>
+                <div class="plate-alert">
+                  <?= htmlspecialchars($error) ?>
+                </div>
               <?php endif; ?>
+
+              <?php if ($mensaje !== ''): ?>
+                <div class="plate-success">
+                  <?= htmlspecialchars($mensaje) ?>
+                </div>
+              <?php endif; ?>
+
+              <div class="plate-field">
+                <label for="usuario">USUARIO:</label>
+                <input type="text" id="usuario" name="usuario" autocomplete="off" required>
+              </div>
+
+              <div class="plate-field">
+                <label for="password">CLAVE:</label>
+                <input type="password" id="password" name="password" required>
+              </div>
+
+              <div class="plate-links">
+                <a href="altaUsuario.php">[ REGISTRO ]</a>
+                <span class="sep">•</span>
+                <a href="cambioPass.php">[ ¿CLAVE PERDIDA? ]</a>
+              </div>
             </div>
-          </button>
-        </form>
+
+            <button type="submit" class="keyhole-btn" id="keyholeBtn" title="Gira la llave para entrar">
+              <div class="antique-key <?= $loginSuccess ? 'turning turned' : '' ?>" id="antiqueKey">
+                <?php if (file_exists(__DIR__ . '/../img/login/llave_antigua.png')): ?>
+                  <img src="../img/login/llave_antigua.png" alt="Llave" class="key-img">
+                <?php else: ?>
+                  <svg viewBox="0 0 36 72" class="key-svg" xmlns="http://www.w3.org/2000/svg">
+                    <circle cx="18" cy="14" r="11" fill="none" stroke="#DDA95A" stroke-width="2.5"/>
+                    <circle cx="18" cy="14" r="5" fill="none" stroke="#8A2E2E" stroke-width="1.8"/>
+                    <circle cx="18" cy="5" r="2.5" fill="#C68E42"/>
+                    <path d="M18 25 L18 64" stroke="#DDA95A" stroke-width="3.5" stroke-linecap="round"/>
+                    <path d="M18 48 L25 48" stroke="#DDA95A" stroke-width="2.5" stroke-linecap="square"/>
+                    <path d="M18 56 L27 56" stroke="#DDA95A" stroke-width="2.5" stroke-linecap="square"/>
+                    <path d="M22 60 L27 60" stroke="#DDA95A" stroke-width="2.5" stroke-linecap="square"/>
+                  </svg>
+                <?php endif; ?>
+              </div>
+            </button>
+          </form>
+        </div>
       </div>
     </div>
   </div>
-</div>
 
+  <div class="darkness-veil" id="darknessVeil"></div>
+  <div class="flashlight-beam" id="flashlightBeam"></div>
   <div class="blackout-curtain" id="blackoutCurtain"></div>
+</div>
 
   <script type="module" src="../js/main.js"></script>
 </body>

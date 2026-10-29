@@ -62,6 +62,7 @@
     justify-content: center;
     transform-origin: center center;
     transition: transform 0.3s ease-out;
+    container-type: inline-size;
 }
 
 .map-inner-window {
@@ -141,10 +142,12 @@
 
 .frame-sticker-about {
     position: absolute;
-    left: 74%;
+    right: 4.8%;
+    left: auto;
     bottom: 1.8%;
-    width: 144px;
-    height: 108px;
+    width: clamp(82px, 11cqi, 144px);
+    aspect-ratio: 144 / 108;
+    height: auto;
     background: url('../img/mapa/etiqueta_sobre_mi_blank.png') center / 100% 100% no-repeat;
     z-index: 35;
     cursor: pointer;
@@ -171,10 +174,10 @@
     align-items: center;
     justify-content: center;
     font-family: 'Special Elite', monospace;
-    font-size: 11.5px;
+    font-size: clamp(7.5px, 0.92cqi, 11.5px);
     font-weight: bold;
     color: #F8EFE2;
-    letter-spacing: 2.5px;
+    letter-spacing: clamp(1px, 0.2cqi, 2.5px);
     text-shadow: 0 1px 2px rgba(0, 0, 0, 0.8);
     pointer-events: none;
 }
@@ -189,7 +192,7 @@
     align-items: center;
     justify-content: center;
     font-family: 'Special Elite', monospace;
-    font-size: 18.5px;
+    font-size: clamp(11px, 1.42cqi, 18.5px);
     font-weight: bold;
     color: #1A1412;
     letter-spacing: 1px;
@@ -200,11 +203,12 @@
     position: absolute;
     top: 1.8%;
     left: 50%;
-    width: 104px;
-    height: 104px;
+    width: clamp(74px, 8cqi, 104px);
+    aspect-ratio: 1;
+    height: auto;
     background: url('../img/mapa/posit.png') center / 100% 100% no-repeat;
     color: #1A1412;
-    padding: 18px 8px 8px;
+    padding: 16px 8px 8px;
     transform-origin: 50% 0%;
     transform: perspective(600px) rotateX(0deg) translateX(-50%) rotate(0.5deg);
     transition: width 0.3s cubic-bezier(0.25, 1, 0.5, 1), height 0.3s cubic-bezier(0.25, 1, 0.5, 1), transform 0.35s cubic-bezier(0.25, 1, 0.5, 1), filter 0.35s ease;
@@ -222,10 +226,11 @@
 }
 
 .frame-postit.expanded {
-    width: 242px;
-    height: 232px;
-    min-height: 232px;
-    padding: 26px 20px 16px 36px;
+    width: min(90cqi, 242px);
+    height: min(85cqb, 232px);
+    min-height: 180px;
+    aspect-ratio: auto;
+    padding: 24px 18px 14px 28px;
     transform: perspective(600px) rotateX(0deg) translateX(-50%);
     filter: drop-shadow(0 20px 32px rgba(0, 0, 0, 0.92)) drop-shadow(0 4px 10px rgba(0, 0, 0, 0.7));
     cursor: default;
@@ -343,9 +348,10 @@
 .hanging-lamp {
     position: absolute;
     top: 0;
-    left: calc(50% - 220px);
-    width: 96px;
-    height: 194px;
+    left: clamp(16px, calc(50% - clamp(60px, 16vw, 220px)), calc(50% - 220px));
+    width: clamp(66px, 7vw, 96px);
+    aspect-ratio: 96 / 194;
+    height: auto;
     z-index: 50;
     cursor: pointer;
     transform-origin: 50% 0%;
@@ -662,6 +668,13 @@
     opacity: 0 !important;
     display: none !important;
 }
+
+@media (max-width: 768px) {
+    .map-viewport {
+        width: min(96vw, 1340px);
+    }
+}
+
 
 
 

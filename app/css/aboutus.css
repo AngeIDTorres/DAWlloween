@@ -47,8 +47,8 @@
 
 .poster-wrapper {
   position: relative;
-  height: min(95.5vh, 1120px);
-  max-height: 96.5vh;
+  height: min(95vh, 1120px, calc(95vw * (2400 / 1792)));
+  max-height: 96vh;
   max-width: 95vw;
   aspect-ratio: 1792 / 2400;
   width: auto;
@@ -260,7 +260,7 @@
   display: flex;
   align-items: flex-end;
   padding-bottom: 0.12cqb;
-  font-size: clamp(11.5px, 1.88cqi, 16px);
+  font-size: clamp(8.5px, 1.84cqi, 16px);
   white-space: nowrap;
   overflow: hidden;
   text-overflow: ellipsis;
@@ -339,7 +339,7 @@
 
 @media (max-width: 600px) {
   .poster-wrapper {
-    width: 96vw;
-    height: calc(96vw * 2400 / 1792);
+    width: min(96vw, calc(94vh * (1792 / 2400)));
+    height: min(94vh, calc(96vw * (2400 / 1792)));
   }
 }
