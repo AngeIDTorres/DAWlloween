@@ -18,6 +18,20 @@ export function initNavigation(options = {}) {
       const data = roomsRegistry[roomId];
       if (!data) return;
 
+      if (roomId === 'archivo') {
+        const aboutBackdrop = document.getElementById('aboutBackdrop');
+        const aboutModal = document.getElementById('aboutModalContainer');
+        if (aboutBackdrop && aboutModal) {
+          if (AudioEngine) AudioEngine.playPaper();
+          aboutBackdrop.classList.add('active');
+          aboutModal.classList.add('active');
+          if (typeof options.onOpenAbout === 'function') {
+            options.onOpenAbout();
+          }
+          return;
+        }
+      }
+
       if (data.target) {
         if (AudioEngine) AudioEngine.playEnter();
         setTimeout(() => {

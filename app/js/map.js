@@ -31,23 +31,28 @@ document.addEventListener('DOMContentLoaded', () => {
     }
   });
 
+  const lampController = initHangingLamp({
+    hangingLamp,
+    mapStage,
+    audioEngine: AudioEngine
+  });
+
   initNavigation({
     roomZones,
     stickerAbout,
     roomsRegistry: ROOMS_REGISTRY,
-    audioEngine: AudioEngine
+    audioEngine: AudioEngine,
+    onOpenAbout: () => {
+      if (lampController && lampController.turnOn) {
+        lampController.turnOn(true);
+      }
+    }
   });
 
   initPostit({
     framePostit,
     postitLinks,
     roomsRegistry: ROOMS_REGISTRY,
-    audioEngine: AudioEngine
-  });
-
-  initHangingLamp({
-    hangingLamp,
-    mapStage,
     audioEngine: AudioEngine
   });
 
@@ -64,9 +69,56 @@ document.addEventListener('DOMContentLoaded', () => {
     'mapa_hover.mp3'
   ], 'audio/mapa/');
 
-  window.addEventListener('click', () => {
+  const aboutBackdrop = document.getElementById('aboutBackdrop');
+  const aboutModal = document.getElementById('aboutModalContainer');
+  const posterWrapper = document.getElementById('posterWrapper');
+
+  const closeAboutModal = () => {
+    if (aboutBackdrop && aboutBackdrop.classList.contains('active')) {
+      AudioEngine.playPaper('audio/mapa/');
+      aboutBackdrop.classList.remove('active');
+      if (aboutModal) aboutModal.classList.remove('active');
+      if (lampController && lampController.turnOff) {
+        lampController.turnOff(true);
+      }
+    }
+  };
+
+  if (aboutBackdrop) {
+    aboutBackdrop.addEventListener('click', closeAboutModal);
+  }
+  if (aboutModal) {
+    aboutModal.addEventListener('click', (e) => {
+      if (e.target === aboutModal) closeAboutModal();
+    });
+  }
+  if (posterWrapper) {
+    posterWrapper.addEventListener('click', (e) => e.stopPropagation());
+  }
+  document.addEventListener('keydown', (e) => {
+    if (e.key === 'Escape') closeAboutModal();
+  });
+
+  const dossierBtns = document.querySelectorAll('.dossier-link-btn');
+  dossierBtns.forEach((btn) => {
+    btn.addEventListener('mouseenter', () => {
+      AudioEngine.playHover('audio/mapa/');
+    });
+    btn.addEventListener('click', (e) => {
+      e.stopPropagation();
+      AudioEngine.playPaper('audio/mapa/');
+    });
+  });
+
+  const initAudioOnUserGesture = () => {
     AudioEngine.playAmbientInterior('audio/mapa/');
     AudioEngine.preloadHoverBuffer('audio/mapa/');
     AudioEngine.preloadBulbHumBuffer('audio/mapa/');
-  }, { once: true });
+    window.removeEventListener('pointerdown', initAudioOnUserGesture);
+    window.removeEventListener('keydown', initAudioOnUserGesture);
+    window.removeEventListener('click', initAudioOnUserGesture);
+  };
+  window.addEventListener('pointerdown', initAudioOnUserGesture);
+  window.addEventListener('keydown', initAudioOnUserGesture);
+  window.addEventListener('click', initAudioOnUserGesture);
 });

@@ -15,6 +15,9 @@ export const AudioEngine = {
   bulbHumActive: false,
   hoverBuffer: null,
   lastHoverTime: 0,
+  ambientStartTime: null,
+  ambientDuration: null,
+  ambientSyncTimer: null,
 
   init() {
     if (!this.ctx) {
@@ -247,13 +250,67 @@ export const AudioEngine = {
     }
   },
 
+  saveAmbientPosition() {
+    if (this.ambientPlaying && this.ambientDuration && this.ctx && typeof this.ambientStartTime === 'number') {
+      const currentPos = (this.ctx.currentTime - this.ambientStartTime) % this.ambientDuration;
+      if (!isNaN(currentPos) && currentPos >= 0) {
+        sessionStorage.setItem('daw_ambient_pos', currentPos.toFixed(3));
+        sessionStorage.setItem('daw_ambient_ts', Date.now().toString());
+      }
+    } else if (this.ambientAudio && !isNaN(this.ambientAudio.currentTime)) {
+      sessionStorage.setItem('daw_ambient_pos', this.ambientAudio.currentTime.toFixed(3));
+      sessionStorage.setItem('daw_ambient_ts', Date.now().toString());
+    }
+  },
+
+  getSavedAmbientOffset(duration) {
+    const savedPos = parseFloat(sessionStorage.getItem('daw_ambient_pos'));
+    const savedTs = parseInt(sessionStorage.getItem('daw_ambient_ts'), 10);
+    if (!isNaN(savedPos) && !isNaN(savedTs) && duration > 0) {
+      const elapsed = (Date.now() - savedTs) / 1000;
+      return (savedPos + elapsed) % duration;
+    }
+    return 0;
+  },
+
+  startAmbientSync() {
+    if (this.ambientSyncTimer) {
+      clearInterval(this.ambientSyncTimer);
+    }
+    this.ambientSyncTimer = setInterval(() => {
+      this.saveAmbientPosition();
+    }, 200);
+    window.addEventListener('pagehide', () => this.saveAmbientPosition(), { capture: true });
+    window.addEventListener('beforeunload', () => this.saveAmbientPosition(), { capture: true });
+    document.addEventListener('visibilitychange', () => {
+      if (document.visibilityState === 'hidden') {
+        this.saveAmbientPosition();
+      }
+    });
+  },
+
   playAmbientAudioElement(ambientFile, basePath = '../audio/login/', onFallback) {
     if (this.ambientAudio) return;
     const file = ambientFile || 'ambiente_noche.ogg';
-    this.ambientAudio = new Audio(basePath + file);
-    this.ambientAudio.loop = true;
-    this.ambientAudio.volume = 0.35;
-    const p = this.ambientAudio.play();
+    const audio = new Audio(basePath + file);
+    audio.loop = true;
+    audio.volume = 0.35;
+
+    if (file.includes('interior')) {
+      audio.addEventListener('loadedmetadata', () => {
+        const offset = this.getSavedAmbientOffset(audio.duration || 60);
+        if (offset > 0 && offset < audio.duration) {
+          audio.currentTime = offset;
+        }
+      });
+      audio.addEventListener('timeupdate', () => {
+        this.saveAmbientPosition();
+      });
+      this.startAmbientSync();
+    }
+
+    this.ambientAudio = audio;
+    const p = audio.play();
     if (p !== undefined) {
       p.catch(() => {
         if (typeof onFallback === 'function') {
@@ -281,9 +338,15 @@ export const AudioEngine = {
           gain.gain.setValueAtTime(0.32, this.ctx.currentTime);
           source.connect(gain);
           gain.connect(this.ctx.destination);
-          source.start(0);
+          
+          const offset = this.getSavedAmbientOffset(decoded.duration);
+          source.start(0, offset);
+
+          this.ambientStartTime = this.ctx.currentTime - offset;
+          this.ambientDuration = decoded.duration;
           this.ambientSource = source;
           this.ambientGain = gain;
+          this.startAmbientSync();
         })
         .catch(() => {
           this.playAmbientAudioElement(ambientFile, basePath, () => {
@@ -298,6 +361,11 @@ export const AudioEngine = {
   },
 
   stopAmbient() {
+    this.saveAmbientPosition();
+    if (this.ambientSyncTimer) {
+      clearInterval(this.ambientSyncTimer);
+      this.ambientSyncTimer = null;
+    }
     this.ambientPlaying = false;
     if (this.ambientSource) {
       try {

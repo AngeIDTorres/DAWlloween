@@ -3,7 +3,13 @@ export function initHangingLamp(options = {}) {
   const mapStage = options.mapStage || document.getElementById('mapStage');
   const AudioEngine = options.audioEngine;
 
-  if (!hangingLamp || !mapStage) return;
+  if (!hangingLamp || !mapStage) {
+    return {
+      turnOn: () => {},
+      turnOff: () => {},
+      toggle: () => {}
+    };
+  }
 
   let flickerTimer = null;
 
@@ -36,25 +42,41 @@ export function initHangingLamp(options = {}) {
     }, 420);
   };
 
+  const turnOn = (playAudio = true) => {
+    if (mapStage.classList.contains('room-lit')) return;
+    mapStage.classList.add('room-lit');
+    if (flickerTimer) {
+      clearTimeout(flickerTimer);
+      flickerTimer = null;
+    }
+    hangingLamp.classList.remove('lamp-flickering');
+    mapStage.classList.remove('lamp-flickering-ambient');
+    if (playAudio && AudioEngine) AudioEngine.playLightSwitch();
+    if (AudioEngine && AudioEngine.startBulbHum) AudioEngine.startBulbHum();
+  };
+
+  const turnOff = (playAudio = true) => {
+    if (!mapStage.classList.contains('room-lit')) return;
+    mapStage.classList.remove('room-lit');
+    if (playAudio && AudioEngine) AudioEngine.playLightSwitch();
+    if (AudioEngine && AudioEngine.stopBulbHum) AudioEngine.stopBulbHum();
+    scheduleNextFlicker();
+  };
+
+  const toggle = () => {
+    if (mapStage.classList.contains('room-lit')) {
+      turnOff();
+    } else {
+      turnOn();
+    }
+  };
+
   hangingLamp.addEventListener('click', (e) => {
     e.stopPropagation();
-    const isLit = mapStage.classList.toggle('room-lit');
-    if (AudioEngine) AudioEngine.playLightSwitch();
-
-    if (isLit) {
-      if (flickerTimer) {
-        clearTimeout(flickerTimer);
-        flickerTimer = null;
-      }
-      hangingLamp.classList.remove('lamp-flickering');
-      mapStage.classList.remove('lamp-flickering-ambient');
-      if (AudioEngine && AudioEngine.startBulbHum) AudioEngine.startBulbHum();
-    } else {
-      if (AudioEngine && AudioEngine.stopBulbHum) AudioEngine.stopBulbHum();
-      scheduleNextFlicker();
-    }
+    toggle();
   });
 
   scheduleNextFlicker();
-}
 
+  return { turnOn, turnOff, toggle };
+}
