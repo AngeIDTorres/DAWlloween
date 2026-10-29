@@ -1,0 +1,79 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>DAWlloween - Comedor Escolar y Recetario</title>
+  <link rel="stylesheet" href="../css/globals.css">
+  <link rel="stylesheet" href="../css/recetas.css?v=20261029_12">
+</head>
+<body class="dining-page">
+  <div class="blackout-curtain active" id="blackoutCurtain"></div>
+
+  <a href="../index.html" class="dining-back-btn" id="diningBackBtn" title="Volver al plano escolar">
+    <svg viewBox="0 0 24 24" width="20" height="20" fill="currentColor">
+      <path d="M20 11H7.83l5.59-5.59L12 4l-8 8 8 8 1.41-1.41L7.83 13H20v-2z"/>
+    </svg>
+    <span>VOLVER AL PLANO</span>
+  </a>
+
+  <main class="dining-stage" id="diningStage">
+    <div class="dining-darkness-veil" id="diningDarknessVeil"></div>
+    <div class="dining-flashlight" id="diningFlashlight"></div>
+
+    <div class="dining-hanging-lamp" id="diningHangingLamp" title="Encender / Apagar iluminación del comedor">
+      <div class="lamp-glow-aura"></div>
+      <div class="lamp-light-cone"></div>
+      <div class="lamp-graphic lamp-off"></div>
+      <div class="lamp-graphic lamp-on"></div>
+    </div>
+
+    <div class="dining-interactive-area" id="diningInteractiveArea">
+      <div class="recipe-card-container" id="recipeCardContainer">
+        <button class="nav-arrow nav-arrow-prev" id="prevRecipeBtn" type="button" aria-label="Receta anterior" title="Receta anterior">
+          <img src="../img/recetas/flecha_navegacion_izquierda.png" alt="Anterior" class="arrow-graphic arrow-prev-graphic">
+        </button>
+
+        <div class="recipe-card" id="recipeCard">
+          <img src="../img/recetas/ficha_receta.png" alt="Ficha de receta" class="recipe-card-parchment">
+
+          <div class="recipe-card-content">
+            <h1 class="recipe-title" id="recipeTitle">Dedos de bruja de galleta</h1>
+
+            <div class="recipe-dish-wrapper">
+              <img src="../img/recetas/receta_dedos_bruja.png" alt="Dedos de bruja" id="recipeImage" class="recipe-dish-img">
+            </div>
+
+            <div class="recipe-meta-row">
+              <span class="recipe-meta-item">
+                <span class="meta-label">TIEMPO:</span>
+                <span class="meta-val" id="recipeTime">35 min</span>
+              </span>
+            </div>
+
+            <section class="recipe-block recipe-block-ingredients">
+              <h2 class="recipe-block-title">Ingredientes:</h2>
+              <p class="recipe-block-text" id="recipeIngredients">Masa quebrada dulce, almendras tostadas enteras, confitura espesa de frutos del bosque.</p>
+            </section>
+
+            <section class="recipe-block recipe-block-elaboration">
+              <h2 class="recipe-block-title">Elaboración:</h2>
+              <p class="recipe-block-text" id="recipeElaboration">Talla los nudillos con ligeros cortes horizontales y fija las uñas de almendra con la mermelada sangrienta antes del horneado.</p>
+            </section>
+
+            <footer class="recipe-footer">
+              <span class="recipe-counter" id="recipeCounter">RECETA 1 / 7</span>
+            </footer>
+          </div>
+        </div>
+
+        <button class="nav-arrow nav-arrow-next" id="nextRecipeBtn" type="button" aria-label="Receta siguiente" title="Receta siguiente">
+          <img src="../img/recetas/flecha_navegacion_derecha.png" alt="Siguiente" class="arrow-graphic arrow-next-graphic">
+        </button>
+      </div>
+    </div>
+  </main>
+
+  <script type="module" src="../js/recetas.js?v=20261029_11"></script>
+</body>
+</html>

@@ -10,14 +10,14 @@ El motor de audio `AudioEngine` implementa un flujo dual tolerante a fallos:
 1. **Precarga Proactiva (`AudioEngine.preload()`):** Se precargan de forma asíncrona todos los efectos de sonido primarios al iniciar cada vista (`login.php` e `index.html`), garantizando latencia cero en los eventos de interacción.
 2. **Fondos Ambientales Optimizados en OGG Vorbis:**
    * **`ambiente_noche.ogg`:** Fondo exterior nocturno de 10 segundos remasterizado sin estridencias (sin canto de búho), comprimido a 159 KB en OGG Vorbis con bucle continuo sin costuras y decodificación en Web Audio API mediante `AudioBufferSourceNode`.
-   * **`ambiente_interior.ogg`:** Fondo interior del colegio clausurado para el plano arquitectónico (`app/index.html`), remasterizado con fundido cruzado continuo (9.2 s) y reproducción sample-accurate mediante `AudioBufferSourceNode` (`loop = true`) para eliminar pausas o cortes de re-buffering al final del bucle.
+   * **`ambiente_interior.ogg`:** Fondo interior del colegio clausurado para el plano arquitectónico (`app/index.html`) y dependencias interiores (`app/pages/recetas.html`), remasterizado con fundido cruzado continuo (9.2 s) y reproducción sample-accurate persistente mediante `AudioBufferSourceNode` (`loop = true`). Se inicia de forma inmediata en `DOMContentLoaded` y preserva el offset de reproducción temporal a través de `sessionStorage` (`daw_ambient_pos` y `daw_ambient_ts`), eliminando pausas, reinicios o silencios al conmutar de página.
 3. **Prioridad Primaria con Respaldo Automático (`playFileOrFallback`):** Intenta reproducir el archivo de sonido de alta fidelidad ubicado en `app/audio/`. Si el archivo aún no ha sido generado o el navegador bloquea la carga/reproducción por restricciones de autoplay, se activa inmediatamente el respaldo sintetizado con la API Web Audio nativa (clicks táctiles limpios, interruptores mecánicos y zumbido tenue de filamento a 60 Hz).
 4. **Control Dinámico de Estados:**
    * `stopPadlockHop()`: Pausa y reinicio del sonido de saltitos del candado en hover.
-   * `startBulbHum()` / `stopBulbHum()`: Reproducción en bucle ininterrumpido de `bombilla_zumbido.mp3` mediante buffer en memoria Web Audio API (`loop = true`) con respaldo dual (`<audio loop>` y oscilador nativo a 60 Hz). Nivel calibrado al 40% (`volume = 0.088`).
-   * `playFlickerSpark()`: Chisporroteo del filamento durante los micro-parpadeos erráticos en penumbra, evitando sobrecargas de clics repetitivos en bucles aleatorios.
-   * `playHover()`: Reproducción táctil de `mapa_hover.mp3` con control de estrangulamiento (`throttle` de 110 ms) y nivel balanceado (`volume = 0.40`) para todas las dependencias del plano, el índice colapsado (`#framePostit`) y la cartela (`#frameStickerAbout`).
-   * `playLightSwitch()`: Interruptor basculante de lámpara colgante atenuado a volumen moderado (`volume = 0.45`).
+   * `playBulbOn()` / `playBulbOff()`: Encendido ("plink" agudo) y apagado ("plonk" grave) de la bombilla de techo en el mapa. Sin zumbidos continuos.
+   * `playTubeLampOn()` / `playTubeLampOff()`: Encendido ("plink" metálico de arranque de tubo) y apagado ("plonk" de conmutación industrial) de la luminaria fluorescente en el comedor.
+   * `playBulbFlicker()` / `playTubeLampFlicker()`: Chisporroteos aleatorios en penumbra para bombilla incandescente y tubo fluorescente respectivamente.
+   * `playHover()`: Reproducción táctil de `mapa_hover.mp3` con control de estrangulamiento (`throttle` de 110 ms) y nivel balanceado (`volume = 0.40`).
 
 ---
 
@@ -39,20 +39,39 @@ Archivos exportados ubicados en la ruta `app/audio/login/`:
 
 ---
 
-## 3. Catálogo de Audios para Mapa y Navegación (`app/index.html`)
+## 3. Catálogo de Audios Compartidos y Transiciones (`app/audio/common/`)
+
+Archivos ubicados en la ruta `app/audio/common/` reutilizados transversalmente en múltiples dependencias:
+
+| Archivo | Estado | Evento / Disparador | Duración | Prompt para ElevenLabs SFX |
+| :--- | :--- | :--- | :--- | :--- |
+| **`ambiente_interior.ogg`** | Generado | Fondo ambiental interior en bucle continuo sample-accurate (`AudioBufferSourceNode`) para el plano escolar y dependencias. | 10.0 s | `Low ominous interior drone inside a cavernous abandoned building, faint wind whistling through cracked window panes, distant subtle wood creak, eerie horror ambience, seamless loop` |
+| **`linterna_click.mp3`** | Generado | Encendido y apagado de la linterna manual mediante tecla `[F]` o icono. Click táctil seco sin chispas. | 0.5 s | `A single crisp tactile button click on a small handheld plastic flashlight, clean dry single click switch sound effect, no sparks, no power hum, minimal close-up foley` |
+| **`papel_examinar.mp3`** | Generado | Manipulación de documentos rústicos, post-it de índice, ficha de recetas y cartela «Sobre mí». | 0.8 s | `Turning a single crisp paper page of an old book, gentle clean dry page flip, delicate paper friction, close-up book page turning sound effect` |
+| **`pasos_madera.mp3`** | Generado | Transición entre salas del colegio mediante clic en plano, post-it o regreso («VOLVER AL PLANO»). Se sincroniza con el telón de oscuridad (`blackoutCurtain`) durante 1.75 s para completar la cadencia completa de pasos sin cortes abruptos mid-stride. | 1.8 s | `Slow deliberate footsteps creaking and echoing down a dusty old wooden floorboard corridor, ominous hollow wooden floor creaks, abandoned institutional hall acoustics` |
+
+---
+
+## 4. Catálogo de Audios para Mapa y Navegación (`app/audio/mapa/`)
 
 Archivos ubicados en la ruta `app/audio/mapa/`:
 
 | Archivo | Estado | Evento / Disparador | Duración | Prompt para ElevenLabs SFX |
 | :--- | :--- | :--- | :--- | :--- |
-| **`ambiente_interior.ogg`** | Generado | Fondo ambiental interior en bucle continuo para el plano arquitectónico. | 10.0 s | `Low ominous interior drone inside a cavernous abandoned building, faint wind whistling through cracked window panes, distant subtle wood creak, eerie horror ambience, seamless loop` |
 | **`puerta_clausurada.mp3`** | Generado | Clic sobre dependencias selladas con aspas judiciales («INACCESIBLE»). | 1.2 s | `Heavy iron padlock and thick chain links violently rattling against a deadbolted solid wood door, muffled heavy thud, locked door refusal, abandoned school horror foley` |
-| **`linterna_click.mp3`** | Generado | Encendido y apagado de la linterna mediante tecla `[F]`. Click seco táctil sin zumbidos. | 0.5 s | `A single crisp tactile button click on a small handheld plastic flashlight, clean dry single click switch sound effect, no sparks, no power hum, minimal close-up foley` |
-| **`papel_examinar.mp3`** | Generado | Despliegue del posit de índice y cartela «Sobre mí». Paso limpio de página de libro. | 0.8 s | `Turning a single crisp paper page of an old book, gentle clean dry page flip, delicate paper friction, close-up book page turning sound effect` |
 | **`mapa_hover.mp3`** | Generado | Cursor sobre habitaciones del plano, post-it colapsado («Índice») y cartela («Sobre mí»). Micro-toque táctil sobre pergamino. | 0.5 s | `Subtle delicate fingertip tap on old thick parchment paper, ultra quiet minimal parchment touch, soft dry muted paper contact, minimal UI hover foley, no rustle, instant decay, isolated close-up` |
-| **`pasos_madera.mp3`** | Generado | Clic en dependencias operativas transitables (Dirección, Comedor, Sala de Juegos). | 1.8 s | `Slow deliberate footsteps creaking and echoing down a dusty old wooden floorboard corridor, ominous hollow wooden floor creaks, abandoned institutional hall acoustics` |
+| **`bombilla_on.mp3`** | Generado | Encendido de la bombilla de filamento (sonido agudo y brillante tipo "plink"). | 0.3 s | `Single antique lightbulb filament turning on with a crisp glass tink and delicate high-pitch plink ping, vintage tungsten activation snap, completely dry, isolated sound effect, NO buzz, NO background noise` |
+| **`bombilla_off.mp3`** | Generado | Apagado de la bombilla de filamento (sonido más grave tipo "plonk"). | 0.4 s | `Single vintage ceiling light toggle turning off with a deep hollow metallic thud and dull plonk click, muffled mechanical release, completely dry, isolated sound effect, NO background noise` |
 | **`bombilla_chisporroteo.mp3`** | Generado | Micro-parpadeo y sutil chisporroteo del filamento en penumbra. | 0.8 s | `Subtle delicate filament flicker and faint electrical sputter of a dying incandescent lightbulb, quiet intermittent micro-buzz and soft click, eerie atmospheric horror foley, low volume` |
-| **`bombilla_flicker_off.mp3`** | Generado | Micro-corte al apagarse momentáneamente durante el parpadeo errático. | 0.4 s | `Subtle faint micro-click of a flickering lightbulb filament dying out, soft electrical drop, low-volume foley` |
-| **`bombilla_flicker_on.mp3`** | Generado | Micro-recuperación al reencenderse durante el parpadeo errático. | 0.4 s | `Subtle faint micro-click and delicate warm filament ping of a flickering lightbulb turning back on, soft low-volume foley` |
-| **`bombilla_interruptor.mp3`** | Generado | Click sobre la lámpara colgante. Interruptor basculante / pera de baquelita de lámpara de techo con resorte seco. | 0.6 s | `Clicking an antique hanging lamp inline cord switch, vintage pendant light toggle switch click, dry tactile hollow bakelite mechanical snap and spring latch, indoor close-up foley, completely isolated, clean sound effect, no background noise` |
-| **`bombilla_zumbido.mp3`** | Generado | Zumbido continuo de filamento caliente mientras la bombilla está encendida (aislado, seco, sin sonido ambiental de fondo). | 6.0 s | `Isolated close-up electrical hum of an incandescent tungsten lightbulb, steady 60Hz electrical transformer filament buzz, completely dry and clean, NO room ambience, NO wind, NO background noise, pure isolated sound effect, seamless loop` |
+
+---
+
+## 5. Catálogo de Audios para Comedor y Lámpara de Tubos (`app/pages/recetas.html`)
+
+Archivos ubicados en la ruta `app/audio/recetas/`:
+
+| Archivo | Estado | Evento / Disparador | Duración | Prompt para ElevenLabs SFX |
+| :--- | :--- | :--- | :--- | :--- |
+| **`lampara_tubo_on.mp3`** | Generado | Encendido de los tubos fluorescentes (arranque con "plink" metálico y destello, sin zumbido posterior ni corte brusco). | 0.4 s | `Single fluorescent ceiling light turning on, sharp metallic starter snap followed by clean high-frequency glass tube excitation ping and instantaneous gas ignition, natural fast fade into total silence, crisp dry isolated foley, ABSOLUTELY NO buzz, NO electrical hum, NO background noise, NO drone` |
+| **`lampara_tubo_off.mp3`** | Generado | Apagado de la luminaria de tubos (conmutador mecánico industrial grave tipo "plonk"). | 0.4 s | `Heavy industrial metal toggle light switch flicking off with a solid deep clunk and heavy mechanical plonk thud, clean instantaneous cutoff, isolated sound effect` |
+| **`lampara_tubo_chisporroteo.mp3`** | Generado | Parpadeo errático del cebador/starter de tubos fluorescentes en penumbra. | 0.6 s | `Old flickering fluorescent light starter blinking, erratic metallic capacitor clicks and faint gas discharge pop sputtering in abandoned hallway, isolated eerie foley` |

@@ -2,6 +2,8 @@ export function initHangingLamp(options = {}) {
   const hangingLamp = options.hangingLamp || document.getElementById('hangingLamp');
   const mapStage = options.mapStage || document.getElementById('mapStage');
   const AudioEngine = options.audioEngine;
+  const lampType = options.lampType || 'bulb';
+  const audioBasePath = options.audioBasePath || (lampType === 'tube' ? '../audio/recetas/' : 'audio/mapa/');
 
   if (!hangingLamp || !mapStage) {
     return {
@@ -32,7 +34,13 @@ export function initHangingLamp(options = {}) {
     hangingLamp.classList.add('lamp-flickering');
     mapStage.classList.add('lamp-flickering-ambient');
     if (AudioEngine) {
-      AudioEngine.playFlickerSpark();
+      if (lampType === 'tube' && AudioEngine.playTubeLampFlicker) {
+        AudioEngine.playTubeLampFlicker(audioBasePath);
+      } else if (AudioEngine.playBulbFlicker) {
+        AudioEngine.playBulbFlicker(audioBasePath);
+      } else if (AudioEngine.playFlickerSpark) {
+        AudioEngine.playFlickerSpark(audioBasePath);
+      }
     }
 
     setTimeout(() => {
@@ -51,15 +59,29 @@ export function initHangingLamp(options = {}) {
     }
     hangingLamp.classList.remove('lamp-flickering');
     mapStage.classList.remove('lamp-flickering-ambient');
-    if (playAudio && AudioEngine) AudioEngine.playLightSwitch();
-    if (AudioEngine && AudioEngine.startBulbHum) AudioEngine.startBulbHum();
+    if (playAudio && AudioEngine) {
+      if (lampType === 'tube' && AudioEngine.playTubeLampOn) {
+        AudioEngine.playTubeLampOn(audioBasePath);
+      } else if (AudioEngine.playBulbOn) {
+        AudioEngine.playBulbOn(audioBasePath);
+      } else if (AudioEngine.playLightSwitch) {
+        AudioEngine.playLightSwitch(audioBasePath);
+      }
+    }
   };
 
   const turnOff = (playAudio = true) => {
     if (!mapStage.classList.contains('room-lit')) return;
     mapStage.classList.remove('room-lit');
-    if (playAudio && AudioEngine) AudioEngine.playLightSwitch();
-    if (AudioEngine && AudioEngine.stopBulbHum) AudioEngine.stopBulbHum();
+    if (playAudio && AudioEngine) {
+      if (lampType === 'tube' && AudioEngine.playTubeLampOff) {
+        AudioEngine.playTubeLampOff(audioBasePath);
+      } else if (AudioEngine.playBulbOff) {
+        AudioEngine.playBulbOff(audioBasePath);
+      } else if (AudioEngine.playLightSwitch) {
+        AudioEngine.playLightSwitch(audioBasePath);
+      }
+    }
     scheduleNextFlicker();
   };
 

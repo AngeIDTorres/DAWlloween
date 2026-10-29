@@ -49,5 +49,7 @@ Para optimizar la carga y la mantenibilidad, los estilos se encuentran desacopla
 * **`app/css/login.css`:** Escenario de entrada (`.login-stage`), cancelas batientes (`.gate-container`), animación física del candado (`.padlock-wrapper`), cerradura y llave antigua interactiva (`.antique-key`).
 * **`app/css/auth.css`:** Formularios temáticos de registro y recuperación de clave (`altaUsuario.php`, `cambioPass.php`).
 * **`app/css/map.css`:** Escenario del plano arquitectónico (`.map-stage`), marco institucional recortado, vano interno acristalado, luminaria colgante con balanceo pendular (`.hanging-lamp`), velo nocturno con foco de linterna y posit texturizado (`.frame-postit`).
+* **`app/css/aboutus.css`:** Modal y expediente personal estilo cartel "MISSING" (`app/pages/aboutus.html`), retrato fotográfico tramado y líneas rayadas alineadas.
+* **`app/css/recetas.css`:** Escenario del comedor escolar (`app/pages/recetas.html`), bandeja de acero, ficha de receta con pergamino, flechas de navegación góticas y lámpara fluorescente industrial oscilante con halo neutro `#f2efe4`.
 * **`app/css/style.css`:** Puente de compatibilidad que importa las hojas modulares.
 

@@ -3,6 +3,7 @@ export function initPostit(options = {}) {
   const postitLinks = options.postitLinks || document.querySelectorAll('.postit-link');
   const roomsRegistry = options.roomsRegistry || {};
   const AudioEngine = options.audioEngine;
+  let isNavigating = false;
 
   postitLinks.forEach((link) => {
     const roomId = link.getAttribute('data-target');
@@ -15,11 +16,23 @@ export function initPostit(options = {}) {
       e.stopPropagation();
       const data = roomsRegistry[roomId];
       if (!data || !data.target) return;
+      if (isNavigating) return;
+      isNavigating = true;
 
-      if (AudioEngine) AudioEngine.playEnter();
+      if (AudioEngine) {
+        if (AudioEngine.playFootsteps) {
+          AudioEngine.playFootsteps('audio/common/');
+        } else if (AudioEngine.playEnter) {
+          AudioEngine.playEnter('audio/common/');
+        }
+      }
+      const blackoutCurtain = document.getElementById('blackoutCurtain');
+      if (blackoutCurtain) {
+        blackoutCurtain.classList.add('active');
+      }
       setTimeout(() => {
         window.location.href = data.target;
-      }, 220);
+      }, 1750);
     });
   });
 
@@ -34,8 +47,8 @@ export function initPostit(options = {}) {
       if (e.target.closest('.postit-close-btn')) {
         e.stopPropagation();
         framePostit.classList.remove('expanded');
-        if (AudioEngine && AudioEngine.playPaper) AudioEngine.playPaper();
-        else if (AudioEngine) AudioEngine.playClick();
+        if (AudioEngine && AudioEngine.playPaper) AudioEngine.playPaper('audio/common/');
+        else if (AudioEngine) AudioEngine.playClick('audio/common/');
         return;
       }
 
@@ -45,16 +58,16 @@ export function initPostit(options = {}) {
 
       if (!framePostit.classList.contains('expanded')) {
         framePostit.classList.add('expanded');
-        if (AudioEngine && AudioEngine.playPaper) AudioEngine.playPaper();
-        else if (AudioEngine) AudioEngine.playClick();
+        if (AudioEngine && AudioEngine.playPaper) AudioEngine.playPaper('audio/common/');
+        else if (AudioEngine) AudioEngine.playClick('audio/common/');
       }
     });
 
     document.addEventListener('click', (e) => {
       if (framePostit.classList.contains('expanded') && !framePostit.contains(e.target)) {
         framePostit.classList.remove('expanded');
-        if (AudioEngine && AudioEngine.playPaper) AudioEngine.playPaper();
-        else if (AudioEngine) AudioEngine.playClick();
+        if (AudioEngine && AudioEngine.playPaper) AudioEngine.playPaper('audio/common/');
+        else if (AudioEngine) AudioEngine.playClick('audio/common/');
       }
     });
   }

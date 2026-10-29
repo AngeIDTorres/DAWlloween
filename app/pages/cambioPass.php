@@ -7,33 +7,32 @@ $pregunta = null;
 $paso = 1;
 
 if ($usuario !== '') {
-  $pregunta = obtenerPreguntaUsuario($usuario);
-  if ($pregunta !== null) {
-    $paso = 2;
-  } else {
-    $error = 'El usuario no existe en los registros del colegio.';
-    $paso = 1;
-  }
+    $pregunta = obtenerPreguntaUsuario($usuario);
+    if ($pregunta !== null) {
+        $paso = 2;
+    } else {
+        $error = 'El usuario no existe en los registros del colegio.';
+        $paso = 1;
+    }
 }
 
 if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['actualizar'])) {
-  $respuesta = trim($_POST['respuesta'] ?? '');
-  $nuevaPassword = trim($_POST['nueva_password'] ?? '');
+    $respuesta = trim($_POST['respuesta'] ?? '');
+    $nuevaPassword = trim($_POST['nueva_password'] ?? '');
 
-  if ($respuesta === '' || $nuevaPassword === '') {
-    $error = 'Debes responder a la pregunta secreta e introducir la nueva clave.';
-  } else {
-    if (cambioContraseña($usuario, $respuesta, $nuevaPassword)) {
-      redirect('login.php?pass_cambiada=1');
+    if ($respuesta === '' || $nuevaPassword === '') {
+        $error = 'Debes responder a la pregunta secreta e introducir la nueva clave.';
     } else {
-      $error = 'La respuesta secreta no es correcta. Inténtalo de nuevo.';
+        if (cambioContraseña($usuario, $respuesta, $nuevaPassword)) {
+            redirect('login.php?pass_cambiada=1');
+        } else {
+            $error = 'La respuesta secreta no es correcta. Inténtalo de nuevo.';
+        }
     }
-  }
 }
 ?>
 <!DOCTYPE html>
 <html lang="es">
-
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -41,7 +40,6 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['actualizar'])) {
   <link rel="stylesheet" href="../css/globals.css">
   <link rel="stylesheet" href="../css/auth.css">
 </head>
-
 <body>
   <div class="warning-container">
     <h1>DAWlloween</h1>
@@ -99,5 +97,4 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['actualizar'])) {
     </div>
   </div>
 </body>
-
 </html>

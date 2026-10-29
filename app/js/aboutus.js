@@ -1,16 +1,16 @@
-import { AudioEngine } from './core/audio.js';
+import { AudioEngine } from './core/audio.js?v=20261029_11';
 
-const audioBasePath = '../audio/mapa/';
+const commonAudioPath = '../audio/common/';
+const mapaAudioPath = '../audio/mapa/';
 
 function initAudio() {
   AudioEngine.init();
-  AudioEngine.playAmbientInterior(audioBasePath);
-  AudioEngine.preloadHoverBuffer(audioBasePath);
+  AudioEngine.playAmbientInterior(commonAudioPath);
+  AudioEngine.preloadHoverBuffer(mapaAudioPath);
 }
 
 function returnToMap() {
-  AudioEngine.playPaper(audioBasePath);
-  AudioEngine.playLightSwitch(audioBasePath);
+  AudioEngine.playPaper(commonAudioPath);
   const mapStage = document.getElementById('mapStage');
   if (mapStage) mapStage.classList.remove('room-lit');
   setTimeout(() => {
@@ -60,11 +60,11 @@ function setup() {
   const buttons = document.querySelectorAll('.dossier-link-btn');
   buttons.forEach((btn) => {
     btn.addEventListener('mouseenter', () => {
-      AudioEngine.playHover(audioBasePath);
+      AudioEngine.playHover(mapaAudioPath);
     });
     btn.addEventListener('click', (e) => {
       e.stopPropagation();
-      AudioEngine.playPaper(audioBasePath);
+      AudioEngine.playPaper(commonAudioPath);
     });
   });
 }

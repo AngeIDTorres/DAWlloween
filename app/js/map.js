@@ -1,11 +1,23 @@
-import { AudioEngine } from './core/audio.js';
+import { AudioEngine } from './core/audio.js?v=20261029_11';
 import { FlashlightController } from './core/flashlight.js';
 import { ROOMS_REGISTRY } from './map/rooms-data.js';
-import { initNavigation } from './map/navigation.js';
-import { initHangingLamp } from './map/hanging-lamp.js';
-import { initPostit } from './map/postit.js';
+import { initNavigation } from './map/navigation.js?v=20261029_11';
+import { initHangingLamp } from './map/hanging-lamp.js?v=20261029_11';
+import { initPostit } from './map/postit.js?v=20261029_11';
 
 document.addEventListener('DOMContentLoaded', () => {
+  AudioEngine.init();
+  AudioEngine.playAmbientInterior('audio/common/');
+
+  const blackoutCurtain = document.getElementById('blackoutCurtain');
+  if (blackoutCurtain) {
+    requestAnimationFrame(() => {
+      setTimeout(() => {
+        blackoutCurtain.classList.remove('active');
+      }, 50);
+    });
+  }
+
   const mapStage = document.getElementById('mapStage');
   const darknessVeil = document.getElementById('mapDarknessVeil');
   const hangingLamp = document.getElementById('hangingLamp');
@@ -34,7 +46,8 @@ document.addEventListener('DOMContentLoaded', () => {
   const lampController = initHangingLamp({
     hangingLamp,
     mapStage,
-    audioEngine: AudioEngine
+    audioEngine: AudioEngine,
+    lampType: 'bulb'
   });
 
   initNavigation({
@@ -57,17 +70,19 @@ document.addEventListener('DOMContentLoaded', () => {
   });
 
   AudioEngine.preload([
-    'linterna_click.mp3',
-    'bombilla_interruptor.mp3',
-    'bombilla_zumbido.mp3',
+    'bombilla_on.mp3',
+    'bombilla_off.mp3',
     'bombilla_chisporroteo.mp3',
-    'bombilla_flicker_off.mp3',
-    'bombilla_flicker_on.mp3',
     'puerta_clausurada.mp3',
-    'pasos_madera.mp3',
-    'papel_examinar.mp3',
     'mapa_hover.mp3'
   ], 'audio/mapa/');
+
+  AudioEngine.preload([
+    'linterna_click.mp3',
+    'pasos_madera.mp3',
+    'papel_examinar.mp3',
+    'ambiente_interior.ogg'
+  ], 'audio/common/');
 
   const aboutBackdrop = document.getElementById('aboutBackdrop');
   const aboutModal = document.getElementById('aboutModalContainer');
@@ -75,11 +90,11 @@ document.addEventListener('DOMContentLoaded', () => {
 
   const closeAboutModal = () => {
     if (aboutBackdrop && aboutBackdrop.classList.contains('active')) {
-      AudioEngine.playPaper('audio/mapa/');
+      AudioEngine.playPaper('audio/common/');
       aboutBackdrop.classList.remove('active');
       if (aboutModal) aboutModal.classList.remove('active');
       if (lampController && lampController.turnOff) {
-        lampController.turnOff(true);
+        lampController.turnOff(false);
       }
     }
   };
@@ -106,12 +121,12 @@ document.addEventListener('DOMContentLoaded', () => {
     });
     btn.addEventListener('click', (e) => {
       e.stopPropagation();
-      AudioEngine.playPaper('audio/mapa/');
+      AudioEngine.playPaper('audio/common/');
     });
   });
 
   const initAudioOnUserGesture = () => {
-    AudioEngine.playAmbientInterior('audio/mapa/');
+    AudioEngine.playAmbientInterior('audio/common/');
     AudioEngine.preloadHoverBuffer('audio/mapa/');
     AudioEngine.preloadBulbHumBuffer('audio/mapa/');
     window.removeEventListener('pointerdown', initAudioOnUserGesture);

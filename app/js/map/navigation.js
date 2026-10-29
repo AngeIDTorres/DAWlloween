@@ -3,6 +3,7 @@ export function initNavigation(options = {}) {
   const stickerAbout = options.stickerAbout || document.getElementById('frameStickerAbout');
   const roomsRegistry = options.roomsRegistry || {};
   const AudioEngine = options.audioEngine;
+  let isNavigating = false;
 
   const bindZone = (zone) => {
     if (!zone) return;
@@ -22,7 +23,7 @@ export function initNavigation(options = {}) {
         const aboutBackdrop = document.getElementById('aboutBackdrop');
         const aboutModal = document.getElementById('aboutModalContainer');
         if (aboutBackdrop && aboutModal) {
-          if (AudioEngine) AudioEngine.playPaper();
+          if (AudioEngine) AudioEngine.playPaper('audio/common/');
           aboutBackdrop.classList.add('active');
           aboutModal.classList.add('active');
           if (typeof options.onOpenAbout === 'function') {
@@ -33,10 +34,22 @@ export function initNavigation(options = {}) {
       }
 
       if (data.target) {
-        if (AudioEngine) AudioEngine.playEnter();
+        if (isNavigating) return;
+        isNavigating = true;
+        if (AudioEngine) {
+          if (AudioEngine.playFootsteps) {
+            AudioEngine.playFootsteps('audio/common/');
+          } else if (AudioEngine.playEnter) {
+            AudioEngine.playEnter('audio/common/');
+          }
+        }
+        const blackoutCurtain = document.getElementById('blackoutCurtain');
+        if (blackoutCurtain) {
+          blackoutCurtain.classList.add('active');
+        }
         setTimeout(() => {
           window.location.href = data.target;
-        }, 220);
+        }, 1750);
       } else {
         if (AudioEngine) AudioEngine.playDenied();
       }

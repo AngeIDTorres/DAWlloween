@@ -10,13 +10,13 @@ Este directorio agrupa los manuales de arquitectura, infraestructura, diseño y 
 * **[stack.md](stack.md):** Tecnologías empleadas, estándar de código limpio (cero comentarios en código fuente), paleta cromática inspirada en cómic de terror de los 90 (`globals.css`) y hojas de estilo modulares (`login.css`, `auth.css`).
 * **[autenticacion.md](autenticacion.md):** Mecanismos de autenticación en backend PHP (`VarGlobales.php`), matriz en sesión `$_SESSION['mimatriz']`, registro de nuevos usuarios y recuperación de contraseña en dos pasos.
 * **[mapa-navegacion.md](mapa-navegacion.md):** Arquitectura visual del escenario de entrada, transición de escala del candado (`padlock-wrapper`), salto y sacudida en contenedor interno (`padlock-hop-inner`), haz de linterna y accesibilidad IPO.
-* **[audio.md](audio.md):** Motor de sonido dual (`AudioEngine`), decodificación Web Audio API, fondo ambiental comprimido en OGG Vorbis (`ambiente_noche.ogg`), precarga proactiva y prompts de efectos para ElevenLabs SFX.
+* **[audio.md](audio.md):** Motor de sonido dual (`AudioEngine`), decodificación Web Audio API, fondo ambiental comprimido en OGG Vorbis (`ambiente_noche.ogg`, `ambiente_interior.ogg`), precarga proactiva y prompts de efectos para ElevenLabs SFX.
+* **[recetas.md](recetas.md):** Catálogo gastronómico del comedor escolar (`recetas.html`), modelo de datos de recetas (`recetasData.js`), iluminación de linterna, lámpara de tubos fluorescentes colgante con halo blanco neutro y navegación entre fichas.
 
 ---
 
 ## 2. Módulos Planificados (Roadmap de Fases)
 
-* **`recetas.md` (Fase 4):** Catálogo gastronómico del comedor escolar, carrusel de recetas en bandeja metálica y platos destacados.
 * **`correo.md` (Fase 4):** Mecanismo del buzón interactivo en la máquina de escribir del despacho y servicio de envío de correos vía SMTP.
 * **`minijuego.md` (Fase 5):** Lógica del juego 2D con matrices en JavaScript, detección de colisiones, IA de persecución y sistema de inventario/drop.
 * **`manual-usuario.md` (Fase 6):** Guía de navegación y uso funcional no técnica para el usuario final.

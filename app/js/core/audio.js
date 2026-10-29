@@ -19,6 +19,8 @@ export const AudioEngine = {
   ambientDuration: null,
   ambientSyncTimer: null,
 
+  autoUnlockBound: false,
+
   init() {
     if (!this.ctx) {
       const AudioCtx = window.AudioContext || window.webkitAudioContext;
@@ -29,6 +31,24 @@ export const AudioEngine = {
     if (this.ctx && this.ctx.state === 'suspended') {
       this.ctx.resume().catch(() => {});
     }
+    this.setupAutoUnlock();
+  },
+
+  setupAutoUnlock() {
+    if (this.autoUnlockBound) return;
+    this.autoUnlockBound = true;
+    const unlock = () => {
+      if (this.ctx && this.ctx.state === 'suspended') {
+        this.ctx.resume().catch(() => {});
+      }
+      if (this.ambientPlaying && this.ambientAudio && this.ambientAudio.paused) {
+        this.ambientAudio.play().catch(() => {});
+      }
+    };
+    window.addEventListener('pointerdown', unlock, { capture: true, passive: true });
+    window.addEventListener('keydown', unlock, { capture: true, passive: true });
+    window.addEventListener('click', unlock, { capture: true, passive: true });
+    window.addEventListener('touchstart', unlock, { capture: true, passive: true });
   },
 
   preload(files, basePath = '../audio/') {
@@ -320,8 +340,13 @@ export const AudioEngine = {
     }
   },
 
-  playAmbientInterior(basePath = 'audio/mapa/') {
-    if (this.ambientPlaying) return;
+  playAmbientInterior(basePath = 'audio/common/') {
+    if (this.ambientPlaying) {
+      if (this.ctx && this.ctx.state === 'suspended') {
+        this.ctx.resume().catch(() => {});
+      }
+      return;
+    }
     this.ambientPlaying = true;
     this.init();
     const ambientFile = 'ambiente_interior.ogg';
@@ -429,150 +454,13 @@ export const AudioEngine = {
     }
   },
 
-  startBulbHum(basePath = 'audio/mapa/') {
-    if (this.bulbHumActive) return;
-    this.bulbHumActive = true;
-    this.init();
+  startBulbHum() {},
 
-    if (this.ctx && this.bulbHumBuffer) {
-      try {
-        const source = this.ctx.createBufferSource();
-        source.buffer = this.bulbHumBuffer;
-        source.loop = true;
-        const gain = this.ctx.createGain();
-        gain.gain.setValueAtTime(0.088, this.ctx.currentTime);
-        source.connect(gain);
-        gain.connect(this.ctx.destination);
-        source.start(0);
-        this.bulbHumSource = source;
-        this.bulbHumGain = gain;
-        return;
-      } catch (e) {}
-    }
+  stopBulbHum() {},
 
-    const path = basePath + 'bombilla_zumbido.mp3';
-    let audio = this.cache[path];
-    if (!audio) {
-      audio = new Audio(path);
-      this.cache[path] = audio;
-    }
-    audio.loop = true;
-    audio.volume = 0.088;
-    audio.currentTime = 0;
-    const p = audio.play();
-    if (p !== undefined) {
-      p.then(() => {
-        if (!this.bulbHumActive) {
-          audio.pause();
-          audio.currentTime = 0;
-          return;
-        }
-        this.bulbHumAudio = audio;
-      }).catch(() => {
-        if (!this.bulbHumActive) return;
-        this.startSyntheticBulbHum();
-      });
-    }
+  preloadBulbHumBuffer() {},
 
-    if (this.ctx && !this.bulbHumBuffer) {
-      fetch(path)
-        .then(res => res.arrayBuffer())
-        .then(buf => this.ctx.decodeAudioData(buf))
-        .then(decoded => {
-          this.bulbHumBuffer = decoded;
-          if (this.bulbHumActive && this.bulbHumAudio) {
-            this.bulbHumAudio.pause();
-            this.bulbHumAudio.currentTime = 0;
-            this.bulbHumAudio = null;
-            const source = this.ctx.createBufferSource();
-            source.buffer = decoded;
-            source.loop = true;
-            const gain = this.ctx.createGain();
-            gain.gain.setValueAtTime(0.088, this.ctx.currentTime);
-            source.connect(gain);
-            gain.connect(this.ctx.destination);
-            source.start(0);
-            this.bulbHumSource = source;
-            this.bulbHumGain = gain;
-          }
-        })
-        .catch(() => {});
-    }
-  },
-
-  preloadBulbHumBuffer(basePath = 'audio/mapa/') {
-    this.init();
-    if (!this.ctx || this.bulbHumBuffer) return;
-    fetch(basePath + 'bombilla_zumbido.mp3')
-      .then(res => res.arrayBuffer())
-      .then(buf => this.ctx.decodeAudioData(buf))
-      .then(decoded => {
-        this.bulbHumBuffer = decoded;
-      })
-      .catch(() => {});
-  },
-
-  stopBulbHum() {
-    this.bulbHumActive = false;
-    if (this.bulbHumSource) {
-      try {
-        this.bulbHumSource.stop();
-        this.bulbHumSource.disconnect();
-      } catch (e) {}
-      this.bulbHumSource = null;
-    }
-    if (this.bulbHumGain) {
-      try {
-        this.bulbHumGain.disconnect();
-      } catch (e) {}
-      this.bulbHumGain = null;
-    }
-    if (this.bulbHumAudio) {
-      this.bulbHumAudio.pause();
-      this.bulbHumAudio.currentTime = 0;
-      this.bulbHumAudio = null;
-    }
-    this.stopSyntheticBulbHum();
-  },
-
-  startSyntheticBulbHum() {
-    this.init();
-    if (!this.ctx || this.bulbHumNode) return;
-    try {
-      const osc = this.ctx.createOscillator();
-      const gain = this.ctx.createGain();
-      const filter = this.ctx.createBiquadFilter();
-
-      osc.type = 'sine';
-      osc.frequency.setValueAtTime(60, this.ctx.currentTime);
-
-      filter.type = 'lowpass';
-      filter.frequency.setValueAtTime(120, this.ctx.currentTime);
-
-      gain.gain.setValueAtTime(0.001, this.ctx.currentTime);
-      gain.gain.linearRampToValueAtTime(0.01, this.ctx.currentTime + 0.3);
-
-      osc.connect(filter);
-      filter.connect(gain);
-      gain.connect(this.ctx.destination);
-
-      osc.start();
-      this.bulbHumNode = { osc, gain };
-    } catch (e) {}
-  },
-
-  stopSyntheticBulbHum() {
-    if (this.bulbHumNode && this.ctx) {
-      try {
-        const now = this.ctx.currentTime;
-        this.bulbHumNode.gain.gain.linearRampToValueAtTime(0.001, now + 0.2);
-        this.bulbHumNode.osc.stop(now + 0.22);
-      } catch (e) {}
-      this.bulbHumNode = null;
-    }
-  },
-
-  playClick(basePath = 'audio/mapa/') {
+  playClick(basePath = 'audio/common/') {
     this.playFileOrFallback('linterna_click.mp3', () => {
       this.init();
       if (!this.ctx) return;
@@ -651,7 +539,7 @@ export const AudioEngine = {
     }, basePath);
   },
 
-  playEnter(basePath = 'audio/mapa/') {
+  playEnter(basePath = 'audio/common/') {
     this.playFileOrFallback('pasos_madera.mp3', () => {
       this.init();
       if (!this.ctx) return;
@@ -672,48 +560,53 @@ export const AudioEngine = {
     }, basePath);
   },
 
-  playLightSwitch(basePath = 'audio/mapa/') {
-    this.playFileOrFallback('bombilla_interruptor.mp3', () => {
+  playFootsteps(basePath = 'audio/common/') {
+    this.playEnter(basePath);
+  },
+
+  playBulbOn(basePath = 'audio/mapa/') {
+    this.playFileOrFallback('bombilla_on.mp3', () => {
       this.init();
       if (!this.ctx) return;
       try {
         const now = this.ctx.currentTime;
-        const osc1 = this.ctx.createOscillator();
-        const gain1 = this.ctx.createGain();
-        osc1.type = 'sine';
-        osc1.frequency.setValueAtTime(1250, now);
-        osc1.frequency.exponentialRampToValueAtTime(1750, now + 0.012);
-        gain1.gain.setValueAtTime(0.04, now);
-        gain1.gain.exponentialRampToValueAtTime(0.001, now + 0.015);
-        osc1.connect(gain1);
-        gain1.connect(this.ctx.destination);
-        osc1.start(now);
-        osc1.stop(now + 0.018);
-
-        const osc2 = this.ctx.createOscillator();
-        const gain2 = this.ctx.createGain();
-        osc2.type = 'triangle';
-        osc2.frequency.setValueAtTime(900, now + 0.012);
-        osc2.frequency.exponentialRampToValueAtTime(450, now + 0.038);
-        gain2.gain.setValueAtTime(0.06, now + 0.012);
-        gain2.gain.exponentialRampToValueAtTime(0.001, now + 0.04);
-        osc2.connect(gain2);
-        gain2.connect(this.ctx.destination);
-        osc2.start(now + 0.012);
-        osc2.stop(now + 0.042);
+        const osc = this.ctx.createOscillator();
+        const gain = this.ctx.createGain();
+        osc.type = 'sine';
+        osc.frequency.setValueAtTime(1550, now);
+        osc.frequency.exponentialRampToValueAtTime(1200, now + 0.14);
+        gain.gain.setValueAtTime(0.08, now);
+        gain.gain.exponentialRampToValueAtTime(0.001, now + 0.16);
+        osc.connect(gain);
+        gain.connect(this.ctx.destination);
+        osc.start(now);
+        osc.stop(now + 0.17);
       } catch (e) {}
-    }, basePath, 0.45);
+    }, basePath, 0.55);
   },
 
-  playFlickerOff(basePath = 'audio/mapa/') {
-    this.playFileOrFallback('bombilla_flicker_off.mp3', null, basePath);
+  playBulbOff(basePath = 'audio/mapa/') {
+    this.playFileOrFallback('bombilla_off.mp3', () => {
+      this.init();
+      if (!this.ctx) return;
+      try {
+        const now = this.ctx.currentTime;
+        const osc = this.ctx.createOscillator();
+        const gain = this.ctx.createGain();
+        osc.type = 'triangle';
+        osc.frequency.setValueAtTime(340, now);
+        osc.frequency.exponentialRampToValueAtTime(140, now + 0.18);
+        gain.gain.setValueAtTime(0.12, now);
+        gain.gain.exponentialRampToValueAtTime(0.001, now + 0.20);
+        osc.connect(gain);
+        gain.connect(this.ctx.destination);
+        osc.start(now);
+        osc.stop(now + 0.21);
+      } catch (e) {}
+    }, basePath, 0.55);
   },
 
-  playFlickerOn(basePath = 'audio/mapa/') {
-    this.playFileOrFallback('bombilla_flicker_on.mp3', null, basePath);
-  },
-
-  playFlickerSpark(basePath = 'audio/mapa/') {
+  playBulbFlicker(basePath = 'audio/mapa/') {
     this.playFileOrFallback('bombilla_chisporroteo.mp3', () => {
       this.init();
       if (!this.ctx) return;
@@ -734,7 +627,77 @@ export const AudioEngine = {
     }, basePath);
   },
 
-  playPaper(basePath = 'audio/mapa/') {
+  playLightSwitch(basePath = 'audio/mapa/') {
+    this.playBulbOn(basePath);
+  },
+
+  playFlickerSpark(basePath = 'audio/mapa/') {
+    this.playBulbFlicker(basePath);
+  },
+
+  playTubeLampOn(basePath = '../audio/recetas/') {
+    this.playFileOrFallback('lampara_tubo_on.mp3', () => {
+      this.init();
+      if (!this.ctx) return;
+      try {
+        const now = this.ctx.currentTime;
+        const osc = this.ctx.createOscillator();
+        const gain = this.ctx.createGain();
+        osc.type = 'sawtooth';
+        osc.frequency.setValueAtTime(1850, now);
+        osc.frequency.exponentialRampToValueAtTime(800, now + 0.08);
+        gain.gain.setValueAtTime(0.09, now);
+        gain.gain.exponentialRampToValueAtTime(0.001, now + 0.12);
+        osc.connect(gain);
+        gain.connect(this.ctx.destination);
+        osc.start(now);
+        osc.stop(now + 0.13);
+      } catch (e) {}
+    }, basePath, 0.55);
+  },
+
+  playTubeLampOff(basePath = '../audio/recetas/') {
+    this.playFileOrFallback('lampara_tubo_off.mp3', () => {
+      this.init();
+      if (!this.ctx) return;
+      try {
+        const now = this.ctx.currentTime;
+        const osc = this.ctx.createOscillator();
+        const gain = this.ctx.createGain();
+        osc.type = 'triangle';
+        osc.frequency.setValueAtTime(260, now);
+        osc.frequency.exponentialRampToValueAtTime(90, now + 0.22);
+        gain.gain.setValueAtTime(0.07, now);
+        gain.gain.exponentialRampToValueAtTime(0.001, now + 0.24);
+        osc.connect(gain);
+        gain.connect(this.ctx.destination);
+        osc.start(now);
+        osc.stop(now + 0.25);
+      } catch (e) {}
+    }, basePath, 0.28);
+  },
+
+  playTubeLampFlicker(basePath = '../audio/recetas/') {
+    this.playFileOrFallback('lampara_tubo_chisporroteo.mp3', () => {
+      this.init();
+      if (!this.ctx) return;
+      try {
+        const now = this.ctx.currentTime;
+        const osc = this.ctx.createOscillator();
+        const gain = this.ctx.createGain();
+        osc.type = 'square';
+        osc.frequency.setValueAtTime(120, now);
+        gain.gain.setValueAtTime(0.04, now);
+        gain.gain.exponentialRampToValueAtTime(0.001, now + 0.15);
+        osc.connect(gain);
+        gain.connect(this.ctx.destination);
+        osc.start(now);
+        osc.stop(now + 0.16);
+      } catch (e) {}
+    }, basePath, 0.55);
+  },
+
+  playPaper(basePath = 'audio/common/') {
     this.playFileOrFallback('papel_examinar.mp3', () => {
       this.init();
       if (!this.ctx) return;
