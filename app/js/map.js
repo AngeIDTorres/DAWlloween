@@ -4,6 +4,7 @@ import { ROOMS_REGISTRY } from './map/rooms-data.js';
 import { initNavigation } from './map/navigation.js?v=20261029_11';
 import { initHangingLamp } from './map/hanging-lamp.js?v=20261029_11';
 import { initPostit } from './map/postit.js?v=20261029_11';
+import { initAccessibility } from './core/accessibility.js?v=20261029_13';
 
 document.addEventListener('DOMContentLoaded', () => {
   AudioEngine.init();
@@ -26,6 +27,8 @@ document.addEventListener('DOMContentLoaded', () => {
   const roomZones = document.querySelectorAll('.room-zone, .frame-sticker-about');
   const stickerAbout = document.getElementById('frameStickerAbout');
 
+  let accessibility = null;
+
   const flashlight = new FlashlightController({
     elementId: 'mapFlashlight',
     stageSelector: '.map-stage',
@@ -40,6 +43,11 @@ document.addEventListener('DOMContentLoaded', () => {
         if (mapStage) mapStage.classList.add('cursor-visible');
       }
       AudioEngine.playClick();
+      if (accessibility) {
+        accessibility.state.flashlight = isOn;
+        accessibility.saveState();
+        accessibility.updateUI();
+      }
     }
   });
 
@@ -47,7 +55,19 @@ document.addEventListener('DOMContentLoaded', () => {
     hangingLamp,
     mapStage,
     audioEngine: AudioEngine,
-    lampType: 'bulb'
+    lampType: 'bulb',
+    onToggle: (isLit) => {
+      if (accessibility) {
+        accessibility.onLampToggle(isLit);
+      }
+    }
+  });
+
+  accessibility = initAccessibility({
+    audioEngine: AudioEngine,
+    flashlightController: flashlight,
+    lampController: lampController,
+    isMapPage: true
   });
 
   initNavigation({

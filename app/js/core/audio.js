@@ -1,6 +1,7 @@
 export const AudioEngine = {
   ctx: null,
   cache: {},
+  isMuted: false,
   ambientPlaying: false,
   ambientSource: null,
   ambientGain: null,
@@ -20,6 +21,27 @@ export const AudioEngine = {
   ambientSyncTimer: null,
 
   autoUnlockBound: false,
+
+  setMute(muted) {
+    this.isMuted = Boolean(muted);
+    if (this.ambientAudio) {
+      this.ambientAudio.muted = this.isMuted;
+    }
+    if (this.ambientGain && this.ctx) {
+      this.ambientGain.gain.setValueAtTime(this.isMuted ? 0 : 0.32, this.ctx.currentTime);
+    }
+    if (this.bulbHumGain && this.ctx) {
+      this.bulbHumGain.gain.setValueAtTime(this.isMuted ? 0 : 0.08, this.ctx.currentTime);
+    }
+    if (this.ambientNode && this.ambientNode.gainNode && this.ctx) {
+      this.ambientNode.gainNode.gain.setValueAtTime(this.isMuted ? 0 : 0.02, this.ctx.currentTime);
+    }
+    return this.isMuted;
+  },
+
+  toggleMute() {
+    return this.setMute(!this.isMuted);
+  },
 
   init() {
     if (!this.ctx) {
@@ -64,6 +86,7 @@ export const AudioEngine = {
   },
 
   playFileOrFallback(filename, fallbackFn, basePath = '../audio/login/', volume = 1) {
+    if (this.isMuted) return;
     const path = basePath + filename;
     let audio = this.cache[path];
     if (!audio) {
@@ -255,7 +278,7 @@ export const AudioEngine = {
           source.buffer = decoded;
           source.loop = true;
           const gain = this.ctx.createGain();
-          gain.gain.setValueAtTime(0.35, this.ctx.currentTime);
+          gain.gain.setValueAtTime(this.isMuted ? 0 : 0.35, this.ctx.currentTime);
           source.connect(gain);
           gain.connect(this.ctx.destination);
           source.start(0);
@@ -315,6 +338,7 @@ export const AudioEngine = {
     const audio = new Audio(basePath + file);
     audio.loop = true;
     audio.volume = 0.35;
+    audio.muted = this.isMuted;
 
     if (file.includes('interior')) {
       audio.addEventListener('loadedmetadata', () => {
@@ -360,7 +384,7 @@ export const AudioEngine = {
           source.buffer = decoded;
           source.loop = true;
           const gain = this.ctx.createGain();
-          gain.gain.setValueAtTime(0.32, this.ctx.currentTime);
+          gain.gain.setValueAtTime(this.isMuted ? 0 : 0.32, this.ctx.currentTime);
           source.connect(gain);
           gain.connect(this.ctx.destination);
           
@@ -494,6 +518,7 @@ export const AudioEngine = {
   },
 
   playHover(basePath = 'audio/mapa/') {
+    if (this.isMuted) return;
     const now = Date.now();
     if (now - this.lastHoverTime < 110) return;
     this.lastHoverTime = now;

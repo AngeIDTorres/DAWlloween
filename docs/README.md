@@ -12,6 +12,7 @@ Este directorio agrupa los manuales de arquitectura, infraestructura, diseño y 
 * **[mapa-navegacion.md](mapa-navegacion.md):** Arquitectura visual del escenario de entrada, transición de escala del candado (`padlock-wrapper`), salto y sacudida en contenedor interno (`padlock-hop-inner`), haz de linterna y accesibilidad IPO.
 * **[audio.md](audio.md):** Motor de sonido dual (`AudioEngine`), decodificación Web Audio API, fondo ambiental comprimido en OGG Vorbis (`ambiente_noche.ogg`, `ambiente_interior.ogg`), precarga proactiva y prompts de efectos para ElevenLabs SFX.
 * **[recetas.md](recetas.md):** Catálogo gastronómico del comedor escolar (`recetas.html`), modelo de datos de recetas (`recetasData.js`), iluminación de linterna, lámpara de tubos fluorescentes colgante con halo blanco neutro y navegación entre fichas.
+* **[accesibilidad.md](accesibilidad.md):** Panel de accesibilidad (busca/mensáfono retro con assets gráficos dedicados), persistencia cross-page (`localStorage`), controles de retorno al mapa, linterna, silenciado global de audio e iluminación de sala fija.
 
 ---
 

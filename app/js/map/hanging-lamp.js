@@ -5,11 +5,14 @@ export function initHangingLamp(options = {}) {
   const lampType = options.lampType || 'bulb';
   const audioBasePath = options.audioBasePath || (lampType === 'tube' ? '../audio/recetas/' : 'audio/mapa/');
 
+  const onToggle = options.onToggle || null;
+
   if (!hangingLamp || !mapStage) {
     return {
       turnOn: () => {},
       turnOff: () => {},
-      toggle: () => {}
+      toggle: () => {},
+      isLit: () => false
     };
   }
 
@@ -68,6 +71,9 @@ export function initHangingLamp(options = {}) {
         AudioEngine.playLightSwitch(audioBasePath);
       }
     }
+    if (typeof onToggle === 'function') {
+      onToggle(true);
+    }
   };
 
   const turnOff = (playAudio = true) => {
@@ -81,6 +87,9 @@ export function initHangingLamp(options = {}) {
       } else if (AudioEngine.playLightSwitch) {
         AudioEngine.playLightSwitch(audioBasePath);
       }
+    }
+    if (typeof onToggle === 'function') {
+      onToggle(false);
     }
     scheduleNextFlicker();
   };
@@ -100,5 +109,10 @@ export function initHangingLamp(options = {}) {
 
   scheduleNextFlicker();
 
-  return { turnOn, turnOff, toggle };
+  return {
+    turnOn,
+    turnOff,
+    toggle,
+    isLit: () => mapStage.classList.contains('room-lit')
+  };
 }

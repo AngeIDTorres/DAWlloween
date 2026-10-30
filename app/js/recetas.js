@@ -2,6 +2,7 @@ import { AudioEngine } from './core/audio.js?v=20261029_11';
 import { RECETAS_DATA } from './data/recetasData.js';
 import { FlashlightController } from './core/flashlight.js';
 import { initHangingLamp } from './map/hanging-lamp.js?v=20261029_11';
+import { initAccessibility } from './core/accessibility.js?v=20261029_13';
 
 document.addEventListener('DOMContentLoaded', () => {
   AudioEngine.init();
@@ -33,7 +34,26 @@ document.addEventListener('DOMContentLoaded', () => {
   const timeEl = document.getElementById('recipeTime');
   const ingredientsEl = document.getElementById('recipeIngredients');
   const elaborationEl = document.getElementById('recipeElaboration');
-  const backBtn = document.getElementById('diningBackBtn');
+
+  let accessibility = null;
+
+  const navigateBackToMap = () => {
+    if (isNavigatingBack) return;
+    isNavigatingBack = true;
+    if (AudioEngine) {
+      if (AudioEngine.playFootsteps) {
+        AudioEngine.playFootsteps('../audio/common/');
+      } else if (AudioEngine.playEnter) {
+        AudioEngine.playEnter('../audio/common/');
+      }
+    }
+    if (blackoutCurtain) {
+      blackoutCurtain.classList.add('active');
+    }
+    setTimeout(() => {
+      window.location.href = '../index.html';
+    }, 1750);
+  };
 
   const flashlight = new FlashlightController({
     elementId: 'diningFlashlight',
@@ -49,6 +69,11 @@ document.addEventListener('DOMContentLoaded', () => {
         if (diningStage) diningStage.classList.add('cursor-visible');
       }
       AudioEngine.playClick('../audio/common/');
+      if (accessibility) {
+        accessibility.state.flashlight = isOn;
+        accessibility.saveState();
+        accessibility.updateUI();
+      }
     }
   });
 
@@ -57,7 +82,20 @@ document.addEventListener('DOMContentLoaded', () => {
     mapStage: diningStage,
     audioEngine: AudioEngine,
     audioBasePath: '../audio/recetas/',
-    lampType: 'tube'
+    lampType: 'tube',
+    onToggle: (isLit) => {
+      if (accessibility) {
+        accessibility.onLampToggle(isLit);
+      }
+    }
+  });
+
+  accessibility = initAccessibility({
+    audioEngine: AudioEngine,
+    flashlightController: flashlight,
+    lampController: lampController,
+    onNavigateMap: navigateBackToMap,
+    isMapPage: false
   });
 
   AudioEngine.preload([
@@ -137,27 +175,6 @@ document.addEventListener('DOMContentLoaded', () => {
     });
   }
 
-  if (backBtn) {
-    backBtn.addEventListener('click', (e) => {
-      e.preventDefault();
-      if (isNavigatingBack) return;
-      isNavigatingBack = true;
-      if (AudioEngine) {
-        if (AudioEngine.playFootsteps) {
-          AudioEngine.playFootsteps('../audio/common/');
-        } else if (AudioEngine.playEnter) {
-          AudioEngine.playEnter('../audio/common/');
-        }
-      }
-      if (blackoutCurtain) {
-        blackoutCurtain.classList.add('active');
-      }
-      setTimeout(() => {
-        window.location.href = backBtn.getAttribute('href') || '../index.html';
-      }, 1750);
-    });
-  }
-
   window.addEventListener('keydown', (e) => {
     startAmbientOnInteraction();
     if (e.key === 'ArrowLeft' || e.key === 'a' || e.key === 'A') {
@@ -165,22 +182,7 @@ document.addEventListener('DOMContentLoaded', () => {
     } else if (e.key === 'ArrowRight' || e.key === 'd' || e.key === 'D') {
       navigate(1);
     } else if (e.key === 'Escape') {
-      if (backBtn && !isNavigatingBack) {
-        isNavigatingBack = true;
-        if (AudioEngine) {
-          if (AudioEngine.playFootsteps) {
-            AudioEngine.playFootsteps('../audio/common/');
-          } else if (AudioEngine.playEnter) {
-            AudioEngine.playEnter('../audio/common/');
-          }
-        }
-        if (blackoutCurtain) {
-          blackoutCurtain.classList.add('active');
-        }
-        setTimeout(() => {
-          window.location.href = backBtn.getAttribute('href') || '../index.html';
-        }, 1750);
-      }
+      navigateBackToMap();
     }
   });
 

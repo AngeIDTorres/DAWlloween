@@ -7,6 +7,7 @@ export class FlashlightController {
     this.enableKeyToggle = Boolean(options.enableKeyToggle);
     this.onToggle = options.onToggle || null;
     this.isOn = true;
+    this.disabled = false;
     this.mouseX = window.innerWidth / 2;
     this.mouseY = window.innerHeight / 2;
     this.rafId = null;
@@ -22,7 +23,7 @@ export class FlashlightController {
       if (!this.activeCondition()) return;
       this.mouseX = clientX;
       this.mouseY = clientY;
-      if (!this.element.classList.contains('visible') && this.isOn) {
+      if (!this.element.classList.contains('visible') && this.isOn && !this.disabled) {
         this.element.classList.add('visible');
       }
       if (!this.rafId) {
@@ -50,14 +51,16 @@ export class FlashlightController {
     });
 
     document.addEventListener('mouseenter', () => {
-      if (this.activeCondition() && this.isOn) {
+      if (this.activeCondition() && this.isOn && !this.disabled) {
         this.element.classList.add('visible');
       }
     });
 
     if (this.enableKeyToggle) {
       window.addEventListener('keydown', (e) => {
+        if (e.target && (e.target.tagName === 'INPUT' || e.target.tagName === 'TEXTAREA')) return;
         if (e.key === 'f' || e.key === 'F') {
+          if (this.disabled) return;
           this.toggle();
         }
       });
@@ -72,13 +75,26 @@ export class FlashlightController {
       this.stage.style.setProperty(`${this.cssVarPrefix}-x`, `${this.mouseX}px`);
       this.stage.style.setProperty(`${this.cssVarPrefix}-y`, `${this.mouseY}px`);
     }
-    if (this.isOn) {
+    if (this.isOn && !this.disabled) {
       this.element.style.transform = `translate(${this.mouseX}px, ${this.mouseY}px) translate(-50%, -50%)`;
     }
   }
 
+  setDisabled(disabled) {
+    this.disabled = Boolean(disabled);
+    if (this.disabled && this.isOn) {
+      this.setOn(false);
+    }
+  }
+
   toggle() {
-    this.isOn = !this.isOn;
+    if (this.disabled) return;
+    this.setOn(!this.isOn);
+  }
+
+  setOn(state, triggerCallback = true) {
+    if (this.disabled && state) return;
+    this.isOn = Boolean(state);
     if (this.isOn) {
       this.element.classList.remove('off');
       this.element.classList.add('visible');
@@ -86,18 +102,17 @@ export class FlashlightController {
       this.element.classList.add('off');
       this.element.classList.remove('visible');
     }
-    if (typeof this.onToggle === 'function') {
+    if (triggerCallback && typeof this.onToggle === 'function') {
       this.onToggle(this.isOn);
     }
   }
 
   setVisible(visible) {
     if (!this.element) return;
-    if (visible && this.isOn) {
+    if (visible && this.isOn && !this.disabled) {
       this.element.classList.add('visible');
     } else {
       this.element.classList.remove('visible');
     }
   }
 }
-

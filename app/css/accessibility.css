@@ -1,0 +1,301 @@
+.accessibility-pager {
+  position: fixed;
+  top: 1.25rem;
+  left: 1.25rem;
+  z-index: 95;
+  width: clamp(210px, 16vw, 270px);
+  aspect-ratio: 2408 / 1800;
+  user-select: none;
+  -webkit-user-select: none;
+  pointer-events: auto;
+  filter: drop-shadow(0 10px 24px rgba(0, 0, 0, 0.85));
+  touch-action: none;
+}
+
+.accessibility-pager.is-unlocked {
+  cursor: grab;
+}
+
+.accessibility-pager.is-dragging {
+  cursor: grabbing !important;
+  transition: none !important;
+}
+
+.accessibility-pager.is-dragging * {
+  cursor: grabbing !important;
+}
+
+.pager-device {
+  position: relative;
+  width: 100%;
+  height: 100%;
+}
+
+.pager-screen-window {
+  position: absolute;
+  left: 21.84%;
+  top: 26.39%;
+  width: 56.31%;
+  height: 36.67%;
+  overflow: hidden;
+  border-radius: 3px;
+  z-index: 1;
+  background: #080a07;
+  box-shadow: inset 0 0 10px rgba(0, 0, 0, 0.95);
+}
+
+.pager-screen-bg {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  z-index: 1;
+  pointer-events: none;
+  filter: brightness(0.8) contrast(1.15);
+  opacity: 0.9;
+}
+
+.pager-screen-content {
+  position: absolute;
+  inset: 0;
+  z-index: 2;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  padding: 2.5% 3.5% 2% 3.5%;
+  box-sizing: border-box;
+  font-family: 'Courier New', Courier, monospace;
+  background: rgba(10, 12, 8, 0.45);
+}
+
+.pager-lcd-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  font-size: clamp(0.55rem, 0.72vw, 0.7rem);
+  font-weight: 900;
+  letter-spacing: 1px;
+  color: #e5be53;
+  text-shadow: 0 0 4px rgba(229, 190, 83, 0.55);
+  border-bottom: 1px dashed rgba(229, 190, 83, 0.35);
+  padding-bottom: 2px;
+  line-height: 1;
+}
+
+.pager-lcd-grid {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 2px;
+  align-items: center;
+  justify-items: center;
+  width: 100%;
+  flex: 1;
+  padding: 2px 0 0 0;
+  box-sizing: border-box;
+}
+
+.pager-lcd-btn {
+  background: transparent;
+  border: 1px solid transparent;
+  border-radius: 3px;
+  padding: 1px;
+  width: 100%;
+  height: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  transition: all 0.15s ease;
+  outline: none;
+  box-sizing: border-box;
+}
+
+.pager-lcd-btn:hover {
+  background: rgba(229, 190, 83, 0.12);
+  border-color: rgba(229, 190, 83, 0.35);
+}
+
+.pager-lcd-btn.active {
+  background: rgba(229, 190, 83, 0.22);
+  border-color: rgba(229, 190, 83, 0.65);
+  box-shadow: inset 0 0 4px rgba(229, 190, 83, 0.4);
+}
+
+.pager-lcd-btn.is-disabled {
+  cursor: not-allowed !important;
+  background: transparent !important;
+  border-color: transparent !important;
+  box-shadow: none !important;
+  pointer-events: auto !important;
+}
+
+.pager-lcd-btn.is-disabled:hover {
+  background: transparent !important;
+  border-color: transparent !important;
+  box-shadow: none !important;
+}
+
+.pager-lcd-btn.is-disabled .lcd-icon-img {
+  opacity: 0.35 !important;
+  filter: drop-shadow(0 0 1px rgba(255, 204, 70, 0.3)) !important;
+  transform: none !important;
+}
+
+.lcd-icon-img {
+  width: 82%;
+  max-width: 25px;
+  max-height: 25px;
+  aspect-ratio: 1 / 1;
+  object-fit: contain;
+  display: block;
+  opacity: 0.5;
+  filter: drop-shadow(0 0 2px rgba(255, 204, 70, 0.6));
+  transition: opacity 0.15s ease, filter 0.15s ease, transform 0.15s ease;
+  pointer-events: none;
+}
+
+.pager-lcd-btn:hover .lcd-icon-img {
+  opacity: 0.85;
+  filter: drop-shadow(0 0 4px rgba(255, 215, 80, 0.85));
+}
+
+.pager-lcd-btn.active .lcd-icon-img {
+  opacity: 1;
+  filter: drop-shadow(0 0 6px rgba(255, 220, 90, 1)) brightness(1.2);
+}
+
+.pager-lcd-btn[data-action="map"] .lcd-icon-img {
+  opacity: 0.85;
+  filter: drop-shadow(0 0 3px rgba(255, 204, 70, 0.7));
+}
+
+.pager-lcd-btn[data-action="map"].active .lcd-icon-img {
+  opacity: 1;
+  filter: drop-shadow(0 0 6px rgba(255, 220, 90, 1));
+}
+
+.pager-casing-overlay {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: fill;
+  z-index: 3;
+  pointer-events: none;
+}
+
+.pager-physical-strip {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  z-index: 4;
+  pointer-events: none;
+}
+
+.pager-phys-btn {
+  position: absolute;
+  top: 77.25%;
+  height: 9.18%;
+  background: transparent;
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+  transition: transform 0.12s ease;
+  outline: none;
+  pointer-events: auto;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 0;
+  margin: 0;
+  box-sizing: border-box;
+  overflow: hidden;
+}
+
+.phys-btn-1 {
+  left: 17.43%;
+  width: 10.64%;
+}
+
+.phys-btn-2 {
+  left: 30.71%;
+  width: 10.71%;
+}
+
+.phys-btn-3 {
+  left: 44.14%;
+  width: 10.86%;
+}
+
+.phys-btn-4 {
+  left: 57.86%;
+  width: 10.71%;
+}
+
+.phys-btn-5 {
+  left: 71.43%;
+  width: 10.71%;
+}
+
+.phys-btn-img {
+  height: 78%;
+  width: auto;
+  aspect-ratio: 1 / 1;
+  max-width: 100%;
+  object-fit: contain;
+  display: block;
+  margin: 0 auto;
+  pointer-events: none;
+  opacity: 0.85;
+  filter: drop-shadow(0 1px 1px rgba(0, 0, 0, 0.8));
+  transition: opacity 0.12s ease, transform 0.12s ease, filter 0.12s ease;
+}
+
+.pager-phys-btn:hover .phys-btn-img {
+  opacity: 1;
+  filter: drop-shadow(0 1px 2px rgba(0, 0, 0, 0.95)) brightness(1.15);
+}
+
+.pager-phys-btn:active .phys-btn-img {
+  transform: scale(0.94);
+}
+
+.pager-phys-btn.active {
+  border: none !important;
+  box-shadow: none !important;
+}
+
+.pager-phys-btn.is-disabled {
+  cursor: not-allowed !important;
+  border: none !important;
+  box-shadow: none !important;
+  pointer-events: auto !important;
+}
+
+.pager-phys-btn.is-disabled .phys-btn-img {
+  opacity: 0.35 !important;
+  filter: drop-shadow(0 1px 1px rgba(0, 0, 0, 0.5)) grayscale(0.5) !important;
+}
+
+.phys-btn-5.active {
+  border: none !important;
+  box-shadow: none !important;
+}
+
+@media (max-width: 900px) {
+  .accessibility-pager {
+    top: 0.75rem;
+    left: 0.75rem;
+    width: clamp(190px, 26vw, 225px);
+  }
+}
+
+@media (max-width: 540px) {
+  .accessibility-pager {
+    top: 0.5rem;
+    left: 0.5rem;
+    width: 175px;
+  }
+}

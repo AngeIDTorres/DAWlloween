@@ -56,7 +56,7 @@ Cada receta en `app/js/data/recetasData.js` cuenta con el siguiente esquema:
 4. **Velo de Penumbra:** `.dining-darkness-veil` (`z-index: 60`, `pointer-events: none`). Oculta el fondo, la ficha y la lámpara apagada.
 5. **Lámpara de Tubos (Encendida o Parpadeando):** `.dining-stage.room-lit .dining-hanging-lamp`, `.dining-hanging-lamp.lamp-flickering` (`z-index: 65`). Se eleva sobre la penumbra para proyectar su brillo. Su halo perimetral (`.lamp-glow-aura`) y el haz cónico proyectado hacia la ficha y la mesa (`.lamp-light-cone`) están calibrados en tono fluorescente blanco neutro `#f2efe4` (`rgba(242, 239, 228, ...)`), erradicando el matiz amarillento de tungsteno reservado para la bombilla incandescente del mapa en `index.html`.
 6. **Haz de Linterna:** `.dining-flashlight` (`z-index: 70`, `pointer-events: none`). Proyecta luz animada sobre el cursor.
-7. **Botón Volver al Plano:** `.dining-back-btn` (`z-index: 100`, `pointer-events: auto`). Siempre visible en la esquina superior izquierda.
+7. **Panel de Accesibilidad (Busca Retro):** `.accessibility-pager` (`z-index: 95`, `pointer-events: auto`). Sustituye al antiguo botón `.dining-back-btn`, integrando retorno al plano (`index.html`) con transición cinematográfica de cortinilla y pasos de madera, control de linterna (`F`), conmutación de silencio de audio (`M`) y control de iluminación persistente (`L`).
 
 ---
 
