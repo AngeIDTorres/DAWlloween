@@ -1,0 +1,6 @@
+<IfModule mod_rewrite.c>
+    RewriteEngine On
+    RewriteRule ^index\.html$ /index.php [R=301,L]
+    RewriteRule ^pages/(.+)\.html$ /pages/$1.php [R=301,L]
+</IfModule>
+

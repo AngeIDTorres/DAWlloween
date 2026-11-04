@@ -16,8 +16,9 @@ El entorno se orquesta desde la raíz mediante `docker-compose.yml` utilizando l
   * `./app:/var/www/html`: Código de la aplicación en el DocumentRoot de Apache.
   * `./config/halloween.conf:/etc/apache2/sites-available/000-default.conf`: Virtual Host de Apache (HTTP y HTTPS).
   * `./config/php.ini:/usr/local/etc/php/conf.d/custom-php.ini`: Configuración PHP (sesiones y entorno).
-  * `./config/ssl:/etc/apache2/ssl`: Directorio para certificados SSL generados.
-* **Automatización SSL al inicio:** El contenedor activa `mod_ssl` y genera automáticamente un certificado autofirmado de 2048 bits válido por 365 días para `halloween.dev` si no existe previamente.
+  * `./config/sendmail.ini:/etc/sendmail.ini`: Parámetros de conexión SMTP.
+  * `./config/sendmail.php:/usr/sbin/sendmail`: Wrapper de transporte de correo.
+* **Automatización SSL en contenedor:** El certificado SSL autofirmado de 2048 bits se genera dinámicamente en `/etc/apache2/ssl` cada vez que el contenedor se inicia, sin persistirse ni ensuciar el repositorio local.
 * **Zona Horaria:** `TZ=Europe/Madrid`.
 
 ---

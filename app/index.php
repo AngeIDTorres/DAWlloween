@@ -1,3 +1,10 @@
+<?php
+require_once __DIR__ . '/includes/VarGlobales.php';
+
+if (!obtenerUsuarioActivo()) {
+    redirect('pages/login.php');
+}
+?>
 <!DOCTYPE html>
 <html lang="es">
 <head>
@@ -241,7 +248,7 @@
         </div>
       </div>
 
-      <a href="pages/aboutus.html" class="frame-sticker-about" id="frameStickerAbout" data-room-id="archivo" title="Sobre mí - Archivo Histórico">
+      <a href="pages/aboutus.php" class="frame-sticker-about" id="frameStickerAbout" data-room-id="archivo" title="Sobre mí - Archivo Histórico">
         <div class="sticker-header-text">EXPEDIENTE</div>
         <div class="sticker-body-text">Sobre mí</div>
       </a>
@@ -310,3 +317,4 @@
   <script type="module" src="js/map.js?v=20261030_01"></script>
 </body>
 </html>
+

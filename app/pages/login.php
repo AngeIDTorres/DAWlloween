@@ -12,6 +12,10 @@ if (isset($_GET['registrado'])) {
 if (isset($_GET['pass_cambiada'])) {
     $mensaje = 'Contraseña actualizada. Inicia sesión.';
 }
+if (isset($_GET['logout'])) {
+    cerrarSesion();
+    $mensaje = 'Sesión finalizada.';
+}
 
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     $usuario = trim($_POST['usuario'] ?? '');
@@ -42,7 +46,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         exit;
     }
 }
-$startExpanded = $hasError || $loginSuccess || isset($_GET['registrado']) || isset($_GET['pass_cambiada']);
+$startExpanded = $hasError || $loginSuccess || isset($_GET['registrado']) || isset($_GET['pass_cambiada']) || isset($_GET['logout']);
 ?>
 <!DOCTYPE html>
 <html lang="es">
@@ -57,7 +61,7 @@ $startExpanded = $hasError || $loginSuccess || isset($_GET['registrado']) || iss
   <link rel="stylesheet" href="../css/login.css">
   <?php if ($loginSuccess): ?>
     <noscript>
-      <meta http-equiv="refresh" content="2;url=../index.html">
+      <meta http-equiv="refresh" content="2;url=../index.php">
     </noscript>
   <?php endif; ?>
 </head>

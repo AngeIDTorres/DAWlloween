@@ -1,3 +1,10 @@
+<?php
+require_once __DIR__ . '/../includes/VarGlobales.php';
+
+if (!obtenerUsuarioActivo()) {
+    redirect('login.php');
+}
+?>
 <!DOCTYPE html>
 <html lang="es">
 <head>
@@ -208,6 +215,8 @@
       <div class="map-frame-overlay"></div>
 
       <div class="frame-postit" id="framePostit">
+        <div class="postit-tape"></div>
+
         <div class="postit-collapsed-view">
           <span class="postit-title-main">Índice</span>
         </div>
@@ -282,3 +291,4 @@
   <script type="module" src="../js/aboutus.js"></script>
 </body>
 </html>
+

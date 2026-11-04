@@ -16,11 +16,11 @@ Metáfora visual de la entrada física a la institución clausurada:
   2. Salto elástico del arco del candado (`candado_desbloqueo.mp3`).
   3. Desprendimiento y caída del candado fuera de la verja (`candado_caida.mp3`).
   4. Apertura batiente de las cancelas de hierro (`verja_abrir.mp3`).
-  5. Fundido a negro mediante cortinilla (`.blackout-curtain`) y redirección a `index.html`.
+  5. Fundido a negro mediante cortinilla (`.blackout-curtain`) y redirección a `index.php`.
 
 ---
 
-## 2. Plano Arquitectónico del Colegio (`app/index.html`)
+## 2. Plano Arquitectónico del Colegio (`app/index.php`)
 
 Hub neurálgico de exploración del centro clausurado en vista cenital:
 
@@ -30,10 +30,10 @@ Hub neurálgico de exploración del centro clausurado en vista cenital:
   * **Linterna Manual (`flashlight.js`):** Haz óptico sincronizado con las coordenadas del cursor sobre el velo oscuro continuo. Alternable mediante la tecla `F`.
 * **Distribución de Salas:**
   * **Dependencias Operativas:**
-    * `COMEDOR Y COCINAS` (`pages/recetas.html`): Acceso al recetario escolar temático.
+    * `COMEDOR Y COCINAS` (`pages/recetas.php`): Acceso al recetario escolar temático.
     * `DESPACHO DE DIRECCIÓN` (`pages/correo.php`): Acceso a la terminal para redactar correos.
-    * `SALA DE JUEGOS` (`pages/juego.html`): Acceso a la incursión interactiva de supervivencia.
-    * `EXPEDIENTE` (`pages/aboutus.html`): Acceso a la ficha y biografía del proyecto.
+    * `SALA DE JUEGOS` (`pages/juego.php`): Acceso a la incursión interactiva de supervivencia.
+    * `EXPEDIENTE` (`pages/aboutus.php`): Acceso a la ficha y biografía del proyecto.
   * **Dependencias Clausuradas:** Aula de Música, Aseos, Sala de Profesores, Laboratorio y Gimnasio Polideportivo. Están marcadas con aspas rojas y rótulos «INACCESIBLE»; al clicar sobre ellas emiten el foley de cerrojos bloqueados (`puerta_clausurada.mp3`) sin modales intrusivos.
 * **Navegación Rápida:**
   * **Posit Desplegable (`frame-postit`):** Índice adhesivo en el marco con enlaces directos a las tres dependencias activas.
@@ -42,11 +42,11 @@ Hub neurálgico de exploración del centro clausurado en vista cenital:
 
 ---
 
-## 3. Expediente del Estudiante / Sobre Mí (`aboutus.html` y modal)
+## 3. Expediente del Estudiante / Sobre Mí (`aboutus.php` y modal)
 
 Dossier biográfico e histórico del proyecto integrado como un cartel de persona desaparecida (*MISSING poster*):
 
-* **Modal Integrado y Vista Independiente:** Disponible como modal in-place en `index.html` (enciende automáticamente la bombilla y desenfoca el plano de fondo) o como página accesible directamente en `pages/aboutus.html`.
+* **Modal Integrado y Vista Independiente:** Disponible como modal in-place en `index.php` (enciende automáticamente la bombilla y desenfoca el plano de fondo) o como página accesible directamente en `pages/aboutus.php`.
 * **Contenido del Cartel:** Fotografía retro tramada con barra de censura, datos del alumno (Ángel D. Torres, 2º DAW, Atlántida CIDEP III), enlaces directos a GitHub y LinkedIn, y descripción del proyecto DAWlloween.
 * **Cierre:** Al pulsar fuera del cartel o la tecla `Esc`, emite el sonido de hojeo de papel (`papel_examinar.mp3`), apaga la bombilla silenciosamente y retorna al plano.
 

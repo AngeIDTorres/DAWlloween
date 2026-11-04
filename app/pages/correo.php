@@ -1,6 +1,10 @@
 <?php
 require_once __DIR__ . '/../includes/VarGlobales.php';
 
+if (!obtenerUsuarioActivo()) {
+    redirect('login.php');
+}
+
 $mensajeEstado = '';
 $tipoEstado = '';
 $debugLog = '';
@@ -58,7 +62,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 <body style="font-family: sans-serif; max-width: 600px; margin: 40px auto; padding: 0 20px; line-height: 1.5;">
 
     <h2>Prueba Básica de Envío SMTP (Gmail)</h2>
-    <p><a href="../index.html">&larr; Volver al mapa</a></p>
+    <p><a href="../index.php">&larr; Volver al mapa</a></p>
 
     <div style="background: #f4f4f4; padding: 12px; border: 1px solid #ccc; margin-bottom: 20px; font-size: 14px;">
         <strong>Estado de sendmail.ini:</strong>

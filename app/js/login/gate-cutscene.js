@@ -5,7 +5,7 @@ export function playGateSequence(options = {}) {
   const gateRight = options.gateRight || document.getElementById('gateRight');
   const blackoutCurtain = options.blackoutCurtain || document.getElementById('blackoutCurtain');
   const AudioEngine = options.audioEngine;
-  const redirectUrl = options.redirectUrl || '../index.html';
+  const redirectUrl = options.redirectUrl || '../index.php';
 
   setTimeout(() => {
     if (shackle) shackle.classList.add('unlocked');

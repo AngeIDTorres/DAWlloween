@@ -24,7 +24,7 @@ Catálogo exacto de identificadores, rótulos e indicaciones textuales presentes
 
 ---
 
-## 2. Plano del Colegio (`index.html`)
+## 2. Plano del Colegio (`index.php`)
 
 | Elemento | Texto Exacto en UI | Contexto |
 | :--- | :--- | :--- |
@@ -32,11 +32,11 @@ Catálogo exacto de identificadores, rótulos e indicaciones textuales presentes
 | **Salas Activas** | `COMEDOR Y COCINAS [ MENÚ HALLOWEEN ]`<br>`DESPACHO DE DIRECCIÓN [ ENVIAR CORREO ]`<br>`SALA DE JUEGOS [ MINIJUEGO ]` | Dependencias interactivas accesibles |
 | **Salas Clausuradas** | `AULA DE MÚSICA [ INACCESIBLE ]`<br>`ASEOS [ INACCESIBLE ]`<br>`SALA DE PROFESORES [ INACCESIBLE ]`<br>`LABORATORIO [ INACCESIBLE ]`<br>`GIMNASIO POLIDEPORTIVO [ INACCESIBLE ]` | Zonas precintadas judicialmente con sonido de rechazo |
 | **Posit de Índice** | `Índice` (cerrado)<br>`ÍNDICE` (abierto)<br>`• Recetas`, `• Enviar correo`, `• Minijuego` | Menú desplegable en el marco de madera |
-| **Pegatina de Expediente** | `EXPEDIENTE` / `Sobre mí` | Etiqueta adhesiva inferior derecha hacia `aboutus.html` |
+| **Pegatina de Expediente** | `EXPEDIENTE` / `Sobre mí` | Etiqueta adhesiva inferior derecha hacia `aboutus.php` |
 
 ---
 
-## 3. Expediente del Proyecto (`aboutus.html` y modal)
+## 3. Expediente del Proyecto (`aboutus.php` y modal)
 
 | Sección | Textos Exactos en UI | Contexto |
 | :--- | :--- | :--- |
@@ -46,7 +46,7 @@ Catálogo exacto de identificadores, rótulos e indicaciones textuales presentes
 
 ---
 
-## 4. Recetario Temático (`recetas.html`)
+## 4. Recetario Temático (`recetas.php`)
 
 | Elemento | Texto en UI | Contexto |
 | :--- | :--- | :--- |

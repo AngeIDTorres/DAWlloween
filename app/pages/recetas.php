@@ -1,3 +1,10 @@
+<?php
+require_once __DIR__ . '/../includes/VarGlobales.php';
+
+if (!obtenerUsuarioActivo()) {
+    redirect('login.php');
+}
+?>
 <!DOCTYPE html>
 <html lang="es">
 <head>
@@ -71,3 +78,4 @@
   <script type="module" src="../js/recetas.js?v=20261030_01"></script>
 </body>
 </html>
+

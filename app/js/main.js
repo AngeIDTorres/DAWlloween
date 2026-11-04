@@ -56,7 +56,7 @@ document.addEventListener('DOMContentLoaded', () => {
       gateRight,
       blackoutCurtain,
       audioEngine: AudioEngine,
-      redirectUrl: '../index.html'
+      redirectUrl: '../index.php'
     });
   };
 

@@ -8,7 +8,7 @@ Resumen del centro de control temático unificado para navegación, iluminación
 
 El panel de accesibilidad (`.accessibility-pager`) está inspirado en un mensáfono o busca noventero con carcasa rugerizada y pantalla LCD ámbar:
 
-* **Disponibilidad:** Activo en las vistas de exploración interactiva (`index.html` y `pages/recetas.html`). Excluido de la entrada (`login.php`) y del expediente (`aboutus.html`).
+* **Disponibilidad:** Activo en las vistas de exploración interactiva (`index.php` y `pages/recetas.php`). Excluido de la entrada (`login.php`) y del expediente (`aboutus.php`).
 * **Ubicación:** Fijado por defecto en la esquina superior izquierda del viewport, con libertad de reubicación mediante arrastre.
 * **Módulos Sincronizados:** Sincroniza en tiempo real el motor de sonido (`audio.js`), el haz de linterna (`flashlight.js`) y la luminaria de sala (`hanging-lamp.js`).
 
@@ -20,7 +20,7 @@ El dispositivo cuenta con una pantalla LCD de 4 iconos y 5 pulsadores físicos i
 
 | Pulsador | Tecla | Icono LCD | Pulsador Físico | Comportamiento |
 | :---: | :---: | :---: | :---: | :--- |
-| **1º** | `Esc` | Mapa | Flecha retorno | En páginas interiores (`recetas.html`), reproduce pasos de madera y cortina oscura regresando a `index.html`. En el mapa, emite feedback de ubicación activa. |
+| **1º** | `Esc` | Mapa | Flecha retorno | En páginas interiores (`recetas.php`), reproduce pasos de madera y cortina oscura regresando a `index.php`. En el mapa, emite feedback de ubicación activa. |
 | **2º** | `F` | Linterna | Linterna táctica | Alterna el haz de la linterna. Si la luz fija de sala está encendida, se bloquea con cursor `not-allowed`. |
 | **3º** | `L` | Bombilla | Bombilla radiante | Conmuta la luz fija de la estancia. Al encenderla, apaga y bloquea automáticamente la linterna. |
 | **4º** | `M` | Altavoz | Altavoz cancelado | Alterna el silenciado global de audio (`AudioEngine.toggleMute()`). |

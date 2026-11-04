@@ -47,7 +47,7 @@ Inicializado automáticamente en `VarGlobales.php`:
 
 * **Acceso (`login.php`):**
   * Procesa credenciales por POST de forma síncrona o vía AJAX (retornando JSON `{success, error}`).
-  * Si las credenciales son válidas, llama a `currentUser()` y redirige a `../index.html`.
+  * Si las credenciales son válidas, llama a `currentUser()` y redirige a `../index.php`.
   * Si fallan, muestra aviso de error y activa la animación de rechazo en el candado.
   * Muestra mensajes de confirmación tras registro (`?registrado=1`) o cambio de contraseña (`?pass_cambiada=1`).
 

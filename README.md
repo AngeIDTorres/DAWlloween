@@ -7,8 +7,8 @@ Proyecto web temático de terror institucional ambientado en un colegio clausura
 ## Estructura del Repositorio
 
 * `app/`: Directorio raíz montado en el servidor web Apache (`/var/www/html/`).
-  * `index.html`: Portal principal y punto de entrada al mapa cenital del colegio.
-  * `pages/`: Vistas y pantallas accesibles de la aplicación (`login.php`, `aboutus.html`, `recetas.html`, `juego.html`, `altaUsuario.php`, `cambioPass.php`, `correo.php`).
+  * `index.php`: Portal principal y punto de entrada al mapa cenital del colegio (requiere sesión).
+  * `pages/`: Vistas y pantallas accesibles de la aplicación (`login.php`, `aboutus.php`, `recetas.php`, `juego.php`, `altaUsuario.php`, `cambioPass.php`, `correo.php`).
   * `includes/`: Lógica PHP que no se muestra directamente en el navegador (`VarGlobales.php`).
   * `css/`: Hojas de estilo temáticas.
   * `js/`: Scripts interactivos de cliente.

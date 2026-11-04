@@ -314,7 +314,7 @@ export class AccessibilityManager {
         if (typeof this.onNavigateMap === 'function') {
           this.onNavigateMap();
         } else {
-          window.location.href = '../index.html';
+          window.location.href = '../index.php';
         }
         break;
 

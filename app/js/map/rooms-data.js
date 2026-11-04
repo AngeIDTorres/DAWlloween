@@ -5,7 +5,7 @@ export const ROOMS_REGISTRY = {
     status: 'available',
     statusText: 'ACCESO PERMITIDO',
     desc: 'Bandejas metálicas oxidadas bajo fluorescentes parpadeantes. El recetario del personal aún descansa sobre el mostrador de acero.',
-    target: 'pages/recetas.html',
+    target: 'pages/recetas.php',
     actionText: 'EXPLORAR COCINAS [ENTER]'
   },
   director: {
@@ -23,7 +23,7 @@ export const ROOMS_REGISTRY = {
     status: 'warning',
     statusText: 'MINIJUEGO ACTIVO',
     desc: 'Mesa recreativa central y rastros arrastrados hacia el fondo del aula. Incursión interactiva de supervivencia.',
-    target: 'pages/juego.html',
+    target: 'pages/juego.php',
     actionText: 'INICIAR MINIJUEGO [ENTER]'
   },
   archivo: {
@@ -32,7 +32,7 @@ export const ROOMS_REGISTRY = {
     status: 'available',
     statusText: 'EXPEDIENTES OK',
     desc: 'Legajo confidencial y expediente personal sobre el creador de este proyecto.',
-    target: 'pages/aboutus.html',
+    target: 'pages/aboutus.php',
     actionText: 'CONSULTAR ARCHIVO [ENTER]'
   },
   musica: {

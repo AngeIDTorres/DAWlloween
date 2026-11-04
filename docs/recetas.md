@@ -4,7 +4,7 @@ Resumen funcional y técnico del módulo de recetas culinarias interactivas de D
 
 ---
 
-## 1. Visión General (`app/pages/recetas.html`)
+## 1. Visión General (`app/pages/recetas.php`)
 
 Estancia temática ambientada en el comedor escolar abandonado bajo penumbra:
 
@@ -35,7 +35,7 @@ El catálogo incluye 7 recetas de repostería y platos temáticos de Halloween:
 
 * **Hojeo de Recetas:** Emite sonido de papel rústico (`papel_examinar.mp3`) en cada cambio de ficha.
 * **Iluminación Fluorescente:** Encendido metálico instantáneo (`lampara_tubo_on.mp3`), apagado mecánico industrial (`lampara_tubo_off.mp3`) y chisporroteo ocasional en penumbra (`lampara_tubo_chisporroteo.mp3`).
-* **Retorno al Plano:** Al pulsar el botón de retorno en el busca o la tecla `Esc`, alza la cortina de fundido y reproduce la cadencia completa de pasos de madera (`pasos_madera.mp3`, 1.75s) antes de redirigir a `index.html`.
+* **Retorno al Plano:** Al pulsar el botón de retorno en el busca o la tecla `Esc`, alza la cortina de fundido y reproduce la cadencia completa de pasos de madera (`pasos_madera.mp3`, 1.75s) antes de redirigir a `index.php`.
 
 ---
 

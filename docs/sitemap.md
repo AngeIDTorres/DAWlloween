@@ -13,13 +13,13 @@ graph TD
     C -.->|Volver a la Entrada| A
 
     %% Nivel 1: Hub Central
-    A ==>|Credenciales Válidas| D{Interior: Plano del Colegio<br>index.html}
+    A ==>|Credenciales Válidas| D{Interior: Plano del Colegio<br>index.php}
 
     %% Nivel 2: Dependencias Operativas
-    D -->|Plano o Posit| E[Comedor y Cocinas<br>recetas.html]
+    D -->|Plano o Posit| E[Comedor y Cocinas<br>recetas.php]
     D -->|Plano o Posit| F[Despacho de Dirección<br>correo.php]
-    D -->|Plano o Posit| G[Sala de Juegos<br>juego.html]
-    D -->|Pegatina Sobre mí| H[Expediente Personal<br>aboutus.html / modal]
+    D -->|Plano o Posit| G[Sala de Juegos<br>juego.php]
+    D -->|Pegatina Sobre mí| H[Expediente Personal<br>aboutus.php / modal]
 
     %% Dependencias Clausuradas
     D -.->|Clic en zona sellada| I[/Aulas Clausuradas<br>Sonido puerta_clausurada/]
@@ -38,14 +38,14 @@ graph TD
 
 ### Resumen de Rutas
 
-* **Nivel 0 (Autenticación):**
+* **Nivel 0 (Autenticación - Acceso Público):**
   * `pages/login.php`: Fachada exterior interactiva con candado y validación de sesiones.
   * `pages/altaUsuario.php`: Registro de nuevo alumno con pregunta secreta.
   * `pages/cambioPass.php`: Flujo en 2 pasos para recuperar la contraseña mediante respuesta secreta.
-* **Nivel 1 (Hub Principal):**
-  * `index.html`: Plano arquitectónico general con linterna, bombilla de sala, posit de índice y panel de accesibilidad.
-* **Nivel 2 (Dependencias Operativas):**
-  * `pages/recetas.html`: Comedor escolar con recetario temático de Halloween y lámpara fluorescente.
+* **Nivel 1 (Hub Principal - Requiere Sesión):**
+  * `index.php`: Plano arquitectónico general con linterna, bombilla de sala, posit de índice y panel de accesibilidad.
+* **Nivel 2 (Dependencias Operativas - Requiere Sesión):**
+  * `pages/recetas.php`: Comedor escolar con recetario temático de Halloween y lámpara fluorescente.
   * `pages/correo.php`: Despacho de dirección para correspondencia exterior (en desarrollo).
-  * `pages/juego.html`: Sala de juegos recreativa con minijuego 2D (en desarrollo).
-  * `pages/aboutus.html`: Expediente y biografía del creador (accesible como modal o vista dedicada).
+  * `pages/juego.php`: Sala de juegos recreativa con minijuego 2D (en desarrollo).
+  * `pages/aboutus.php`: Expediente y biografía del creador (accesible como modal o vista dedicada).

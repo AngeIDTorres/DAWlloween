@@ -34,5 +34,5 @@ La carpeta [**`diseño_lofi/`**](diseño_lofi/) almacena los wireframes de baja 
 ## 3. Módulos en Desarrollo (Roadmap)
 
 * **`correo.md` (Fase 4):** Máquina de escribir del despacho de dirección y servicio de transmisión de correo vía SMTP (`correo.php`).
-* **`minijuego.md` (Fase 5):** Minijuego 2D con cuadrícula en JavaScript, lógica de persecución y escape en la sala de recreo (`juego.html`).
+* **`minijuego.md` (Fase 5):** Minijuego 2D con cuadrícula en JavaScript, lógica de persecución y escape en la sala de recreo (`juego.php`).
 * **`manual-usuario.md` (Fase 6):** Guía de usuario no técnica orientada a la navegación y uso del centro escolar.

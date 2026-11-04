@@ -51,7 +51,7 @@ document.addEventListener('DOMContentLoaded', () => {
       blackoutCurtain.classList.add('active');
     }
     setTimeout(() => {
-      window.location.href = '../index.html';
+      window.location.href = '../index.php';
     }, 1750);
   };
 

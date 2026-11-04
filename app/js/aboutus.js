@@ -14,7 +14,7 @@ function returnToMap() {
   const mapStage = document.getElementById('mapStage');
   if (mapStage) mapStage.classList.remove('room-lit');
   setTimeout(() => {
-    window.location.href = '../index.html';
+    window.location.href = '../index.php';
   }, 120);
 }
 
