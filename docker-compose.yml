@@ -10,7 +10,10 @@ services:
       - ./app:/var/www/html
       - ./config/halloween.conf:/etc/apache2/sites-available/000-default.conf
       - ./config/php.ini:/usr/local/etc/php/conf.d/custom-php.ini
+      - ./config/ssl:/etc/apache2/ssl
+      - ./config/sendmail.ini:/etc/sendmail.ini
+      - ./config/sendmail.php:/usr/sbin/sendmail
     environment:
       - TZ=Europe/Madrid
     restart: unless-stopped
-    command: bash -c "a2enmod ssl && mkdir -p /etc/apache2/ssl && if [ ! -f /etc/apache2/ssl/halloween.crt ]; then openssl req -x509 -nodes -days 365 -newkey rsa:2048 -keyout /etc/apache2/ssl/halloween.key -out /etc/apache2/ssl/halloween.crt -subj '/CN=halloween.dev/O=DAWlloween'; fi && apache2-foreground"
+    command: bash -c "a2enmod ssl && chmod +x /usr/sbin/sendmail && mkdir -p /etc/apache2/ssl && if [ ! -f /etc/apache2/ssl/halloween.crt ]; then openssl req -x509 -nodes -days 365 -newkey rsa:2048 -keyout /etc/apache2/ssl/halloween.key -out /etc/apache2/ssl/halloween.crt -subj '/CN=halloween.dev/O=DAWlloween'; fi && apache2-foreground"
