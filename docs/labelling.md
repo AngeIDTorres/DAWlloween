@@ -1,27 +1,55 @@
 # Etiquetado (Labelling) - DAWlloween
 
-Sistema de nomenclatura e identificadores de la interfaz, diseñados para mantener la coherencia y la inmersión del terror psicológico de los años 90.
+Catálogo exacto de identificadores, rótulos e indicaciones textuales presentes en la interfaz de usuario, alineados con el código del repositorio.
 
-| Módulo / Interfaz | Tipo de Elemento | Etiqueta Exacta (Texto en UI) | Descripción / Contexto |
+---
+
+## 1. Entrada y Autenticación
+
+| Vista | Elemento | Texto Exacto en UI | Contexto |
 | :--- | :--- | :--- | :--- |
-| **Login** | Título Fijo | `Colegio Clausurado` / `Propiedad Privada` | Ambientación inicial en la pantalla de carga o muro. |
-| **Login** | Input Text | `Usuario:` | Campo grabado en la placa del candado de hierro. |
-| **Login** | Input Password | `Contraseña:` | Campo grabado en la placa del candado de hierro. |
-| **Login** | Botón de Acción | `[ Entrar ]` | Intenta abrir el candado (vibra si hay error). |
-| **Login** | Botón de Acción | `[ Registrarse ]` | Deriva a `altaUsuario.php`. |
-| **Login** | Enlace | `¿Olvidaste la clave?` | Deriva a `cambioPass.php`. |
-| **Registro** | Input Text | `Nuevo Usuario:` | Nombre para la matriz de sesión. |
-| **Registro** | Input Email | `Correo Electrónico:` | Email de contacto. |
-| **Registro** | Input Password | `Contraseña:` | Clave de acceso inicial. |
-| **Registro** | Input Text | `Pregunta de Seguridad (Escribe tu propia pregunta):` | Campo libre para recuperar contraseña. |
-| **Registro** | Input Text | `Respuesta Secreta:` | Respuesta para el desafío de seguridad. |
-| **Registro** | Botón de Acción | `[ Forjar Acceso ]` | Efectúa el guardado (Alta) en la matriz. |
-| **Recuperación** | Botón de Acción | `[ Restaurar Candado ]` | Actualiza la contraseña si la respuesta coincide. |
-| **Global (Auth)** | Botón Secundario| `[ Volver a la Verja ]` | Retorna al `login.php` desde Registro o Recuperación. |
-| **Mapa** | Textos de Zona | `AULAS`, `PASILLOS`, `SÓTANO`, `ZONA DERRUMBADA`, `GIMNASIO`, `COMEDOR` | Pintados con efecto sangre/óxido sobre el plano. |
-| **Mapa** | Indicador | `ESTÁS AQUÍ` | Flecha roja indicando la posición del usuario en el plano. |
-| **Mapa** | Footer / Pegatina | `Sobre mí` | Pegatina adhesiva amarillenta para acceder al modal del creador. |
-| **Cartel MISSING**| Texto Fijo | `MISSING`, `ORDEN JUDICIAL EXP. 1993`, `CLAUSURADO` | Textos impresos y sellos sobre el documento avejentado. |
-| **Correo**| Texto Fijo | `Destinatario: Jack Skellington` | A quién se dirige el email a través de la función `mail()`. |
-| **Correo**| Placeholder | `Teclea tu mensaje en la máquina...` | Texto orientativo en la hoja en blanco de la máquina. |
-| **Correo**| Botón de Acción | `[ Enviar Carta ]` | Dispara el envío SMTP. |
+| **Login (`login.php`)** | Título de página | `DAWlloween - Entrada al Colegio` | Pestaña del navegador |
+| **Login (`login.php`)** | Input Text | `USUARIO:` | Campo grabado en la chapa del candado |
+| **Login (`login.php`)** | Input Password | `CLAVE:` | Campo grabado en la chapa del candado |
+| **Login (`login.php`)** | Botón de Envío | Llave antigua (título: `Gira la llave para entrar`) | Accionamiento mecánico en el ojo de la cerradura |
+| **Login (`login.php`)** | Enlaces secundarios | `[ REGISTRO ]` • `[ ¿CLAVE PERDIDA? ]` | Accesos directos bajo los campos del candado |
+| **Registro (`altaUsuario.php`)** | Títulos | `DAWlloween` / `Ficha de Ingreso` | Cabecera del formulario institucional |
+| **Registro (`altaUsuario.php`)** | Etiquetas de formulario | `Nombre de Usuario:`, `Contraseña:`, `Correo Electrónico:`, `Pregunta de Seguridad Secreta:`, `Respuesta Secreta:` | Campos de alta de nuevo usuario |
+| **Registro (`altaUsuario.php`)** | Botón principal | `[ Registrar Usuario ]` | Guarda el alumno en `$_SESSION['mimatriz']` |
+| **Registro (`altaUsuario.php`)** | Enlace de retorno | `[ Volver a la Entrada ]` | Regreso a `login.php` |
+| **Recuperación (`cambioPass.php`)** | Títulos | `DAWlloween` / `Recuperación de Clave` | Cabecera del formulario en 2 pasos |
+| **Recuperación - Paso 1** | Campo y Botón | `Introduce tu Nombre de Usuario:` / `[ Consultar Pregunta Secreta ]` | Consulta la pregunta de seguridad |
+| **Recuperación - Paso 2** | Campos y Botón | `Tu Respuesta Secreta:`, `Nueva Contraseña:` / `[ Actualizar Contraseña ]` | Valida respuesta y actualiza clave |
+| **Recuperación (`cambioPass.php`)** | Enlaces auxiliares | `[ Consultar con otro usuario ]` / `[ Volver a la Entrada ]` | Navegación secundaria |
+
+---
+
+## 2. Plano del Colegio (`index.html`)
+
+| Elemento | Texto Exacto en UI | Contexto |
+| :--- | :--- | :--- |
+| **Rótulos Generales** | `PASILLO OESTE`, `PASILLO ESTE`, `CLAUSTRO CENTRAL`, `ESTÁS AQUÍ`, `[ ENTRADA PRINCIPAL ]` | Cartografía técnica del plano vectorial |
+| **Salas Activas** | `COMEDOR Y COCINAS [ MENÚ HALLOWEEN ]`<br>`DESPACHO DE DIRECCIÓN [ ENVIAR CORREO ]`<br>`SALA DE JUEGOS [ MINIJUEGO ]` | Dependencias interactivas accesibles |
+| **Salas Clausuradas** | `AULA DE MÚSICA [ INACCESIBLE ]`<br>`ASEOS [ INACCESIBLE ]`<br>`SALA DE PROFESORES [ INACCESIBLE ]`<br>`LABORATORIO [ INACCESIBLE ]`<br>`GIMNASIO POLIDEPORTIVO [ INACCESIBLE ]` | Zonas precintadas judicialmente con sonido de rechazo |
+| **Posit de Índice** | `Índice` (cerrado)<br>`ÍNDICE` (abierto)<br>`• Recetas`, `• Enviar correo`, `• Minijuego` | Menú desplegable en el marco de madera |
+| **Pegatina de Expediente** | `EXPEDIENTE` / `Sobre mí` | Etiqueta adhesiva inferior derecha hacia `aboutus.html` |
+
+---
+
+## 3. Expediente del Proyecto (`aboutus.html` y modal)
+
+| Sección | Textos Exactos en UI | Contexto |
+| :--- | :--- | :--- |
+| **Encabezado** | `MISSING` | Cabecera del cartel de persona desaparecida |
+| **Ficha Académica** | `DESARROLLADOR: Ángel D. Torres`<br>`CURSO: 2º DAW`<br>`CENTRO: Atlántida CIDEP III`<br>`PROYECTO: DAWlloween`<br>`ENLACES` (GitHub, LinkedIn) | Bloque superior del cartel |
+| **Cuerpo del Legajo** | `EXPEDIENTE · SOBRE EL PROYECTO`<br>`CONTENIDO DE LA PLATAFORMA` | Sección central rayada con descripción del ejercicio temático |
+
+---
+
+## 4. Recetario Temático (`recetas.html`)
+
+| Elemento | Texto en UI | Contexto |
+| :--- | :--- | :--- |
+| **Metadatos de Ficha** | `TIEMPO: [X] min` | Duración del plato en minutos |
+| **Bloques de Contenido** | `Ingredientes:` / `Elaboración:` | Secciones del pergamino de cocina |
+| **Contador de Progreso** | `RECETA [X] / 7` | Pie de la ficha de receta |

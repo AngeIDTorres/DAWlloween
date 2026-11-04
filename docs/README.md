@@ -1,31 +1,38 @@
 # Índice de Documentación Técnica - DAWlloween
 
-Este directorio agrupa los manuales de arquitectura, infraestructura, diseño y lógica interactiva del proyecto DAWlloween de forma modular, desacoplada y sin numeración fija en los nombres de archivo.
+Directorio central de arquitectura, infraestructura, diseño y lógica interactiva del proyecto DAWlloween.
 
 ---
 
 ## 1. Módulos Técnicos Activos
 
-* **[despliegue.md](despliegue.md):** Infraestructura de contenedores Docker Compose, Virtual Host Apache (`000-default.conf`), mapeo de volúmenes, permisos y resolución DNS local `halloween.dev`.
-* **[stack.md](stack.md):** Tecnologías empleadas, estándar de código limpio (cero comentarios en código fuente), paleta cromática inspirada en cómic de terror de los 90 (`globals.css`) y hojas de estilo modulares (`login.css`, `auth.css`).
-* **[autenticacion.md](autenticacion.md):** Mecanismos de autenticación en backend PHP (`VarGlobales.php`), matriz en sesión `$_SESSION['mimatriz']`, registro de nuevos usuarios y recuperación de contraseña en dos pasos.
-* **[mapa-navegacion.md](mapa-navegacion.md):** Arquitectura visual del escenario de entrada, transición de escala del candado (`padlock-wrapper`), salto y sacudida en contenedor interno (`padlock-hop-inner`), haz de linterna y accesibilidad IPO.
-* **[audio.md](audio.md):** Motor de sonido dual (`AudioEngine`), decodificación Web Audio API, fondo ambiental comprimido en OGG Vorbis (`ambiente_noche.ogg`, `ambiente_interior.ogg`), precarga proactiva y prompts de efectos para ElevenLabs SFX.
-* **[recetas.md](recetas.md):** Catálogo gastronómico del comedor escolar (`recetas.html`), modelo de datos de recetas (`recetasData.js`), iluminación de linterna, lámpara de tubos fluorescentes colgante con halo blanco neutro y navegación entre fichas.
-* **[accesibilidad.md](accesibilidad.md):** Panel de accesibilidad (busca/mensáfono retro con assets gráficos dedicados), persistencia cross-page (`localStorage`), controles de retorno al mapa, linterna, silenciado global de audio e iluminación de sala fija.
+| Documento | Temática y Alcance |
+| :--- | :--- |
+| [**despliegue.md**](despliegue.md) | Contenedor Docker Compose (`php:8.2-apache`), automatización con `Makefile`, Virtual Host de Apache, DNS local `halloween.dev` y permisos de archivos. |
+| [**stack.md**](stack.md) | Tecnologías base, política de cero comentarios en código, paleta de colores de terror noventero, tipografías y hojas de estilo modulares. |
+| [**autenticacion.md**](autenticacion.md) | Persistencia de usuarios en memoria de sesión PHP (`$_SESSION['mimatriz']`), modelo de datos en `VarGlobales.php` y flujos de login, registro y recuperación en 2 pasos. |
+| [**mapa-navegacion.md**](mapa-navegacion.md) | Fachada exterior con cancela y candado interactivo, plano central del colegio (SVG), expediente estilo "MISSING" y arquitectura modular JavaScript. |
+| [**recetas.md**](recetas.md) | Comedor escolar, catálogo de 7 recetas temáticas (`recetasData.js`), iluminación de linterna y tubos fluorescentes, y navegación entre fichas. |
+| [**accesibilidad.md**](accesibilidad.md) | Panel de control estilo busca/mensáfono noventero (`.accessibility-pager`), sincronización en tiempo real, atajos de teclado y persistencia en `localStorage`. |
+| [**audio.md**](audio.md) | Motor dual `AudioEngine` (archivos HD ElevenLabs SFX con respaldo procedimental Web Audio API), persistencia de ambiente interior y catálogo sonoro completo. |
+| [**labelling.md**](labelling.md) | Nomenclatura y rótulos exactos presentes en formularios, plano, expediente y recetario confirmados con el código del repositorio. |
+| [**sitemap.md**](sitemap.md) | Diagrama de flujo Mermaid que detalla la jerarquía de navegación desde la entrada exterior hasta cada una de las estancias interiores. |
 
 ---
 
-## 2. Módulos Planificados (Roadmap de Fases)
+## 2. Bocetos y Diseño Preliminar
 
-* **`correo.md` (Fase 4):** Mecanismo del buzón interactivo en la máquina de escribir del despacho y servicio de envío de correos vía SMTP.
-* **`minijuego.md` (Fase 5):** Lógica del juego 2D con matrices en JavaScript, detección de colisiones, IA de persecución y sistema de inventario/drop.
-* **`manual-usuario.md` (Fase 6):** Guía de navegación y uso funcional no técnica para el usuario final.
+La carpeta [**`diseño_lofi/`**](diseño_lofi/) almacena los wireframes de baja fidelidad originales:
+* `login.jpg`: Boceto de cancela exterior y candado.
+* `mapa_index.jpg`: Esquema inicial de distribución del plano del colegio.
+* `comedor.jpg`: Composición de la mesa y ficha de recetas.
+* `aboutus.jpg`: Estructura del cartel "MISSING".
+* `correo.jpg`: Boceto de la máquina de escribir del despacho.
 
 ---
 
-## 3. Directrices Globales de Desarrollo
+## 3. Módulos en Desarrollo (Roadmap)
 
-1. **Zero Comments Policy:** Prohibido incluir comentarios (`//`, `/* */`, `<!-- -->`) dentro de los archivos de código fuente (`.php`, `.js`, `.css`, `.html`). Toda explicación arquitectónica reside exclusivamente en este directorio.
-2. **Sincronización Continua:** Cualquier modificación en la lógica, estilos o infraestructura que afecte a los flujos documentados debe sincronizarse de inmediato en su documento `.md` correspondiente.
-
+* **`correo.md` (Fase 4):** Máquina de escribir del despacho de dirección y servicio de transmisión de correo vía SMTP (`correo.php`).
+* **`minijuego.md` (Fase 5):** Minijuego 2D con cuadrícula en JavaScript, lógica de persecución y escape en la sala de recreo (`juego.html`).
+* **`manual-usuario.md` (Fase 6):** Guía de usuario no técnica orientada a la navegación y uso del centro escolar.

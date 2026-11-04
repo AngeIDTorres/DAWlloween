@@ -1,31 +1,51 @@
 # Mapa del Sitio (Sitemap) - DAWlloween
 
-A continuación se detalla la arquitectura de navegación inmersiva del colegio, desde el exterior (autenticación) hasta las distintas salas del interior.
+Estructura de navegación de la aplicación, desde la cancela exterior de acceso hasta las estancias interiores del colegio.
 
 ```mermaid
 graph TD
     %% Nivel 0: Exterior
-    A[Exterior: La Verja<br>login.php] -->|Botón Registrarse| B(Formulario Registro<br>altaUsuario.php)
-    A -->|Enlace Recuperar| C(Recuperar Clave<br>cambioPass.php)
+    A[Exterior: Fachada y Candado<br>login.php] -->|Registro| B(Ficha de Ingreso<br>altaUsuario.php)
+    A -->|Recuperar Clave| C(Recuperación en 2 Pasos<br>cambioPass.php)
     
-    %% Flujo de Retorno
-    B -.->|Volver a la Verja| A
-    C -.->|Volver a la Verja| A
+    %% Retornos de autenticación
+    B -.->|Volver a la Entrada| A
+    C -.->|Volver a la Entrada| A
 
-    %% Nivel 1: El Hub
-    A ==>|Credenciales OK| D{Interior: Mapa del Colegio<br>index.html}
+    %% Nivel 1: Hub Central
+    A ==>|Credenciales Válidas| D{Interior: Plano del Colegio<br>index.html}
 
-    %% Nivel 2: Salas (Accesos desde el Mapa)
-    D -->|Clic en Pegatina Footer| E[Sala del Conserje<br>aboutus.html modal]
-    D -->|Clic en Zona Comedor| F[Comedor / Bestiario<br>recetas.html]
-    D -->|Clic en Zona Gimnasio| G[Patio Exterior<br>juego.html]
-    D -->|Clic en Despacho| H[Despacho del Director<br>correo.php]
-    
+    %% Nivel 2: Dependencias Operativas
+    D -->|Plano o Posit| E[Comedor y Cocinas<br>recetas.html]
+    D -->|Plano o Posit| F[Despacho de Dirección<br>correo.php]
+    D -->|Plano o Posit| G[Sala de Juegos<br>juego.html]
+    D -->|Pegatina Sobre mí| H[Expediente Personal<br>aboutus.html / modal]
+
+    %% Dependencias Clausuradas
+    D -.->|Clic en zona sellada| I[/Aulas Clausuradas<br>Sonido puerta_clausurada/]
+
     %% Estilos del diagrama
-    classDef exterior fill:#1D263B,stroke:#4E1414,stroke-width:2px,color:#D3C6A6;
-    classDef hub fill:#231733,stroke:#DDA95A,stroke-width:3px,color:#F4EEDF;
-    classDef interior fill:#4A4F54,stroke:#33373B,stroke-width:2px,color:#D3C6A6;
-    
+    classDef exterior fill:#1D263B,stroke:#6E2222,stroke-width:2px,color:#E0D5B5;
+    classDef hub fill:#231733,stroke:#DDA95A,stroke-width:3px,color:#E0D5B5;
+    classDef interior fill:#3A2346,stroke:#C68E42,stroke-width:2px,color:#E0D5B5;
+    classDef clausurado fill:#1A1412,stroke:#8A2E2E,stroke-width:1.5px,stroke-dasharray: 4 4,color:#8A2E2E;
+
     class A,B,C exterior;
     class D hub;
     class E,F,G,H interior;
+    class I clausurado;
+```
+
+### Resumen de Rutas
+
+* **Nivel 0 (Autenticación):**
+  * `pages/login.php`: Fachada exterior interactiva con candado y validación de sesiones.
+  * `pages/altaUsuario.php`: Registro de nuevo alumno con pregunta secreta.
+  * `pages/cambioPass.php`: Flujo en 2 pasos para recuperar la contraseña mediante respuesta secreta.
+* **Nivel 1 (Hub Principal):**
+  * `index.html`: Plano arquitectónico general con linterna, bombilla de sala, posit de índice y panel de accesibilidad.
+* **Nivel 2 (Dependencias Operativas):**
+  * `pages/recetas.html`: Comedor escolar con recetario temático de Halloween y lámpara fluorescente.
+  * `pages/correo.php`: Despacho de dirección para correspondencia exterior (en desarrollo).
+  * `pages/juego.html`: Sala de juegos recreativa con minijuego 2D (en desarrollo).
+  * `pages/aboutus.html`: Expediente y biografía del creador (accesible como modal o vista dedicada).

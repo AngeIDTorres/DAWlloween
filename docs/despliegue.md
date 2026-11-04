@@ -1,87 +1,80 @@
 # Despliegue de la Aplicación y Configuración del Servidor
 
-Este documento detalla la infraestructura, orquestación con Docker, configuración del Virtual Host de Apache, resolución de nombres en el archivo hosts del sistema y políticas de permisos para el proyecto DAWlloween.
+Guía concisa de infraestructura, contenedorización con Docker, configuración del Virtual Host de Apache con soporte SSL/HTTPS, resolución de nombres y permisos.
 
 ---
 
-## 1. Contenedorización con Docker Compose
+## 1. Contenedorización (Docker Compose)
 
-La aplicación se despliega mediante Docker Compose utilizando la imagen oficial `php:8.2-apache`. El archivo de orquestación se sitúa en la raíz del repositorio (`docker-compose.yml`) y delega la ejecución de Apache y PHP sin necesidad de instalar dependencias directamente en la máquina local.
+El entorno se orquesta desde la raíz mediante `docker-compose.yml` utilizando la imagen oficial `php:8.2-apache`:
 
-### Mapeo de Volúmenes y Puertos
-* **Puerto 80:80:** Redirige las peticiones entrantes en el puerto 80 del anfitrión hacia el puerto 80 del contenedor.
-* **`./app:/var/www/html`:** Monta el directorio público de la aplicación en el DocumentRoot de Apache. De esta forma, cualquier cambio en los archivos de la carpeta `app` tiene reflejo inmediato sin reconstruir la imagen.
-* **`./config/halloween.conf:/etc/apache2/sites-available/000-default.conf`:** Sobrescribe la configuración por defecto de Apache con el Virtual Host específico del proyecto.
-* **`./config/php.ini:/usr/local/etc/php/conf.d/custom-php.ini`:** Aplica configuraciones personalizadas de PHP (gestión de sesiones, depuración de errores y ruta del comando de correo).
+* **Servicio:** `web` (nombre de contenedor: `halloween_apache`).
+* **Puertos expuestos:**
+  * `80:80`: Acceso HTTP estándar.
+  * `443:443`: Acceso HTTPS con certificado SSL autofirmado.
+* **Volúmenes montados:**
+  * `./app:/var/www/html`: Código de la aplicación en el DocumentRoot de Apache.
+  * `./config/halloween.conf:/etc/apache2/sites-available/000-default.conf`: Virtual Host de Apache (HTTP y HTTPS).
+  * `./config/php.ini:/usr/local/etc/php/conf.d/custom-php.ini`: Configuración PHP (sesiones y entorno).
+  * `./config/ssl:/etc/apache2/ssl`: Directorio para certificados SSL generados.
+* **Automatización SSL al inicio:** El contenedor activa `mod_ssl` y genera automáticamente un certificado autofirmado de 2048 bits válido por 365 días para `halloween.dev` si no existe previamente.
+* **Zona Horaria:** `TZ=Europe/Madrid`.
 
 ---
 
 ## 2. Automatización con Makefile
 
-Para agilizar el ciclo de vida del contenedor se dispone de un `Makefile` en la raíz con las siguientes directivas:
+Directivas disponibles en el `Makefile` de la raíz:
 
-* `make install`: Construye y levanta el contenedor en segundo plano, aplicando automáticamente la configuración de permisos sobre `/var/www/html`.
-* `make up`: Inicia los contenedores definidos en `docker-compose.yml` en modo desacoplado (`-d`).
-* `make down`: Detiene y elimina los contenedores, redes y volúmenes temporales generados por Docker Compose.
-* `make restart`: Reinicia el servicio Apache/PHP.
-
----
-
-## 3. Configuración del Virtual Host (`halloween.conf`)
-
-El archivo `config/halloween.conf` define el host virtual con las siguientes directivas:
-
-* `ServerName halloween.dev`: Dominio asignado al proyecto.
-* `ServerAlias www.halloween.dev`: Alias secundario de resolución.
-* `DocumentRoot /var/www/html`: Ruta interna donde Apache sirve la carpeta `app/`.
-* `Options -Indexes +FollowSymLinks`: Impide el listado de directorios cuando no existe un archivo de índice, reforzando la seguridad.
-* `AllowOverride All`: Habilita el procesamiento de reglas `.htaccess` en caso de requerirse reescrituras de URL.
-* `Require all granted`: Permite el acceso público a las peticiones dirigidas a este sitio.
+| Comando | Acción |
+| :--- | :--- |
+| `make install` | Construye y levanta el contenedor (`up -d --build`), autogenera el certificado SSL y asigna permisos `755` a `/var/www/html`. |
+| `make up` | Levanta los contenedores en segundo plano (`docker compose up -d`). |
+| `make down` | Detiene y elimina contenedores, redes y volúmenes (`docker compose down`). |
+| `make restart` | Reinicia el servicio Apache/PHP (`docker compose restart`). |
+| `make ssl` | Fuerza la regeneración del certificado SSL autofirmado dentro del contenedor y recarga Apache. |
 
 ---
 
-## 4. Resolución DNS Local (Archivo `hosts`)
+## 3. Virtual Host de Apache (`config/halloween.conf`)
 
-Para que el navegador web del equipo anfitrión resuelva el dominio `http://halloween.dev` y no intente buscarlo en los servidores DNS públicos de internet, es necesario vincular el nombre a la dirección de bucle local (`127.0.0.1`).
+Define la configuración para tráfico HTTP (puerto 80) y HTTPS seguro (puerto 443):
 
-### Procedimiento de Configuración
-1. **Windows (Máquina Cliente):**
-   * Abrir un editor de texto con permisos de Administrador.
-   * Abrir `C:\Windows\System32\drivers\etc\hosts`.
-   * Si el servidor Docker corre en una máquina remota en la red local (ej. `192.168.2.214`), añadir:
-     ```text
-     192.168.2.214 halloween.dev
-     ```
-   * Si corre en la máquina local (localhost):
-     ```text
-     127.0.0.1 halloween.dev
-     ```
-   * Guardar los cambios.
-2. **Linux / macOS:**
-   * Editar con privilegios: `sudo nano /etc/hosts`.
-   * Añadir la IP correspondiente (`192.168.2.214 halloween.dev` o `127.0.0.1 halloween.dev`).
-
-Una vez guardado, cualquier petición a `http://halloween.dev` es interceptada por el sistema operativo y dirigida a `127.0.0.1:80`, donde Docker la traslada al contenedor de Apache.
+* **Dominios reconocidos:** `halloween.dev`, `www.halloween.dev`, `halloween.local`, `www.halloween.local`.
+* **Directivas SSL:**
+  * `SSLEngine on`
+  * `SSLCertificateFile /etc/apache2/ssl/halloween.crt`
+  * `SSLCertificateKeyFile /etc/apache2/ssl/halloween.key`
+* **Directivas de seguridad:**
+  * `Options -Indexes +FollowSymLinks` (evita listado de ficheros).
+  * `AllowOverride All` (habilita procesamiento de reglas `.htaccess`).
+  * `Require all granted`.
 
 ---
 
-## 5. Gestión de Permisos (`chmod`)
+## 4. Resolución DNS Local (Archivo `hosts`) y Acceso Web
 
-Para garantizar que el servidor web pueda leer los contenidos sin exponer la integridad del sistema:
+El archivo `hosts` del sistema operativo asocia direcciones IP a nombres de dominio:
 
-* El proceso de Apache dentro del contenedor corre bajo el usuario `www-data` (UID 33). Si los directorios tienen permisos restrictivos `700` (`drwx------`) y los ficheros `600` (`-rw-------`) pertenecientes a `root`, Apache no puede comprobar la existencia de `.htaccess` ni leer los archivos montados, arrojando el error `403 Forbidden (Server unable to read htaccess file)`.
-* **Comandos de corrección en el host del servidor:**
-  ```bash
-  # Asignar permisos de ejecución y lectura a todos los directorios
-  find . -type d -exec chmod 755 {} +
-
-  # Asignar permisos de lectura a todos los ficheros
-  find . -type f -exec chmod 644 {} +
+* **Rutas:**
+  * Windows: `C:\Windows\System32\drivers\etc\hosts`
+  * Linux / macOS: `/etc/hosts`
+* **Entrada requerida en `hosts`:**
+  ```text
+  127.0.0.1 halloween.dev www.halloween.dev halloween.local www.halloween.local
   ```
-  O de forma directa y recursiva:
-  ```bash
-  chmod -R 755 app config
-  chmod 755 .
-  ```
-* Esto asegura que `www-data` pueda entrar en `app/` y leer los archivos públicos y configuraciones sin riesgos de seguridad.
+* **Acceso en el navegador:**
+  * **HTTPS (Recomendado):** [https://halloween.dev](https://halloween.dev)  
+    *(Al ser un certificado autofirmado, pulsa en «Configuración avanzada» -> «Acceder a halloween.dev (no seguro)» la primera vez).*
+  * **HTTP:** [http://halloween.dev](http://halloween.dev) o [http://halloween.local](http://halloween.local)
 
+---
+
+## 5. Permisos de Archivos
+
+Apache corre dentro del contenedor bajo el usuario `www-data` (UID 33). Si surgen errores `403 Forbidden`:
+
+```bash
+chmod -R 755 app config
+find app config -type f -exec chmod 644 {} +
+```

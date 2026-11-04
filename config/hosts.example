@@ -1,1 +1,15 @@
-# 127.0.0.1 halloween.dev
+# Entrada para el archivo hosts del sistema:
+# - Windows: C:\Windows\System32\drivers\etc\hosts
+# - Linux/macOS: /etc/hosts
+#
+# NOTA: Los archivos hosts solo resuelven IP a dominio (no admiten puertos).
+
+127.0.0.1 halloween.dev www.halloween.dev halloween.local www.halloween.local
+
+# URLs de acceso en el navegador:
+# HTTPS (certificado SSL autofirmado generado automáticamente por Docker):
+# https://halloween.dev
+#
+# HTTP:
+# http://halloween.dev
+# http://halloween.local
