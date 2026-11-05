@@ -53,5 +53,6 @@ Hojas de estilo organizadas por contexto para evitar acoplamiento:
 | `map.css` | Plano del colegio, marco institucional de madera, cristal quebrado, bombilla oscilante y posit. |
 | `recetas.css` | Comedor escolar, bandeja de acero, ficha de pergamino, flechas y lámpara de tubos fluorescentes. |
 | `aboutus.css` | Expediente personal y modal del cartel "MISSING" con fotografía tramada. |
+| `correo.css` | Despacho de dirección, escritorio con máquina de escribir, folio mecánico desplazable y lámpara de sobremesa. |
 | `accessibility.css` | Panel del busca/mensáfono retro, pulsadores físicos y display LCD ámbar. |
 | `style.css` | Hoja de compatibilidad e importación global. |
