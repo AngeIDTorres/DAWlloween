@@ -3,9 +3,13 @@
 install:
 	docker compose up -d --build
 	docker compose exec web chmod -R 755 /var/www/html
+	@echo "App disponible en http://localhost o https://halloween.dev"
+	@echo "thisisunsafe en el navegador si no deja acceder a https://halloween.dev con certificado autofirmado"
 
 up:
 	docker compose up -d
+	@echo "App disponible en http://localhost o https://halloween.dev"
+	@echo "thisisunsafe en el navegador si no deja acceder a https://halloween.dev con certificado autofirmado"
 
 down:
 	docker compose down

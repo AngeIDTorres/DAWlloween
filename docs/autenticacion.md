@@ -59,3 +59,21 @@ Inicializado automáticamente en `VarGlobales.php`:
 * **Recuperación de Clave (`cambioPass.php` en 2 Pasos):**
   1. **Paso 1:** Solicita el nombre de usuario y consulta su pregunta secreta (`obtenerPreguntaUsuario()`).
   2. **Paso 2:** Con la pregunta mostrada, solicita la respuesta secreta y la nueva contraseña. Al validar correctamente, actualiza la clave y redirige a `login.php?pass_cambiada=1`.
+
+---
+
+## 4. Diseño e Interfaz de Soporte (Folio A4 en `app/css/auth.css`)
+
+Tanto el formulario de registro (`altaUsuario.php`) como el de recuperación de credenciales (`cambioPass.php`) implementan la metáfora visual de un expediente escolar institucional en formato A4:
+
+* **Escenario y Fondo:** Utiliza el mismo fondo de pared en ruinas del colegio (`bg_mapa_pared.png`) con viñeteado envolvente en Azul Nocturno (`#1D263B`) y Morado Sombra (`#231733`), manteniendo coherencia espacial directa con el plano central.
+* **Folio de Expediente (`.folio-a4-sheet`):**
+  * Proporción vertical basada en A4 ($1:1.41$) con sombra arrojada ambiental (`filter: drop-shadow`).
+  * Capa de fondo con el asset ilustrado [`folio_expediente_a4.png`](../app/img/auth/folio_expediente_a4.png) (canal alfa transparente en el contorno exterior) y fallback procedural en pergamino (`#D3C6A6`).
+  * Encabezados y títulos centrados (`Creepster` en Rojo Sangre `#6E2222` con sombra Ámbar Brillo `#DDA95A`), prescindiendo de sellos obstructivos o clips redundantes.
+* **Campos e Inputs:**
+  * Superficie en pergamino claro `rgba(246, 241, 230, 0.94)`, tipografía `Special Elite` en Morado Sombra (`#231733`) y borde inferior de contraste en Rojo Sangre (`#6E2222`).
+  * Estados de foco destacados con borde en Rojo Óxido (`#8A2E2E`) y halo ámbar `#DDA95A`.
+* **Botones Cuadrados y Enlaces:**
+  * Botones de bloque al 100% de ancho en Rojo Sangre (`#6E2222`), bisel Ámbar Luz (`#C68E42`) y texto en Pergamino (`#E0D5B5`).
+  * Enlaces de pie de página estilizados para el retorno seguro a la entrada (`login.php`).

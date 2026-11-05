@@ -49,7 +49,7 @@ Hojas de estilo organizadas por contexto para evitar acoplamiento:
 | :--- | :--- |
 | `globals.css` | Variables cromáticas `:root`, reset global, tipografías y cortina de fundido `.blackout-curtain`. |
 | `login.css` | Fachada exterior, cancelas batientes, animación del candado y cerradura con llave antigua. |
-| `auth.css` | Formularios temáticos de registro (`altaUsuario.php`) y recuperación (`cambioPass.php`). |
+| `auth.css` | Formularios temáticos de registro (`altaUsuario.php`) y recuperación (`cambioPass.php`) sobre folio A4 de expediente institucional (`folio_expediente_a4.png`). |
 | `map.css` | Plano del colegio, marco institucional de madera, cristal quebrado, bombilla oscilante y posit. |
 | `recetas.css` | Comedor escolar, bandeja de acero, ficha de pergamino, flechas y lámpara de tubos fluorescentes. |
 | `aboutus.css` | Expediente personal y modal del cartel "MISSING" con fotografía tramada. |

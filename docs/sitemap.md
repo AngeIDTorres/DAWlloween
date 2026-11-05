@@ -40,8 +40,8 @@ graph TD
 
 * **Nivel 0 (Autenticación - Acceso Público):**
   * `pages/login.php`: Fachada exterior interactiva con candado y validación de sesiones.
-  * `pages/altaUsuario.php`: Registro de nuevo alumno con pregunta secreta.
-  * `pages/cambioPass.php`: Flujo en 2 pasos para recuperar la contraseña mediante respuesta secreta.
+  * `pages/altaUsuario.php`: Registro de nuevo alumno sobre folio A4 de expediente institucional (`folio_expediente_a4.png`).
+  * `pages/cambioPass.php`: Flujo en 2 pasos para recuperar la contraseña mediante respuesta secreta sobre folio A4 de expediente.
 * **Nivel 1 (Hub Principal - Requiere Sesión):**
   * `index.php`: Plano arquitectónico general con linterna, bombilla de sala, posit de índice y panel de accesibilidad.
 * **Nivel 2 (Dependencias Operativas - Requiere Sesión):**

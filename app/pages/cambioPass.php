@@ -40,61 +40,93 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['actualizar'])) {
   <link rel="stylesheet" href="../css/globals.css">
   <link rel="stylesheet" href="../css/auth.css">
 </head>
-<body>
-  <div class="warning-container">
-    <h1>DAWlloween</h1>
-    <h2>Recuperación de Clave</h2>
+<body class="auth-body">
 
-    <?php if ($error !== ''): ?>
-      <div class="badge" style="background-color: var(--red-blood); margin-bottom: 1.5rem; display: block;">
-        <?= htmlspecialchars($error) ?>
-      </div>
+  <main class="folio-a4-sheet <?= file_exists(__DIR__ . '/../img/auth/folio_expediente_a4.png') ? 'has-folio-img' : '' ?>">
+    <?php if (file_exists(__DIR__ . '/../img/auth/folio_expediente_a4.png')): ?>
+      <img src="../img/auth/folio_expediente_a4.png" alt="Folio A4 Expediente" class="folio-background-img">
     <?php endif; ?>
 
-    <?php if ($paso === 1): ?>
-      <form method="POST" action="cambioPass.php" style="display: flex; flex-direction: column; gap: 1rem; text-align: left;">
-        <div>
-          <label for="usuario" style="display: block; margin-bottom: 0.3rem;">Introduce tu Nombre de Usuario:</label>
-          <input type="text" id="usuario" name="usuario" value="<?= htmlspecialchars($usuario) ?>" required style="width: 100%; padding: 0.6rem; background: var(--purple-dark); border: 1px solid var(--amber-light); color: var(--parchment-txt); font-family: 'Special Elite', cursive;">
+    <div class="folio-content">
+      <header class="folio-header">
+        <div class="folio-meta-bar">
+          <span>DIRECCIÓN Y SEGURIDAD · PROTOCOLO</span>
         </div>
+        <h1 class="folio-title">Recuperación de Clave</h1>
+        <p class="folio-subtitle">Restablecimiento de Credenciales de Acceso</p>
 
-        <button type="submit" style="margin-top: 1rem; padding: 0.8rem; background: var(--red-blood); color: var(--parchment-txt); border: 1px solid var(--amber-glow); font-family: 'Special Elite', cursive; cursor: pointer; text-transform: uppercase;">
-          [ Consultar Pregunta Secreta ]
-        </button>
-      </form>
-    <?php else: ?>
-      <form method="POST" action="cambioPass.php" style="display: flex; flex-direction: column; gap: 1rem; text-align: left;">
-        <input type="hidden" name="usuario" value="<?= htmlspecialchars($usuario) ?>">
-        <input type="hidden" name="actualizar" value="1">
-
-        <div style="background: rgba(35, 23, 51, 0.8); border: 1px solid var(--amber-glow); padding: 1rem; margin-bottom: 0.5rem;">
-          <span style="color: var(--parchment-txt); font-size: 0.95rem; display: block; margin-bottom: 0.3rem;">Usuario: <strong><?= htmlspecialchars($usuario) ?></strong></span>
-          <span style="color: var(--amber-glow); font-size: 1.1rem; display: block;">Pregunta: <?= htmlspecialchars($pregunta) ?></span>
+        <div class="folio-step-indicator">
+          <span class="folio-step-pill <?= $paso === 1 ? 'active' : '' ?>">1. Identificación</span>
+          <span class="folio-step-pill <?= $paso === 2 ? 'active' : '' ?>">2. Verificación Secreta</span>
         </div>
+      </header>
 
-        <div>
-          <label for="respuesta" style="display: block; margin-bottom: 0.3rem;">Tu Respuesta Secreta:</label>
-          <input type="text" id="respuesta" name="respuesta" required style="width: 100%; padding: 0.6rem; background: var(--purple-dark); border: 1px solid var(--amber-light); color: var(--parchment-txt); font-family: 'Special Elite', cursive;">
+      <?php if ($error !== ''): ?>
+        <div class="folio-alert-error" role="alert">
+          <?= htmlspecialchars($error) ?>
         </div>
+      <?php endif; ?>
 
-        <div>
-          <label for="nueva_password" style="display: block; margin-bottom: 0.3rem;">Nueva Contraseña:</label>
-          <input type="password" id="nueva_password" name="nueva_password" required style="width: 100%; padding: 0.6rem; background: var(--purple-dark); border: 1px solid var(--amber-light); color: var(--parchment-txt); font-family: 'Special Elite', cursive;">
-        </div>
+      <?php if ($paso === 1): ?>
+        <form method="POST" action="cambioPass.php" class="folio-form">
+          <div class="folio-field">
+            <label for="usuario" class="folio-label">
+              Nombre de Usuario Registrado <span class="required-mark">*</span>
+            </label>
+            <input type="text" id="usuario" name="usuario" value="<?= htmlspecialchars($usuario) ?>" class="folio-input" autocomplete="off" required placeholder="Introduce tu usuario del colegio">
+            <span class="folio-field-hint">Se consultará el libro de registro para obtener tu pregunta secreta.</span>
+          </div>
 
-        <button type="submit" style="margin-top: 1rem; padding: 0.8rem; background: var(--red-blood); color: var(--parchment-txt); border: 1px solid var(--amber-glow); font-family: 'Special Elite', cursive; cursor: pointer; text-transform: uppercase;">
-          [ Actualizar Contraseña ]
-        </button>
-      </form>
+          <button type="submit" class="folio-btn">
+            [ Consultar Pregunta Secreta ]
+          </button>
+        </form>
+      <?php else: ?>
+        <form method="POST" action="cambioPass.php" class="folio-form">
+          <input type="hidden" name="usuario" value="<?= htmlspecialchars($usuario) ?>">
+          <input type="hidden" name="actualizar" value="1">
 
-      <div style="margin-top: 1rem; text-align: center;">
-        <a href="cambioPass.php" style="color: var(--amber-glow); text-decoration: none; font-size: 0.9rem;">[ Consultar con otro usuario ]</a>
-      </div>
-    <?php endif; ?>
+          <div class="folio-info-box">
+            <div class="folio-info-row">
+              <span class="folio-info-label">Expediente de Alumno</span>
+              <span class="folio-info-value"><?= htmlspecialchars($usuario) ?></span>
+            </div>
+            <div class="folio-info-row" style="margin-top: 0.6rem;">
+              <span class="folio-info-label">Pregunta de Seguridad Archivada</span>
+              <div class="folio-info-question">&laquo; <?= htmlspecialchars($pregunta) ?> &raquo;</div>
+            </div>
+          </div>
 
-    <div style="margin-top: 2rem; text-align: center;">
-      <a href="login.php" style="color: var(--parchment-bg); text-decoration: none;">[ Volver a la Entrada ]</a>
+          <div class="folio-field">
+            <label for="respuesta" class="folio-label">
+              Tu Respuesta Secreta <span class="required-mark">*</span>
+            </label>
+            <input type="text" id="respuesta" name="respuesta" class="folio-input" autocomplete="off" required placeholder="Respuesta que diste al registrarte">
+          </div>
+
+          <div class="folio-field">
+            <label for="nueva_password" class="folio-label">
+              Nueva Contraseña de Seguridad <span class="required-mark">*</span>
+            </label>
+            <input type="password" id="nueva_password" name="nueva_password" class="folio-input" required placeholder="Nueva clave de acceso">
+            <span class="folio-field-hint">Asegúrate de memorizar la nueva clave antes de sellar el cambio.</span>
+          </div>
+
+          <button type="submit" class="folio-btn">
+            [ Actualizar y Sellar Contraseña ]
+          </button>
+
+          <div style="text-align: center; margin-top: 0.5rem;">
+            <a href="cambioPass.php" class="folio-link secondary">[ Consultar con otro usuario ]</a>
+          </div>
+        </form>
+      <?php endif; ?>
+
+      <footer class="folio-footer">
+        <a href="login.php" class="folio-link">[ &larr; Volver a la Entrada del Colegio ]</a>
+      </footer>
     </div>
-  </div>
+  </main>
+
 </body>
 </html>

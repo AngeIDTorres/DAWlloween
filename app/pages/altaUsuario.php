@@ -39,58 +39,82 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>DAWlloween - Ficha de Nuevo Alumno</title>
+  <title>DAWlloween - Ficha de Ingreso de Alumno</title>
   <link rel="stylesheet" href="../css/globals.css">
   <link rel="stylesheet" href="../css/auth.css">
 </head>
-<body>
-  <div class="warning-container">
-    <h1>DAWlloween</h1>
-    <h2>Ficha de Ingreso</h2>
+<body class="auth-body">
 
-    <?php if ($error !== ''): ?>
-      <div class="badge" style="background-color: var(--red-blood); margin-bottom: 1.5rem; display: block;">
-        <?= htmlspecialchars($error) ?>
-      </div>
+  <main class="folio-a4-sheet <?= file_exists(__DIR__ . '/../img/auth/folio_expediente_a4.png') ? 'has-folio-img' : '' ?>">
+    <?php if (file_exists(__DIR__ . '/../img/auth/folio_expediente_a4.png')): ?>
+      <img src="../img/auth/folio_expediente_a4.png" alt="Folio A4 Expediente" class="folio-background-img">
     <?php endif; ?>
 
-    <form method="POST" action="altaUsuario.php" style="display: flex; flex-direction: column; gap: 1rem; text-align: left;">
-      <input type="hidden" name="perfil" value="user">
+    <div class="folio-content">
+      <header class="folio-header">
+        <div class="folio-meta-bar">
+          <span>ARCHIVO ESCOLAR · SECTOR ESTE</span>
+        </div>
+        <h1 class="folio-title">Ficha de Ingreso</h1>
+        <p class="folio-subtitle">Registro de Nuevo Alumno · Censo Institucional</p>
+      </header>
 
-      <div>
-        <label for="usuario" style="display: block; margin-bottom: 0.3rem;">Nombre de Usuario:</label>
-        <input type="text" id="usuario" name="usuario" required style="width: 100%; padding: 0.6rem; background: var(--purple-dark); border: 1px solid var(--amber-light); color: var(--parchment-txt); font-family: 'Special Elite', cursive;">
-      </div>
+      <?php if ($error !== ''): ?>
+        <div class="folio-alert-error" role="alert">
+          <?= htmlspecialchars($error) ?>
+        </div>
+      <?php endif; ?>
 
-      <div>
-        <label for="password" style="display: block; margin-bottom: 0.3rem;">Contraseña:</label>
-        <input type="password" id="password" name="password" required style="width: 100%; padding: 0.6rem; background: var(--purple-dark); border: 1px solid var(--amber-light); color: var(--parchment-txt); font-family: 'Special Elite', cursive;">
-      </div>
+      <form method="POST" action="altaUsuario.php" class="folio-form">
+        <input type="hidden" name="perfil" value="user">
 
-      <div>
-        <label for="email" style="display: block; margin-bottom: 0.3rem;">Correo Electrónico:</label>
-        <input type="email" id="email" name="email" required style="width: 100%; padding: 0.6rem; background: var(--purple-dark); border: 1px solid var(--amber-light); color: var(--parchment-txt); font-family: 'Special Elite', cursive;">
-      </div>
+        <div class="folio-field">
+          <label for="usuario" class="folio-label">
+            Nombre de Usuario <span class="required-mark">*</span>
+          </label>
+          <input type="text" id="usuario" name="usuario" class="folio-input" autocomplete="off" required placeholder="Identificador del alumno">
+        </div>
 
-      <div>
-        <label for="pregunta" style="display: block; margin-bottom: 0.3rem;">Pregunta de Seguridad Secreta:</label>
-        <input type="text" id="pregunta" name="pregunta" placeholder="Ej: ¿Cuál es tu mayor miedo?" required style="width: 100%; padding: 0.6rem; background: var(--purple-dark); border: 1px solid var(--amber-light); color: var(--parchment-txt); font-family: 'Special Elite', cursive;">
-      </div>
+        <div class="folio-field">
+          <label for="password" class="folio-label">
+            Contraseña de Seguridad <span class="required-mark">*</span>
+          </label>
+          <input type="password" id="password" name="password" class="folio-input" required placeholder="Clave confidencial">
+        </div>
 
-      <div>
-        <label for="respuesta" style="display: block; margin-bottom: 0.3rem;">Respuesta Secreta:</label>
-        <input type="text" id="respuesta" name="respuesta" required style="width: 100%; padding: 0.6rem; background: var(--purple-dark); border: 1px solid var(--amber-light); color: var(--parchment-txt); font-family: 'Special Elite', cursive;">
-      </div>
+        <div class="folio-field">
+          <label for="email" class="folio-label">
+            Correo Electrónico <span class="required-mark">*</span>
+          </label>
+          <input type="email" id="email" name="email" class="folio-input" required placeholder="alumno@dawlloween.dev">
+          <span class="folio-field-hint">Se utilizará para verificar tu expediente y recibir comunicados.</span>
+        </div>
 
-      <button type="submit" style="margin-top: 1rem; padding: 0.8rem; background: var(--red-blood); color: var(--parchment-txt); border: 1px solid var(--amber-glow); font-family: 'Special Elite', cursive; cursor: pointer; text-transform: uppercase;">
-        [ Registrar Usuario ]
-      </button>
-    </form>
+        <div class="folio-field">
+          <label for="pregunta" class="folio-label">
+            Pregunta Secreta de Identificación <span class="required-mark">*</span>
+          </label>
+          <input type="text" id="pregunta" name="pregunta" class="folio-input" required placeholder="Ej: ¿Cuál fue tu peor pesadilla en el colegio?">
+          <span class="folio-field-hint">Pregunta clave que te permitirá restablecer tu acceso en caso de pérdida.</span>
+        </div>
 
-    <div style="margin-top: 2rem; text-align: center;">
-      <a href="login.php" style="color: var(--amber-glow); text-decoration: none;">[ Volver a la Entrada ]</a>
+        <div class="folio-field">
+          <label for="respuesta" class="folio-label">
+            Respuesta Secreta <span class="required-mark">*</span>
+          </label>
+          <input type="text" id="respuesta" name="respuesta" class="folio-input" required placeholder="Respuesta confidencial exacta">
+        </div>
+
+        <button type="submit" class="folio-btn">
+          [ Formalizar Registro de Alumno ]
+        </button>
+      </form>
+
+      <footer class="folio-footer">
+        <a href="login.php" class="folio-link">[ &larr; Volver a la Entrada del Colegio ]</a>
+      </footer>
     </div>
-  </div>
+  </main>
+
 </body>
 </html>
-

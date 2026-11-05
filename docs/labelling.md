@@ -13,14 +13,18 @@ Catálogo exacto de identificadores, rótulos e indicaciones textuales presentes
 | **Login (`login.php`)** | Input Password | `CLAVE:` | Campo grabado en la chapa del candado |
 | **Login (`login.php`)** | Botón de Envío | Llave antigua (título: `Gira la llave para entrar`) | Accionamiento mecánico en el ojo de la cerradura |
 | **Login (`login.php`)** | Enlaces secundarios | `[ REGISTRO ]` • `[ ¿CLAVE PERDIDA? ]` | Accesos directos bajo los campos del candado |
-| **Registro (`altaUsuario.php`)** | Títulos | `DAWlloween` / `Ficha de Ingreso` | Cabecera del formulario institucional |
-| **Registro (`altaUsuario.php`)** | Etiquetas de formulario | `Nombre de Usuario:`, `Contraseña:`, `Correo Electrónico:`, `Pregunta de Seguridad Secreta:`, `Respuesta Secreta:` | Campos de alta de nuevo usuario |
-| **Registro (`altaUsuario.php`)** | Botón principal | `[ Registrar Usuario ]` | Guarda el alumno en `$_SESSION['mimatriz']` |
-| **Registro (`altaUsuario.php`)** | Enlace de retorno | `[ Volver a la Entrada ]` | Regreso a `login.php` |
-| **Recuperación (`cambioPass.php`)** | Títulos | `DAWlloween` / `Recuperación de Clave` | Cabecera del formulario en 2 pasos |
-| **Recuperación - Paso 1** | Campo y Botón | `Introduce tu Nombre de Usuario:` / `[ Consultar Pregunta Secreta ]` | Consulta la pregunta de seguridad |
-| **Recuperación - Paso 2** | Campos y Botón | `Tu Respuesta Secreta:`, `Nueva Contraseña:` / `[ Actualizar Contraseña ]` | Valida respuesta y actualiza clave |
-| **Recuperación (`cambioPass.php`)** | Enlaces auxiliares | `[ Consultar con otro usuario ]` / `[ Volver a la Entrada ]` | Navegación secundaria |
+| **Registro (`altaUsuario.php`)** | Título de página | `DAWlloween - Ficha de Ingreso de Alumno` | Pestaña del navegador |
+| **Registro (`altaUsuario.php`)** | Cabecera | `ARCHIVO ESCOLAR · SECTOR ESTE`<br>`Ficha de Ingreso`<br>`Registro de Nuevo Alumno · Censo Institucional` | Cabecera del expediente escolar |
+| **Registro (`altaUsuario.php`)** | Etiquetas de formulario | `Nombre de Usuario *`, `Contraseña de Seguridad *`, `Correo Electrónico *`, `Pregunta Secreta de Identificación *`, `Respuesta Secreta *` | Campos de registro en el censo |
+| **Registro (`altaUsuario.php`)** | Botón principal | `[ Formalizar Registro de Alumno ]` | Guarda el alumno en `$_SESSION['mimatriz']` |
+| **Registro (`altaUsuario.php`)** | Enlace de retorno | `[ ← Volver a la Entrada del Colegio ]` | Regreso a `login.php` |
+| **Recuperación (`cambioPass.php`)** | Título de página | `DAWlloween - Recuperación de Acceso` | Pestaña del navegador |
+| **Recuperación (`cambioPass.php`)** | Cabecera | `DIRECCIÓN Y SEGURIDAD · PROTOCOLO`<br>`Recuperación de Clave`<br>`Restablecimiento de Credenciales de Acceso` | Cabecera del expediente de seguridad |
+| **Recuperación (`cambioPass.php`)** | Indicador de Pasos | `1. Identificación` / `2. Verificación Secreta` | Píldoras de estado del flujo |
+| **Recuperación - Paso 1** | Campo y Botón | `Nombre de Usuario Registrado *` / `[ Consultar Pregunta Secreta ]` | Consulta la pregunta de seguridad |
+| **Recuperación - Paso 2** | Cuadro informativo | `Expediente de Alumno` / `Pregunta de Seguridad Archivada` | Ficha con los datos del usuario |
+| **Recuperación - Paso 2** | Campos y Botón | `Tu Respuesta Secreta *`, `Nueva Contraseña de Seguridad *` / `[ Actualizar y Sellar Contraseña ]` | Valida respuesta y actualiza clave |
+| **Recuperación (`cambioPass.php`)** | Enlaces auxiliares | `[ Consultar con otro usuario ]` / `[ ← Volver a la Entrada del Colegio ]` | Navegación secundaria |
 
 ---
 
