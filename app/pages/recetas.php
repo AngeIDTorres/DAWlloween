@@ -1,9 +1,7 @@
 <?php
 require_once __DIR__ . '/../includes/VarGlobales.php';
 
-if (!obtenerUsuarioActivo()) {
-    redirect('login.php');
-}
+requerirAutenticacion('login.php');
 ?>
 <!DOCTYPE html>
 <html lang="es">
@@ -19,7 +17,7 @@ if (!obtenerUsuarioActivo()) {
   <div class="blackout-curtain active" id="blackoutCurtain"></div>
 
   <main class="dining-stage" id="diningStage">
-    <div class="dining-darkness-veil" id="diningDarknessVeil"></div>
+    <div class="room-darkness-veil dining-darkness-veil" id="diningDarknessVeil"></div>
     <div class="dining-flashlight" id="diningFlashlight"></div>
 
     <div class="dining-hanging-lamp" id="diningHangingLamp" title="Encender / Apagar iluminación del comedor">

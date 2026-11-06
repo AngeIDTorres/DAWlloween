@@ -5,7 +5,7 @@
     height: 100vh;
     overflow: hidden;
     background: #06090E;
-    font-family: 'Special Elite', 'Courier New', monospace;
+    font-family: var(--font-typewriter);
     color: #C8D6E5;
     user-select: none;
 }
@@ -235,10 +235,6 @@
     filter: drop-shadow(0 20px 32px rgba(0, 0, 0, 0.92)) drop-shadow(0 4px 10px rgba(0, 0, 0, 0.7));
     cursor: default;
     overflow: visible;
-}
-
-.postit-tape {
-    display: none;
 }
 
 .postit-collapsed-view {
@@ -574,7 +570,7 @@
 }
 
 .map-darkness-veil.lights-off {
-    background: rgba(1, 2, 4, 0.97);
+    background: var(--dark-vignette);
 }
 
 .map-flashlight {

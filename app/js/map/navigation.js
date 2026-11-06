@@ -1,3 +1,5 @@
+import { ROOM_TRANSITION_DELAY_MS } from '../core/audio.js';
+
 export function initNavigation(options = {}) {
   const roomZones = options.roomZones || document.querySelectorAll('.room-zone, .frame-sticker-about');
   const stickerAbout = options.stickerAbout || document.getElementById('frameStickerAbout');
@@ -36,20 +38,11 @@ export function initNavigation(options = {}) {
       if (data.target) {
         if (isNavigating) return;
         isNavigating = true;
-        if (AudioEngine) {
-          if (AudioEngine.playFootsteps) {
-            AudioEngine.playFootsteps('audio/common/');
-          } else if (AudioEngine.playEnter) {
-            AudioEngine.playEnter('audio/common/');
-          }
-        }
-        const blackoutCurtain = document.getElementById('blackoutCurtain');
-        if (blackoutCurtain) {
-          blackoutCurtain.classList.add('active');
-        }
-        setTimeout(() => {
+        if (AudioEngine && AudioEngine.navigateWithTransition) {
+          AudioEngine.navigateWithTransition(data.target, 'audio/common/');
+        } else {
           window.location.href = data.target;
-        }, 1750);
+        }
       } else {
         if (AudioEngine) AudioEngine.playDenied();
       }

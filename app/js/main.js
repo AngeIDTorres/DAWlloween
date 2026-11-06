@@ -1,7 +1,7 @@
 import { AudioEngine } from './core/audio.js';
 import { FlashlightController } from './core/flashlight.js';
 import { initPadlock } from './login/padlock.js';
-import { initAuth } from './login/auth.js';
+import { initAuth, scheduleLoginMessageDismiss } from './login/auth.js';
 import { playGateSequence } from './login/gate-cutscene.js';
 
 AudioEngine.preload([
@@ -82,5 +82,13 @@ document.addEventListener('DOMContentLoaded', () => {
 
   if (document.body.dataset.loginSuccess === 'true') {
     runGateSequence();
+  }
+
+  scheduleLoginMessageDismiss(4500);
+
+  if (window.history && window.history.replaceState && (window.location.search.includes('registrado') || window.location.search.includes('pass_cambiada') || window.location.search.includes('logout'))) {
+    setTimeout(() => {
+      window.history.replaceState({}, document.title, window.location.pathname);
+    }, 5000);
   }
 });

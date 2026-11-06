@@ -1,4 +1,4 @@
-import { AudioEngine } from './core/audio.js?v=20261106_01';
+import { AudioEngine, ROOM_TRANSITION_DELAY_MS } from './core/audio.js?v=20261106_01';
 import { RECETAS_DATA } from './data/recetasData.js';
 import { FlashlightController } from './core/flashlight.js?v=20261106_01';
 import { initHangingLamp } from './map/hanging-lamp.js?v=20261106_01';
@@ -40,19 +40,11 @@ document.addEventListener('DOMContentLoaded', () => {
   const navigateBackToMap = () => {
     if (isNavigatingBack) return;
     isNavigatingBack = true;
-    if (AudioEngine) {
-      if (AudioEngine.playFootsteps) {
-        AudioEngine.playFootsteps('../audio/common/');
-      } else if (AudioEngine.playEnter) {
-        AudioEngine.playEnter('../audio/common/');
-      }
-    }
-    if (blackoutCurtain) {
-      blackoutCurtain.classList.add('active');
-    }
-    setTimeout(() => {
+    if (AudioEngine && AudioEngine.navigateWithTransition) {
+      AudioEngine.navigateWithTransition('../index.php', '../audio/common/');
+    } else {
       window.location.href = '../index.php';
-    }, 1750);
+    }
   };
 
   const flashlight = new FlashlightController({

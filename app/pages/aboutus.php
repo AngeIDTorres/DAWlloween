@@ -1,9 +1,7 @@
 <?php
 require_once __DIR__ . '/../includes/VarGlobales.php';
 
-if (!obtenerUsuarioActivo()) {
-    redirect('login.php');
-}
+requerirAutenticacion('login.php');
 ?>
 <!DOCTYPE html>
 <html lang="es">
@@ -215,8 +213,6 @@ if (!obtenerUsuarioActivo()) {
       <div class="map-frame-overlay"></div>
 
       <div class="frame-postit" id="framePostit">
-        <div class="postit-tape"></div>
-
         <div class="postit-collapsed-view">
           <span class="postit-title-main">Índice</span>
         </div>

@@ -17,20 +17,20 @@ Resumen de las tecnologías base, estándar de código, paleta de colores y arqu
 
 Diseño inspirado en terror institucional y psicológico noventero, descartando verdes convencionales:
 
-| Tono | HEX | Uso Principal |
-| :--- | :--- | :--- |
-| **Morado Sombra** | `#231733` | Fondos principales, sombras profundas y capas base |
-| **Morado Medio** | `#3A2346` | Gradientes de iluminación y penumbra |
-| **Azul Nocturno** | `#1D263B` | Superficies de contenedores, marcos y tarjetas |
-| **Azul Reflejos** | `#2A3A56` | Bordes secundarios y reflejos lunares |
-| **Rojo Sangre** | `#6E2222` | Botones de acción, bordes de alerta y tachones del plano |
-| **Rojo Óxido** | `#8A2E2E` | Subtítulos, estados de advertencia y desgaste |
-| **Ámbar Luz** | `#C68E42` | Foco de la linterna y contrastes secundarios |
-| **Ámbar Brillo** | `#DDA95A` | Títulos principales, llave y elementos destacados |
-| **Pergamino Fondo** | `#D3C6A6` | Fichas de recetas, carteles y papel rústico |
-| **Pergamino Texto** | `#E0D5B5` | Tipografía principal sobre superficies oscuras |
-| **Hierro Negro** | `#33373B` | Verjas, candados y herrajes metálicos |
-| **Hierro Gastado** | `#4A4F54` | Flechas de navegación y bisagras desgastadas |
+| Tono | Token CSS | HEX | Uso Principal |
+| :--- | :--- | :--- | :--- |
+| **Morado Sombra** | `--purple-dark` | `#231733` | Fondos principales, sombras profundas y capas base |
+| **Morado Medio** | `--purple-mid` | `#3A2346` | Gradientes de iluminación y penumbra |
+| **Azul Nocturno** | `--blue-night` | `#1D263B` | Superficies de contenedores, marcos y tarjetas |
+| **Azul Reflejos** | `--blue-reflect` | `#2A3A56` | Bordes secundarios y reflejos lunares |
+| **Rojo Sangre** | `--red-blood` | `#6E2222` | Botones de acción, bordes de alerta y tachones del plano |
+| **Rojo Óxido** | `--red-rust` | `#8A2E2E` | Subtítulos, estados de advertencia y desgaste |
+| **Ámbar Luz** | `--amber-light` | `#C68E42` | Foco de la linterna y contrastes secundarios |
+| **Ámbar Brillo** | `--amber-glow` | `#DDA95A` | Títulos principales, llave y elementos destacados |
+| **Pergamino Fondo** | `--parchment-bg` | `#D3C6A6` | Fichas de recetas, carteles y papel rústico |
+| **Pergamino Texto** | `--parchment-txt` | `#E0D5B5` | Tipografía principal sobre superficies oscuras |
+| **Hierro Negro** | `--iron` | `#33373B` | Verjas, candados y herrajes metálicos |
+| **Hierro Gastado** | `--iron-worn` | `#4A4F54` | Flechas de navegación y bisagras desgastadas |
 
 ---
 
@@ -55,4 +55,18 @@ Hojas de estilo organizadas por contexto para evitar acoplamiento:
 | `aboutus.css` | Expediente personal y modal del cartel "MISSING" con fotografía tramada. |
 | `correo.css` | Despacho de dirección, escritorio con máquina de escribir, folio mecánico desplazable y lámpara de sobremesa. |
 | `accessibility.css` | Panel del busca/mensáfono retro, pulsadores físicos y display LCD ámbar. |
-| `style.css` | Hoja de compatibilidad e importación global. |
+
+---
+
+## 5. Arquitectura Modular de JavaScript (`app/js/`)
+
+Controladores ES Modules estructurados por ámbito de funcionalidad:
+
+| Script | Propósito y Control |
+| :--- | :--- |
+| `main.js` | Orquestación de la cancela exterior, candado interactivo, giro de llave y autenticación AJAX (`login.php`). |
+| `map.js` | Navegación interactiva por el plano, bombilla oscilante, post-it desplegable y accesibilidad. |
+| `recetas.js` | Comedor escolar, carrusel de recetas, volteo de tarjetas y lámpara de tubos fluorescentes. |
+| `correo.js` | Despacho de dirección, mecanografía a máquina con audio polifónico, elevación del folio y despacho AJAX. |
+| `aboutus.js` | Ficha biográfica, modal interactivo del expediente y sonido de examen de papel. |
+| `core/` | Motores transversales: `audio.js` (Web Audio API), `flashlight.js` (haz de linterna dinámico), `accessibility.js` (mensáfono retro). |

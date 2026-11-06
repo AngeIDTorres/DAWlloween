@@ -4,32 +4,37 @@ require_once __DIR__ . '/../includes/VarGlobales.php';
 $error = '';
 
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
-    $usuario = trim($_POST['usuario'] ?? '');
-    $password = trim($_POST['password'] ?? '');
-    $email = trim($_POST['email'] ?? '');
-    $perfil = trim($_POST['perfil'] ?? 'user');
-    $pregunta = trim($_POST['pregunta'] ?? '');
-    $respuesta = trim($_POST['respuesta'] ?? '');
-
-    if ($usuario === '' || $password === '' || $email === '' || $pregunta === '' || $respuesta === '') {
-        $error = 'Todos los campos son obligatorios.';
-    } elseif (!filter_var($email, FILTER_VALIDATE_EMAIL)) {
-        $error = 'El formato del correo electrónico no es válido.';
+    $csrfToken = $_POST['csrf_token'] ?? '';
+    if (!validarCsrfToken($csrfToken)) {
+        $error = 'Petición inválida o sesión expirada. Recarga la página.';
     } else {
-        $nuevoUser = [
-            'Usuario' => $usuario,
-            'Contraseña' => $password,
-            'Email' => $email,
-            'Perfil' => $perfil !== '' ? $perfil : 'user',
-            'Pregunta' => $pregunta,
-            'Respuesta' => $respuesta,
-            'UsuarioActual' => false
-        ];
+        $usuario = trim($_POST['usuario'] ?? '');
+        $password = trim($_POST['password'] ?? '');
+        $email = trim($_POST['email'] ?? '');
+        $perfil = trim($_POST['perfil'] ?? 'user');
+        $pregunta = trim($_POST['pregunta'] ?? '');
+        $respuesta = trim($_POST['respuesta'] ?? '');
 
-        if (AltaUsuario($nuevoUser)) {
-            redirect('login.php?registrado=1');
+        if ($usuario === '' || $password === '' || $email === '' || $pregunta === '' || $respuesta === '') {
+            $error = 'Todos los campos son obligatorios.';
+        } elseif (!filter_var($email, FILTER_VALIDATE_EMAIL)) {
+            $error = 'El formato del correo electrónico no es válido.';
         } else {
-            $error = 'El nombre de usuario ya está registrado en el colegio.';
+            $nuevoUser = [
+                'Usuario' => $usuario,
+                'Contraseña' => $password,
+                'Email' => $email,
+                'Perfil' => $perfil !== '' ? $perfil : 'user',
+                'Pregunta' => $pregunta,
+                'Respuesta' => $respuesta,
+                'UsuarioActual' => false
+            ];
+
+            if (AltaUsuario($nuevoUser)) {
+                redirect('login.php?registrado=1');
+            } else {
+                $error = 'El nombre de usuario ya está registrado en el colegio.';
+            }
         }
     }
 }
@@ -66,6 +71,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
       <?php endif; ?>
 
       <form method="POST" action="altaUsuario.php" class="folio-form">
+        <input type="hidden" name="csrf_token" value="<?= htmlspecialchars(generarCsrfToken()) ?>">
         <input type="hidden" name="perfil" value="user">
 
         <div class="folio-field">

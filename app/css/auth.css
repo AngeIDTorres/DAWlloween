@@ -8,8 +8,8 @@
   background:
     radial-gradient(circle at 50% 50%, rgba(10, 20, 32, 0.2) 0%, rgba(2, 4, 7, 0.8) 100%),
     url('../img/mapa/bg_mapa_pared.png') center center / cover no-repeat fixed;
-  font-family: 'Special Elite', 'Courier New', monospace;
-  color: #231733;
+  font-family: var(--font-typewriter);
+  color: var(--purple-dark);
   overflow-x: hidden;
   box-sizing: border-box;
 }
@@ -20,8 +20,8 @@
   width: min(92vw, 620px);
   max-width: 620px;
   margin: auto;
-  background: #d3c6a6 url('../img/mapa/papel_mapa_pergamino.png') center center / cover no-repeat;
-  border: 1px solid #33373b;
+  background: var(--parchment-bg) url('../img/mapa/papel_mapa_pergamino.png') center center / cover no-repeat;
+  border: 1px solid var(--iron);
   box-shadow:
     0 22px 50px rgba(0, 0, 0, 0.95),
     0 4px 15px rgba(0, 0, 0, 0.8),
@@ -62,7 +62,7 @@
 }
 
 .folio-header {
-  border-bottom: 1.5px solid #6e2222;
+  border-bottom: 1.5px solid var(--red-blood);
   padding-top: 0.6rem;
   padding-bottom: 0.9rem;
   margin-bottom: 1.35rem;
@@ -76,7 +76,7 @@
   align-items: center;
   font-size: clamp(0.72rem, 1.1vw, 0.8rem);
   letter-spacing: 2px;
-  color: #8a2e2e;
+  color: var(--red-rust);
   text-transform: uppercase;
   font-weight: 700;
   margin-top: 0.4rem;
@@ -84,9 +84,9 @@
 }
 
 .folio-title {
-  font-family: 'Creepster', cursive;
+  font-family: var(--font-display);
   font-size: clamp(2.1rem, 4.5vw, 2.7rem);
-  color: #6e2222;
+  color: var(--red-blood);
   margin: 0.1rem 0;
   letter-spacing: 2px;
   text-shadow:
@@ -97,7 +97,7 @@
 
 .folio-subtitle {
   font-size: clamp(0.76rem, 1.3vw, 0.88rem);
-  color: #3a2346;
+  color: var(--purple-mid);
   font-weight: 700;
   letter-spacing: 1px;
   text-transform: uppercase;
@@ -118,23 +118,23 @@
   letter-spacing: 1.2px;
   text-transform: uppercase;
   padding: 0.28rem 0.85rem;
-  border: 1px solid #8a2e2e;
+  border: 1px solid var(--red-rust);
   border-radius: 2px;
-  color: #8a2e2e;
+  color: var(--red-rust);
   background: rgba(138, 46, 46, 0.08);
 }
 
 .folio-step-pill.active {
-  background: #6e2222;
-  color: #e0d5b5;
-  border-color: #c68e42;
+  background: var(--red-blood);
+  color: var(--parchment-txt);
+  border-color: var(--amber-light);
   box-shadow: 0 0 8px rgba(221, 169, 90, 0.35);
 }
 
 .folio-alert-error {
-  border: 2px dashed #8a2e2e;
+  border: 2px dashed var(--red-rust);
   background: rgba(110, 34, 34, 0.12);
-  color: #6e2222;
+  color: var(--red-blood);
   padding: 0.75rem 1rem;
   margin-bottom: 1.2rem;
   font-weight: 700;
@@ -148,9 +148,9 @@
 }
 
 .folio-alert-success {
-  border: 2px solid #c68e42;
+  border: 2px solid var(--amber-light);
   background: rgba(198, 142, 66, 0.15);
-  color: #3a2346;
+  color: var(--purple-mid);
   padding: 0.75rem 1rem;
   margin-bottom: 1.2rem;
   font-weight: 700;
@@ -164,8 +164,8 @@
 
 .folio-info-box {
   background: rgba(35, 23, 51, 0.06);
-  border: 1.5px solid #8a2e2e;
-  border-left: 5px solid #6e2222;
+  border: 1.5px solid var(--red-rust);
+  border-left: 5px solid var(--red-blood);
   padding: 0.85rem 1.1rem;
   margin-bottom: 0.6rem;
   box-sizing: border-box;
@@ -180,7 +180,7 @@
 
 .folio-info-label {
   font-size: 0.76rem;
-  color: #8a2e2e;
+  color: var(--red-rust);
   font-weight: 800;
   letter-spacing: 1px;
   text-transform: uppercase;
@@ -188,14 +188,14 @@
 
 .folio-info-value {
   font-size: 1.05rem;
-  color: #231733;
+  color: var(--purple-dark);
   font-weight: 700;
 }
 
 .folio-info-question {
   margin-top: 0.35rem;
   font-size: 1.1rem;
-  color: #6e2222;
+  color: var(--red-blood);
   font-weight: 700;
   line-height: 1.3;
 }
@@ -219,7 +219,7 @@
 
 .folio-label {
   font-size: 0.84rem;
-  color: #6e2222;
+  color: var(--red-blood);
   font-weight: 700;
   letter-spacing: 1px;
   text-transform: uppercase;
@@ -229,18 +229,18 @@
 }
 
 .folio-label .required-mark {
-  color: #8a2e2e;
+  color: var(--red-rust);
   font-weight: 800;
 }
 
 .folio-input {
   width: 100%;
   padding: 0.72rem 0.85rem;
-  background: rgba(246, 241, 230, 0.94);
-  border: 1.5px solid #33373b;
-  border-bottom: 2.5px solid #6e2222;
-  color: #231733;
-  font-family: 'Special Elite', 'Courier New', monospace;
+  background: var(--parchment-light);
+  border: 1.5px solid var(--iron);
+  border-bottom: 2.5px solid var(--red-blood);
+  color: var(--purple-dark);
+  font-family: var(--font-typewriter);
   font-size: 0.98rem;
   font-weight: 600;
   border-radius: 2px;
@@ -259,8 +259,8 @@
 
 .folio-input:focus {
   outline: none;
-  background: #fcfaf4;
-  border-color: #8a2e2e;
+  background: var(--parchment-white);
+  border-color: var(--red-rust);
   box-shadow:
     0 0 0 2px rgba(221, 169, 90, 0.35),
     inset 0 1px 3px rgba(35, 23, 51, 0.12);
@@ -268,7 +268,7 @@
 
 .folio-field-hint {
   font-size: 0.74rem;
-  color: #4a4f54;
+  color: var(--iron-worn);
   letter-spacing: 0.3px;
   margin-top: 0.12rem;
   line-height: 1.3;
@@ -280,10 +280,10 @@
   align-self: center;
   margin-top: 0.6rem;
   padding: 0.82rem 1.6rem;
-  background: #6e2222;
-  color: #e0d5b5;
-  border: 2px solid #c68e42;
-  font-family: 'Special Elite', 'Courier New', monospace;
+  background: var(--red-blood);
+  color: var(--parchment-txt);
+  border: 2px solid var(--amber-light);
+  font-family: var(--font-typewriter);
   font-size: 0.98rem;
   font-weight: 700;
   cursor: pointer;
@@ -307,8 +307,8 @@
 }
 
 .folio-btn:hover {
-  background: #8a2e2e;
-  border-color: #dda95a;
+  background: var(--red-rust);
+  border-color: var(--amber-glow);
   box-shadow:
     0 6px 14px rgba(0, 0, 0, 0.5),
     0 0 16px rgba(221, 169, 90, 0.45);
@@ -333,7 +333,7 @@
 }
 
 .folio-link {
-  color: #6e2222;
+  color: var(--red-blood);
   text-decoration: none;
   font-size: 0.9rem;
   font-weight: 700;
@@ -345,18 +345,18 @@
 }
 
 .folio-link:hover {
-  color: #8a2e2e;
+  color: var(--red-rust);
   text-decoration: underline;
   text-shadow: 0 0 6px rgba(221, 169, 90, 0.4);
 }
 
 .folio-link.secondary {
   font-size: 0.84rem;
-  color: #4a4f54;
+  color: var(--iron-worn);
 }
 
 .folio-link.secondary:hover {
-  color: #6e2222;
+  color: var(--red-blood);
 }
 
 .auth-form {
@@ -376,7 +376,7 @@
 
 .auth-field label {
   font-size: 0.84rem;
-  color: #6e2222;
+  color: var(--red-blood);
   font-weight: 700;
   letter-spacing: 1px;
   text-transform: uppercase;
@@ -386,11 +386,11 @@
 .auth-field select {
   width: 100%;
   padding: 0.72rem 0.85rem;
-  background: rgba(246, 241, 230, 0.94);
-  border: 1.5px solid #33373b;
-  border-bottom: 2.5px solid #6e2222;
-  color: #231733;
-  font-family: 'Special Elite', cursive;
+  background: var(--parchment-light);
+  border: 1.5px solid var(--iron);
+  border-bottom: 2.5px solid var(--red-blood);
+  color: var(--purple-dark);
+  font-family: var(--font-typewriter);
   font-size: 0.98rem;
   box-sizing: border-box;
 }
@@ -402,10 +402,10 @@
   align-self: center;
   margin-top: 0.6rem;
   padding: 0.82rem 1.6rem;
-  background: #6e2222;
-  color: #e0d5b5;
-  border: 2px solid #c68e42;
-  font-family: 'Special Elite', cursive;
+  background: var(--red-blood);
+  color: var(--parchment-txt);
+  border: 2px solid var(--amber-light);
+  font-family: var(--font-typewriter);
   font-size: 0.98rem;
   font-weight: 700;
   cursor: pointer;
@@ -423,7 +423,7 @@
 }
 
 .auth-links a {
-  color: #6e2222;
+  color: var(--red-blood);
   text-decoration: none;
   font-weight: 700;
 }

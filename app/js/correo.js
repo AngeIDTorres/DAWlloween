@@ -1,4 +1,4 @@
-import { AudioEngine } from './core/audio.js';
+import { AudioEngine, ROOM_TRANSITION_DELAY_MS } from './core/audio.js';
 import { FlashlightController } from './core/flashlight.js';
 import { initAccessibility } from './core/accessibility.js';
 
@@ -37,20 +37,19 @@ document.addEventListener('DOMContentLoaded', () => {
   const navigateBackToMap = () => {
     if (isNavigatingBack) return;
     isNavigatingBack = true;
-    if (AudioEngine) {
-      if (AudioEngine.playFootsteps) {
-        AudioEngine.playFootsteps('../audio/common/');
-      } else if (AudioEngine.playEnter) {
-        AudioEngine.playEnter('../audio/common/');
-      }
-    }
-    if (blackoutCurtain) {
-      blackoutCurtain.classList.add('active');
-    }
-    setTimeout(() => {
+    if (AudioEngine && AudioEngine.navigateWithTransition) {
+      AudioEngine.navigateWithTransition('../index.php', '../audio/common/');
+    } else {
       window.location.href = '../index.php';
-    }, 1750);
+    }
   };
+
+  window.addEventListener('keydown', (e) => {
+    if (e.key === 'Escape') {
+      e.preventDefault();
+      navigateBackToMap();
+    }
+  });
 
   const flashlight = new FlashlightController({
     elementId: 'officeFlashlight',
@@ -147,76 +146,121 @@ document.addEventListener('DOMContentLoaded', () => {
     accessibility.syncLightsAndFlashlight(true);
   }
 
+  const countVisualLines = (text, maxChars = 37) => {
+    if (!text) return 1;
+    const paragraphs = text.split('\n');
+    let totalLines = 0;
+    for (let i = 0; i < paragraphs.length; i++) {
+      const p = paragraphs[i];
+      if (!p) {
+        totalLines += 1;
+        continue;
+      }
+      const words = p.split(' ');
+      let currentLen = 0;
+      let paragraphLines = 1;
+      for (let j = 0; j < words.length; j++) {
+        let w = words[j];
+        while (w.length > maxChars) {
+          if (currentLen > 0) {
+            paragraphLines += 1;
+            currentLen = 0;
+          }
+          w = w.substring(maxChars);
+          paragraphLines += 1;
+        }
+        if (!w) continue;
+        const space = currentLen > 0 ? 1 : 0;
+        if (currentLen + space + w.length <= maxChars) {
+          currentLen += space + w.length;
+        } else {
+          paragraphLines += 1;
+          currentLen = w.length;
+        }
+      }
+      totalLines += paragraphLines;
+    }
+    return Math.max(1, totalLines);
+  };
+
+  let previousVisualLine = 1;
+  let enterKeyTriggered = false;
+
   const calculatePaperShift = () => {
     if (!paperSheet) return;
 
-    const initialShift = 210;
-    const maxRise = 210;
+    const INITIAL_PAPER_SHIFT = 255;
+    const LINE_HEIGHT_SHIFT = 26;
+    const MIN_PAPER_SHIFT = 40;
     const activeEl = document.activeElement;
 
-    if (activeEl === destinatarioInput) {
-      paperSheet.style.setProperty('--paper-shift', `${initialShift}px`);
-      return;
-    }
-
-    if (activeEl === asuntoInput) {
-      paperSheet.style.setProperty('--paper-shift', `${initialShift - 35}px`);
+    if (activeEl === destinatarioInput || activeEl === asuntoInput) {
+      paperSheet.style.setProperty('--paper-shift', `${INITIAL_PAPER_SHIFT}px`);
       return;
     }
 
     if (activeEl === cuerpoTextarea) {
       const val = cuerpoTextarea.value;
-      const cursorPos = cuerpoTextarea.selectionStart || val.length;
+      const cursorPos = cuerpoTextarea.selectionStart ?? val.length;
       const textUpToCursor = val.substring(0, cursorPos);
-      const linesUpToCursor = textUpToCursor.split('\n').length;
-      const totalLines = val.split('\n').length;
-      const effectiveLines = Math.max(linesUpToCursor, Math.min(totalLines, 8));
-
-      const charCount = val.length;
-      const charRise = Math.min(45, Math.floor(charCount / 20) * 8);
-      const lineRise = (effectiveLines - 1) * 26;
-
-      const totalRise = Math.min(maxRise, 35 + lineRise + charRise);
-      const targetShift = Math.max(0, initialShift - totalRise);
-
+      const activeLine = countVisualLines(textUpToCursor, 37);
+      if (activeLine > previousVisualLine && !enterKeyTriggered) {
+        AudioEngine.playCarriageReturn('../audio/correo/');
+      }
+      enterKeyTriggered = false;
+      previousVisualLine = activeLine;
+      const targetShift = Math.max(MIN_PAPER_SHIFT, 240 - (activeLine - 1) * LINE_HEIGHT_SHIFT);
       paperSheet.style.setProperty('--paper-shift', `${targetShift}px`);
       return;
     }
 
     if (cuerpoTextarea && cuerpoTextarea.value.trim().length > 0) {
-      const val = cuerpoTextarea.value;
-      const totalLines = Math.min(8, val.split('\n').length);
-      const charRise = Math.min(45, Math.floor(val.length / 20) * 8);
-      const lineRise = (totalLines - 1) * 26;
-      const totalRise = Math.min(maxRise, 30 + lineRise + charRise);
-      const targetShift = Math.max(0, initialShift - totalRise);
+      const totalLines = countVisualLines(cuerpoTextarea.value, 37);
+      const targetShift = Math.max(MIN_PAPER_SHIFT, 240 - (totalLines - 1) * LINE_HEIGHT_SHIFT);
       paperSheet.style.setProperty('--paper-shift', `${targetShift}px`);
       return;
     }
 
-    paperSheet.style.setProperty('--paper-shift', `${initialShift}px`);
+    paperSheet.style.setProperty('--paper-shift', `${INITIAL_PAPER_SHIFT}px`);
   };
 
   calculatePaperShift();
 
   if (destinatarioInput) {
     destinatarioInput.addEventListener('focus', calculatePaperShift);
-    destinatarioInput.addEventListener('keydown', () => {
-      AudioEngine.playTypewriterKey('../audio/correo/');
+    destinatarioInput.addEventListener('keydown', (e) => {
+      if (e.key === 'Enter') {
+        AudioEngine.playCarriageReturn('../audio/correo/');
+      } else if (!e.ctrlKey && !e.metaKey && !e.altKey) {
+        AudioEngine.playTypewriterKey('../audio/correo/');
+      }
     });
   }
 
   if (asuntoInput) {
     asuntoInput.addEventListener('focus', calculatePaperShift);
-    asuntoInput.addEventListener('keydown', () => {
-      AudioEngine.playTypewriterKey('../audio/correo/');
+    asuntoInput.addEventListener('keydown', (e) => {
+      if (e.key === 'Enter') {
+        AudioEngine.playCarriageReturn('../audio/correo/');
+      } else if (!e.ctrlKey && !e.metaKey && !e.altKey) {
+        AudioEngine.playTypewriterKey('../audio/correo/');
+      }
     });
   }
 
   if (cuerpoTextarea) {
-    cuerpoTextarea.addEventListener('focus', calculatePaperShift);
+    cuerpoTextarea.addEventListener('focus', () => {
+      const cursorPos = cuerpoTextarea.selectionStart ?? cuerpoTextarea.value.length;
+      previousVisualLine = countVisualLines(cuerpoTextarea.value.substring(0, cursorPos), 37);
+      calculatePaperShift();
+    });
+    cuerpoTextarea.addEventListener('blur', calculatePaperShift);
     cuerpoTextarea.addEventListener('input', calculatePaperShift);
-    cuerpoTextarea.addEventListener('click', calculatePaperShift);
+    cuerpoTextarea.addEventListener('click', () => {
+      const cursorPos = cuerpoTextarea.selectionStart ?? cuerpoTextarea.value.length;
+      previousVisualLine = countVisualLines(cuerpoTextarea.value.substring(0, cursorPos), 37);
+      calculatePaperShift();
+    });
     cuerpoTextarea.addEventListener('keyup', calculatePaperShift);
 
     cuerpoTextarea.addEventListener('keydown', (e) => {
@@ -229,12 +273,37 @@ document.addEventListener('DOMContentLoaded', () => {
       }
 
       if (e.key === 'Enter') {
+        enterKeyTriggered = true;
         AudioEngine.playCarriageReturn('../audio/correo/');
       } else if (!e.ctrlKey && !e.metaKey && !e.altKey) {
         AudioEngine.playTypewriterKey('../audio/correo/');
       }
       setTimeout(calculatePaperShift, 10);
     });
+  }
+
+  let stampDismissTimer = null;
+
+  const scheduleStampDismiss = (stampEl, delay = 4500) => {
+    if (!stampEl) return;
+    if (stampDismissTimer) {
+      clearTimeout(stampDismissTimer);
+      stampDismissTimer = null;
+    }
+    stampEl.style.transition = 'opacity 0.5s ease, transform 0.5s ease';
+    stampEl.style.opacity = '1';
+    stampDismissTimer = setTimeout(() => {
+      stampEl.style.opacity = '0';
+      setTimeout(() => {
+        stampEl.style.display = 'none';
+        stampDismissTimer = null;
+      }, 500);
+    }, delay);
+  };
+
+  const initialStamp = document.getElementById('typewriterStampStatus');
+  if (initialStamp && initialStamp.style.display !== 'none' && initialStamp.textContent.trim().length > 0) {
+    scheduleStampDismiss(initialStamp, 4500);
   }
 
   if (mailForm) {
@@ -289,6 +358,7 @@ document.addEventListener('DOMContentLoaded', () => {
           stampEl.textContent = data.message || (data.success ? '¡Correo enviado con éxito!' : 'Error al enviar el correo.');
           stampEl.className = `typewriter-stamp-status ${data.success ? 'stamp-success' : 'stamp-error'}`;
           stampEl.style.display = 'block';
+          scheduleStampDismiss(stampEl, 4500);
         }
 
         if (data.success) {
@@ -302,6 +372,7 @@ document.addEventListener('DOMContentLoaded', () => {
           stampEl.textContent = 'Error de conexión al enviar el correo.';
           stampEl.className = 'typewriter-stamp-status stamp-error';
           stampEl.style.display = 'block';
+          scheduleStampDismiss(stampEl, 4500);
         }
       } finally {
         if (sendBtn) {

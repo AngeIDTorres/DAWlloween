@@ -280,6 +280,13 @@ export class AccessibilityManager {
     });
 
     window.addEventListener('keydown', (e) => {
+      if (e.key === 'Escape') {
+        if (!this.isMapPage) {
+          e.preventDefault();
+          this.handleAction('map');
+          return;
+        }
+      }
       if (e.target && (e.target.tagName === 'INPUT' || e.target.tagName === 'TEXTAREA')) {
         return;
       }

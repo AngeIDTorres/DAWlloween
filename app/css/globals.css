@@ -5,14 +5,25 @@
   --purple-mid: #3A2346;
   --blue-night: #1D263B;
   --blue-reflect: #2A3A56;
-  --red-blood: #5E1818;
-  --red-rust: #4E1414;
+  --red-blood: #6E2222;
+  --red-blood-deep: #5E1818;
+  --red-rust: #8A2E2E;
+  --red-rust-dark: #4E1414;
   --amber-light: #C68E42;
   --amber-glow: #DDA95A;
+  --amber-bright: #E8BC72;
+  --amber-highlight: #FFC266;
   --parchment-bg: #D3C6A6;
   --parchment-txt: #E0D5B5;
+  --parchment-light: #F6F1E6;
+  --parchment-white: #FCFAF4;
   --iron: #33373B;
   --iron-worn: #4A4F54;
+  --dark-stage: #020104;
+  --dark-vignette: rgba(1, 2, 4, 0.97);
+  --font-display: 'Creepster', cursive;
+  --font-typewriter: 'Special Elite', cursive;
+  --transition-room: 1.4s ease;
 }
 
 * {
@@ -25,7 +36,7 @@ body {
   min-height: 100vh;
   background-color: var(--purple-dark);
   color: var(--parchment-txt);
-  font-family: 'Special Elite', cursive;
+  font-family: var(--font-typewriter);
   overflow-x: hidden;
 }
 
@@ -41,7 +52,7 @@ body {
 }
 
 h1 {
-  font-family: 'Creepster', cursive;
+  font-family: var(--font-display);
   font-size: 3.5rem;
   color: var(--amber-glow);
   text-shadow: 2px 2px 8px var(--red-blood);
@@ -50,7 +61,7 @@ h1 {
 }
 
 h2 {
-  font-family: 'Creepster', cursive;
+  font-family: var(--font-display);
   font-size: 2rem;
   color: var(--red-rust);
   margin-bottom: 1.5rem;
@@ -85,7 +96,7 @@ p {
   opacity: 0;
   pointer-events: none;
   z-index: 9999;
-  transition: opacity 1.4s ease;
+  transition: opacity var(--transition-room);
 }
 
 .blackout-curtain.active {
@@ -93,3 +104,18 @@ p {
   pointer-events: all;
 }
 
+.room-darkness-veil {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100vw;
+  height: 100vh;
+  pointer-events: none;
+  z-index: 60;
+  transition: opacity 0.4s ease;
+  will-change: background;
+}
+
+.room-darkness-veil.lights-off {
+  background: var(--dark-vignette);
+}

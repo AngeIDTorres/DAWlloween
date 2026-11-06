@@ -554,6 +554,7 @@
         inset 0 1px 0 rgba(255, 255, 255, 0.15);
     max-width: 100%;
     box-sizing: border-box;
+    transition: opacity 0.5s ease, transform 0.5s ease;
 }
 
 .plate-success {
@@ -576,6 +577,7 @@
         inset 0 1px 0 rgba(255, 255, 255, 0.15);
     max-width: 100%;
     box-sizing: border-box;
+    transition: opacity 0.5s ease, transform 0.5s ease;
 }
 
 .plate-field {

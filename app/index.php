@@ -1,9 +1,7 @@
 <?php
 require_once __DIR__ . '/includes/VarGlobales.php';
 
-if (!obtenerUsuarioActivo()) {
-    redirect('pages/login.php');
-}
+requerirAutenticacion('pages/login.php');
 ?>
 <!DOCTYPE html>
 <html lang="es">
@@ -20,7 +18,7 @@ if (!obtenerUsuarioActivo()) {
   <div class="blackout-curtain active" id="blackoutCurtain"></div>
 
   <main class="map-stage" id="mapStage">
-    <div class="map-darkness-veil" id="mapDarknessVeil"></div>
+    <div class="room-darkness-veil map-darkness-veil" id="mapDarknessVeil"></div>
     <div class="map-flashlight" id="mapFlashlight"></div>
 
     <div class="hanging-lamp" id="hangingLamp" title="Encender / Apagar la luz de la sala">
@@ -229,8 +227,6 @@ if (!obtenerUsuarioActivo()) {
       <div class="map-frame-overlay"></div>
 
       <div class="frame-postit" id="framePostit">
-        <div class="postit-tape"></div>
-
         <div class="postit-collapsed-view">
           <span class="postit-title-main">Índice</span>
         </div>

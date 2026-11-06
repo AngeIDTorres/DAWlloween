@@ -36,10 +36,30 @@ Inicializado automáticamente en `VarGlobales.php`:
 | `AltaUsuario($nuevoUser): bool` | Comprueba que el usuario no exista (`strcasecmp`) y lo añade a `$_SESSION['mimatriz']`. Retorna `true` en éxito y `false` si ya existe. |
 | `cambioContraseña($usuario, $respuesta, $nuevaPassword): bool` | Valida la respuesta secreta (eliminando espacios con `trim`) y actualiza la clave por referencia. |
 | `obtenerPreguntaUsuario($usuario): ?string` | Devuelve la pregunta secreta configurada por el usuario o `null` si no existe. |
-| `currentUser($usuario): ?array` | Marca `UsuarioActual = true` en el usuario autenticado (y `false` en el resto), guardando copia en `$_SESSION['usuario_activo']`. |
+| `currentUser($usuario): ?array` | Marca `UsuarioActual = true` en el usuario autenticado (y `false` en el resto), guardando copia en `$_SESSION['usuario_activo']` y regenerando el identificador de sesión (`session_regenerate_id(true)`) contra fijación de sesión. |
 | `obtenerUsuarioActivo(): ?array` | Retorna los datos del usuario actualmente autenticado. |
-| `cerrarSesion(): void` | Limpia las marcas de sesión activa y la referencia en `$_SESSION['usuario_activo']`. |
+| `cerrarSesion(): void` | Limpia las marcas de sesión activa, anula `$_SESSION['usuario_activo']` y regenera el ID de sesión. |
+| `generarCsrfToken(): string` | Genera o recupera un token criptográfico pseudoaleatorio de 32 bytes (`random_bytes(32)`) almacenado en `$_SESSION['csrf_token']`. |
+| `validarCsrfToken(?string $token): bool` | Compara en tiempo constante (`hash_equals`) el token recibido con el token de sesión activo. |
+| `requerirAutenticacion(string $loginUrl = 'login.php'): void` | Verifica si hay una sesión válida mediante `obtenerUsuarioActivo()`; de lo contrario, redirige de inmediato a `$loginUrl`. |
+| `enviarRespuestaJson(array $data, int $statusCode = 200): void` | Configura el código HTTP, cabeceras `application/json` y emite el payload JSON terminado con `exit()`. |
 | `redirect($url): void` | Envía cabecera `Location` y termina el script con `exit()`. |
+
+---
+
+## 2.1 Hardening de Sesión y Protección CSRF
+
+Para garantizar la seguridad de la sesión en entornos de producción:
+* **Parámetros Seguros de Cookie (`session_set_cookie_params`):**
+  * `httponly = true`: Impide el acceso a la cookie de sesión desde JavaScript (`document.cookie`), mitigando ataques XSS dirigidos al robo de sesión.
+  * `samesite = 'Lax'`: Previene el envío involuntario de la cookie de sesión en peticiones externas de sitios cruzados.
+  * `secure`: Se habilita condicionalmente cuando la petición se sirve sobre HTTPS o el puerto 443.
+  * `use_only_cookies = 1`: Prohíbe terminantemente el paso de IDs de sesión por parámetros GET en la URL.
+* **Mitigación de Fijación de Sesión (Session Fixation):**
+  * Se invoca `session_regenerate_id(true)` en el momento exacto en que un usuario se autentica satisfactoriamente en `currentUser()` y al cerrar sesión en `cerrarSesion()`.
+* **Tokens Anti-CSRF:**
+  * Todos los formularios interactivos (`login.php`, `altaUsuario.php`, `cambioPass.php` y `correo.php`) incluyen un campo oculto `<input type="hidden" name="csrf_token" value="...">`.
+  * Toda petición POST es validada en el backend mediante `validarCsrfToken()`. Si el token falta o no coincide, la petición se rechaza de inmediato con el mensaje `Petición inválida o sesión expirada. Recarga la página.`.
 
 ---
 
@@ -50,7 +70,7 @@ Inicializado automáticamente en `VarGlobales.php`:
   * Si las credenciales son válidas, llama a `currentUser()` y redirige a `../index.php`.
   * Si fallan, muestra aviso de error y activa la animación de rechazo en el candado.
   * Muestra mensajes de confirmación tras registro (`?registrado=1`) o cambio de contraseña (`?pass_cambiada=1`).
-  * **Ubicación de Notificaciones (`.plate-messages`):** Los avisos (`.plate-alert` y `.plate-success`) se ubican inmediatamente debajo de `[ REGISTRO ] • [ ¿CLAVE PERDIDA? ]` y bajo el marco rectangular del candado (`top: 64.8%`), en un contenedor estilizado de alto contraste que no comprime los campos de entrada ni obstaculiza la cerradura.
+  * **Ubicación y Desvanecimiento de Notificaciones (`.plate-messages`):** Los avisos (`.plate-alert` y `.plate-success`) se ubican inmediatamente debajo de `[ REGISTRO ] • [ ¿CLAVE PERDIDA? ]` y bajo el marco rectangular del candado (`top: 64.8%`), en un contenedor estilizado de alto contraste que no comprime los campos de entrada ni obstaculiza la cerradura. Tras 4,5 segundos de visualización, tanto los mensajes de error como los de éxito se desvanecen automáticamente con una transición de opacidad (`opacity: 0`), limpiando la URL si se accedió por parámetro query (`registrado`, `pass_cambiada`, `logout`).
   * **Sistema de Brillo Lunar Refinado (`.moon-glow` y `.moon-rays`):** Centrado con exactitud matemática sobre el disco ilustrado del fondo (`top: 18.6%`, `left: 50%`) con tonalidades ámbar y crema cálidas (`#fffceee`, `#fed78c`, `#eab65e`) acordes a la ilustración gótica. Se elimina cualquier factor de escalado o crecimiento geométrico (`scale()`), sustituyéndolo por un efecto de luminiscencia estática con sutil respiración de brillo atmosférico (`filter: brightness()`).
 
 * **Registro (`altaUsuario.php`):**
@@ -65,11 +85,9 @@ Inicializado automáticamente en `VarGlobales.php`:
   2. **Paso 2:** Con la pregunta mostrada, solicita la respuesta secreta y la nueva contraseña. Al validar correctamente, actualiza la clave mediante el botón `[ Actualizar Contraseña ]` y redirige a `login.php?pass_cambiada=1`.
 
 * **Protección de Estancias Interiores:**
-  * Todas las vistas interiores del colegio (`index.php`, `pages/recetas.php`, `pages/correo.php`, `pages/juego.php`, `pages/aboutus.php`) incorporan un guardia de sesión al inicio de su ejecución:
+  * Todas las vistas interiores del colegio (`index.php`, `pages/recetas.php`, `pages/correo.php`, `pages/juego.php`, `pages/aboutus.php`) incorporan un guardia de sesión centralizado al inicio de su ejecución:
     ```php
-    if (!obtenerUsuarioActivo()) {
-        redirect('login.php'); // o 'pages/login.php' según la profundidad de ruta
-    }
+    requerirAutenticacion('login.php'); // o 'pages/login.php' según la profundidad de ruta
     ```
   * Si no existe un usuario activo autenticado en memoria de servidor, se produce una redirección inmediata 302 hacia la cancela de acceso exterior (`login.php`).
 

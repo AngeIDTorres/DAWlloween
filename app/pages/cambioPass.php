@@ -6,28 +6,43 @@ $usuario = trim($_POST['usuario'] ?? $_GET['usuario'] ?? '');
 $pregunta = null;
 $paso = 1;
 
-if ($usuario !== '') {
+if ($_SERVER['REQUEST_METHOD'] === 'POST') {
+    $csrfToken = $_POST['csrf_token'] ?? '';
+    if (!validarCsrfToken($csrfToken)) {
+        $error = 'Petición inválida o sesión expirada. Recarga la página.';
+    } else {
+        if ($usuario !== '' && !isset($_POST['actualizar'])) {
+            $pregunta = obtenerPreguntaUsuario($usuario);
+            if ($pregunta !== null) {
+                $paso = 2;
+            } else {
+                $error = 'El usuario no existe en los registros del colegio.';
+                $paso = 1;
+            }
+        } elseif (isset($_POST['actualizar'])) {
+            $pregunta = obtenerPreguntaUsuario($usuario);
+            $paso = 2;
+            $respuesta = trim($_POST['respuesta'] ?? '');
+            $nuevaPassword = trim($_POST['nueva_password'] ?? '');
+
+            if ($respuesta === '' || $nuevaPassword === '') {
+                $error = 'Debes responder a la pregunta secreta e introducir la nueva clave.';
+            } else {
+                if (cambioContraseña($usuario, $respuesta, $nuevaPassword)) {
+                    redirect('login.php?pass_cambiada=1');
+                } else {
+                    $error = 'La respuesta secreta no es correcta. Inténtalo de nuevo.';
+                }
+            }
+        }
+    }
+} elseif ($usuario !== '') {
     $pregunta = obtenerPreguntaUsuario($usuario);
     if ($pregunta !== null) {
         $paso = 2;
     } else {
         $error = 'El usuario no existe en los registros del colegio.';
         $paso = 1;
-    }
-}
-
-if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['actualizar'])) {
-    $respuesta = trim($_POST['respuesta'] ?? '');
-    $nuevaPassword = trim($_POST['nueva_password'] ?? '');
-
-    if ($respuesta === '' || $nuevaPassword === '') {
-        $error = 'Debes responder a la pregunta secreta e introducir la nueva clave.';
-    } else {
-        if (cambioContraseña($usuario, $respuesta, $nuevaPassword)) {
-            redirect('login.php?pass_cambiada=1');
-        } else {
-            $error = 'La respuesta secreta no es correcta. Inténtalo de nuevo.';
-        }
     }
 }
 ?>
@@ -69,6 +84,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['actualizar'])) {
 
       <?php if ($paso === 1): ?>
         <form method="POST" action="cambioPass.php" class="folio-form">
+          <input type="hidden" name="csrf_token" value="<?= htmlspecialchars(generarCsrfToken()) ?>">
           <div class="folio-field">
             <label for="usuario" class="folio-label">
               Nombre de Usuario Registrado <span class="required-mark">*</span>
@@ -83,6 +99,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['actualizar'])) {
         </form>
       <?php else: ?>
         <form method="POST" action="cambioPass.php" class="folio-form">
+          <input type="hidden" name="csrf_token" value="<?= htmlspecialchars(generarCsrfToken()) ?>">
           <input type="hidden" name="usuario" value="<?= htmlspecialchars($usuario) ?>">
           <input type="hidden" name="actualizar" value="1">
 

@@ -1,9 +1,7 @@
 <?php
 require_once __DIR__ . '/../includes/VarGlobales.php';
 
-if (!obtenerUsuarioActivo()) {
-    redirect('login.php');
-}
+requerirAutenticacion('login.php');
 
 $mensajeEstado = '';
 $tipoEstado = '';
@@ -18,49 +16,59 @@ $asunto = '';
 $cuerpo = '';
 
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
-    $destinatario = trim($_POST['destinatario'] ?? '');
-    $asunto = trim($_POST['asunto'] ?? '');
-    $cuerpo = trim($_POST['cuerpo'] ?? '');
-
-    if ($destinatario === '' || $asunto === '' || $cuerpo === '') {
-        $mensajeEstado = 'Por favor, completa todos los campos del formulario.';
-        $tipoEstado = 'error';
-    } elseif (!filter_var($destinatario, FILTER_VALIDATE_EMAIL)) {
-        $mensajeEstado = 'El correo del destinatario no tiene un formato válido.';
+    $csrfToken = $_POST['csrf_token'] ?? $_SERVER['HTTP_X_CSRF_TOKEN'] ?? '';
+    if (!validarCsrfToken($csrfToken)) {
+        $mensajeEstado = 'Petición inválida o sesión expirada. Recarga la página.';
         $tipoEstado = 'error';
     } else {
-        $remitente = !empty($iniData['force_sender']) ? $iniData['force_sender'] : (!empty($iniData['auth_username']) ? $iniData['auth_username'] : 'no-reply@halloween.dev');
-        
-        $cabeceras = [];
-        $cabeceras[] = "From: DAWlloween <$remitente>";
-        $cabeceras[] = "Reply-To: $remitente";
-        $cabeceras[] = "X-Mailer: PHP/" . phpversion();
-        $cabeceras[] = "MIME-Version: 1.0";
-        $cabeceras[] = "Content-Type: text/plain; charset=UTF-8";
+        $destinatario = trim($_POST['destinatario'] ?? '');
+        $asunto = trim($_POST['asunto'] ?? '');
+        $cuerpo = trim($_POST['cuerpo'] ?? '');
 
-        $enviado = @mail($destinatario, $asunto, $cuerpo, implode("\r\n", $cabeceras));
+        $destinatario = preg_replace('/[\r\n]+/', '', $destinatario);
+        $asunto = preg_replace('/[\r\n]+/', ' ', $asunto);
+        $destinatario = mb_substr($destinatario, 0, 150);
+        $asunto = mb_substr($asunto, 0, 150);
+        $cuerpo = mb_substr($cuerpo, 0, 5000);
 
-        if ($enviado) {
-            $mensajeEstado = "¡Correo enviado con éxito a $destinatario!";
-            $tipoEstado = 'exito';
-        } else {
-            $mensajeEstado = "Error al enviar el correo. Revisa la configuración de Gmail o los logs.";
+        if ($destinatario === '' || $asunto === '' || $cuerpo === '') {
+            $mensajeEstado = 'Por favor, completa todos los campos del formulario.';
             $tipoEstado = 'error';
-        }
+        } elseif (!filter_var($destinatario, FILTER_VALIDATE_EMAIL)) {
+            $mensajeEstado = 'El correo del destinatario no tiene un formato válido.';
+            $tipoEstado = 'error';
+        } else {
+            $remitente = !empty($iniData['force_sender']) ? $iniData['force_sender'] : (!empty($iniData['auth_username']) ? $iniData['auth_username'] : 'no-reply@halloween.dev');
+            
+            $cabeceras = [];
+            $cabeceras[] = "From: DAWlloween <$remitente>";
+            $cabeceras[] = "Reply-To: $remitente";
+            $cabeceras[] = "X-Mailer: PHP/" . phpversion();
+            $cabeceras[] = "MIME-Version: 1.0";
+            $cabeceras[] = "Content-Type: text/plain; charset=UTF-8";
 
-        if (file_exists('/tmp/sendmail.log')) {
-            $debugLog = file_get_contents('/tmp/sendmail.log');
+            $enviado = @mail($destinatario, $asunto, $cuerpo, implode("\r\n", $cabeceras));
+
+            if ($enviado) {
+                $mensajeEstado = "¡Correo enviado con éxito a $destinatario!";
+                $tipoEstado = 'exito';
+            } else {
+                $mensajeEstado = "Error al enviar el correo. Revisa la configuración de Gmail o los logs.";
+                $tipoEstado = 'error';
+            }
+
+            if (file_exists('/tmp/sendmail.log')) {
+                $debugLog = file_get_contents('/tmp/sendmail.log');
+            }
         }
     }
 
     if (isset($_POST['ajax']) || (isset($_SERVER['HTTP_X_REQUESTED_WITH']) && strtolower($_SERVER['HTTP_X_REQUESTED_WITH']) === 'xmlhttprequest') || (isset($_SERVER['HTTP_ACCEPT']) && strpos($_SERVER['HTTP_ACCEPT'], 'application/json') !== false)) {
-        header('Content-Type: application/json; charset=UTF-8');
-        echo json_encode([
+        enviarRespuestaJson([
             'success' => ($tipoEstado === 'exito'),
             'message' => $mensajeEstado,
             'status' => $tipoEstado
         ]);
-        exit;
     }
 } elseif (file_exists('/tmp/sendmail.log')) {
     $debugLog = file_get_contents('/tmp/sendmail.log');
@@ -80,7 +88,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
   <div class="blackout-curtain active" id="blackoutCurtain"></div>
 
   <main class="office-stage room-lit" id="officeStage">
-    <div class="office-darkness-veil" id="officeDarknessVeil"></div>
+    <div class="room-darkness-veil office-darkness-veil" id="officeDarknessVeil"></div>
     <div class="office-flashlight flashlight-off" id="officeFlashlight"></div>
 
     <div class="office-interactive-area" id="officeInteractiveArea">
@@ -101,6 +109,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             </div>
 
             <form method="POST" action="correo.php" id="typewriterMailForm" class="typewriter-form">
+              <input type="hidden" name="csrf_token" value="<?= htmlspecialchars(generarCsrfToken()) ?>">
               <div class="typewriter-field">
                 <label for="destinatario" class="typewriter-label">PARA:</label>
                 <input type="email" id="destinatario" name="destinatario" value="<?= htmlspecialchars($destinatario) ?>" placeholder="destinatario@correo.com" required class="typewriter-input" autocomplete="off">
@@ -125,6 +134,6 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     </div>
   </main>
 
-  <script type="module" src="../js/correo.js?v=20261106_01"></script>
+  <script type="module" src="../js/correo.js?v=20261106_04"></script>
 </body>
 </html>

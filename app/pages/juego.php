@@ -1,9 +1,7 @@
 <?php
 require_once __DIR__ . '/../includes/VarGlobales.php';
 
-if (!obtenerUsuarioActivo()) {
-    redirect('login.php');
-}
+requerirAutenticacion('login.php');
 ?>
 <!DOCTYPE html>
 <html lang="es">

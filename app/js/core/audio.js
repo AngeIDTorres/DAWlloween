@@ -1,3 +1,5 @@
+export const ROOM_TRANSITION_DELAY_MS = 1750;
+
 export const AudioEngine = {
   ctx: null,
   cache: {},
@@ -21,6 +23,8 @@ export const AudioEngine = {
   ambientSyncTimer: null,
   typewriterVoicePool: [],
   typewriterVoiceIndex: 0,
+  carriageReturnPool: [],
+  carriageReturnIndex: 0,
 
   autoUnlockBound: false,
 
@@ -781,24 +785,45 @@ export const AudioEngine = {
   },
 
   playCarriageReturn(basePath = '../audio/correo/') {
-    this.playFileOrFallback('maquina_salto_linea.mp3', () => {
-      this.init();
-      if (!this.ctx) return;
-      try {
-        const now = this.ctx.currentTime;
-        const bell = this.ctx.createOscillator();
-        const bellGain = this.ctx.createGain();
-        bell.type = 'sine';
-        bell.frequency.setValueAtTime(2400, now);
-        bellGain.gain.setValueAtTime(0.12, now);
-        bellGain.gain.exponentialRampToValueAtTime(0.001, now + 0.35);
-        bell.connect(bellGain);
-        bellGain.connect(this.ctx.destination);
-        bell.start(now);
-        bell.stop(now + 0.36);
-        this.playPaper('../audio/common/');
-      } catch (e) {}
-    }, basePath, 0.65);
+    if (this.isMuted) return;
+    const path = basePath + 'maquina_salto_linea.mp3';
+    if (!this.carriageReturnPool || this.carriageReturnPool.length === 0) {
+      this.carriageReturnPool = [];
+      const poolSize = 6;
+      for (let i = 0; i < poolSize; i++) {
+        const aud = new Audio(path);
+        aud.preload = 'auto';
+        this.carriageReturnPool.push(aud);
+      }
+      this.carriageReturnIndex = 0;
+    }
+    const voice = this.carriageReturnPool[this.carriageReturnIndex];
+    this.carriageReturnIndex = (this.carriageReturnIndex + 1) % this.carriageReturnPool.length;
+    if (voice) {
+      voice.volume = 0.85;
+      voice.currentTime = 0;
+      const playPromise = voice.play();
+      if (playPromise !== undefined) {
+        playPromise.catch(() => {
+          this.init();
+          if (!this.ctx) return;
+          try {
+            const now = this.ctx.currentTime;
+            const bell = this.ctx.createOscillator();
+            const bellGain = this.ctx.createGain();
+            bell.type = 'sine';
+            bell.frequency.setValueAtTime(2400, now);
+            bellGain.gain.setValueAtTime(0.12, now);
+            bellGain.gain.exponentialRampToValueAtTime(0.001, now + 0.35);
+            bell.connect(bellGain);
+            bellGain.connect(this.ctx.destination);
+            bell.start(now);
+            bell.stop(now + 0.36);
+            this.playPaper('../audio/common/');
+          } catch (e) {}
+        });
+      }
+    }
   },
 
   playMailSend(basePath = '../audio/correo/') {
@@ -821,6 +846,21 @@ export const AudioEngine = {
         this.playPaper('../audio/common/');
       } catch (e) {}
     }, basePath, 0.7);
+  },
+
+  navigateWithTransition(targetUrl, audioPath = 'audio/common/') {
+    if (this.playFootsteps) {
+      this.playFootsteps(audioPath);
+    } else if (this.playEnter) {
+      this.playEnter(audioPath);
+    }
+    const curtain = document.getElementById('blackoutCurtain');
+    if (curtain) {
+      curtain.classList.add('active');
+    }
+    setTimeout(() => {
+      window.location.href = targetUrl;
+    }, ROOM_TRANSITION_DELAY_MS);
   }
 };
 

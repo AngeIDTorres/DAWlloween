@@ -5,7 +5,7 @@
   overflow: hidden;
   user-select: none;
   -webkit-user-select: none;
-  font-family: 'Special Elite', cursive;
+  font-family: var(--font-typewriter);
   position: relative;
 }
 
@@ -54,7 +54,7 @@
 }
 
 .dining-darkness-veil.lights-off {
-  background: rgba(1, 2, 4, 0.97);
+  background: var(--dark-vignette);
 }
 
 .dining-stage.room-lit .dining-darkness-veil {
@@ -441,9 +441,9 @@
 }
 
 .recipe-title {
-  font-family: 'Creepster', cursive;
+  font-family: var(--font-display);
   font-size: clamp(0.55rem, 3.7cqmin, 1.85rem);
-  color: #5A0F0F;
+  color: var(--red-blood-deep);
   text-shadow:
     1px 1px 0px rgba(245, 230, 205, 0.85),
     -0.5px -0.5px 0px rgba(30, 15, 10, 0.4),
@@ -510,7 +510,7 @@
 }
 
 .meta-label {
-  color: #5E1818;
+  color: var(--red-blood-deep);
   font-weight: bold;
   margin-right: 0.35rem;
   letter-spacing: 1px;
@@ -534,9 +534,9 @@
 
 .recipe-block-title {
   font-size: clamp(0.44rem, 2.35cqmin, 1.02rem);
-  color: #5E1818;
+  color: var(--red-blood-deep);
   margin: 0 0 clamp(0.08rem, 0.5cqmin, 0.22rem) 0;
-  font-family: 'Special Elite', cursive;
+  font-family: var(--font-typewriter);
   text-transform: uppercase;
   letter-spacing: 0.5px;
   font-weight: bold;

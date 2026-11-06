@@ -5,9 +5,9 @@
   overflow: hidden;
   user-select: none;
   -webkit-user-select: none;
-  font-family: 'Special Elite', 'Courier New', monospace;
+  font-family: var(--font-typewriter);
   position: relative;
-  background: #020104;
+  background: var(--dark-stage);
 }
 
 .office-stage {
@@ -15,7 +15,7 @@
   width: 100vw;
   height: 100vh;
   overflow: hidden;
-  background: #020104 url('../img/correo/bg_despacho_director.png') center center / cover no-repeat;
+  background: var(--dark-stage) url('../img/correo/bg_despacho_director.png') center center / cover no-repeat;
   display: flex;
   align-items: center;
   justify-content: center;
@@ -48,7 +48,7 @@
 }
 
 .office-darkness-veil.lights-off {
-  background: rgba(1, 2, 4, 0.97);
+  background: var(--dark-vignette);
 }
 
 .office-stage.room-lit .office-darkness-veil {
@@ -136,11 +136,11 @@
 }
 
 .typewriter-send-btn {
-  background: #6e2222;
-  color: #e0d5b5;
-  border: 1.5px solid #c68e42;
+  background: var(--red-blood);
+  color: var(--parchment-txt);
+  border: 1.5px solid var(--amber-light);
   padding: clamp(6px, 0.65vw, 10px) clamp(16px, 1.4vw, 26px);
-  font-family: 'Special Elite', 'Courier New', monospace;
+  font-family: var(--font-typewriter);
   font-size: clamp(0.82rem, 0.95vw, 1.15rem);
   font-weight: 700;
   letter-spacing: 2px;
@@ -174,8 +174,8 @@
 }
 
 .typewriter-chassis-send-btn:hover {
-  background: #8a2e2e;
-  border-color: #dda95a;
+  background: var(--red-rust);
+  border-color: var(--amber-glow);
   box-shadow:
     0 6px 14px rgba(0, 0, 0, 0.85),
     0 0 12px rgba(221, 169, 90, 0.45);
@@ -327,7 +327,7 @@
   width: 100%;
   aspect-ratio: 765 / 1024;
   background: transparent;
-  transform: translateY(var(--paper-shift, 210px));
+  transform: translateY(var(--paper-shift, 255px));
   transition: transform 0.28s cubic-bezier(0.2, 0.8, 0.2, 1);
   box-sizing: border-box;
   will-change: transform;
@@ -369,10 +369,10 @@
 }
 
 .typewriter-label {
-  font-family: 'Special Elite', 'Courier New', monospace;
+  font-family: var(--font-typewriter);
   font-size: clamp(0.72rem, 0.88vw, 1.05rem);
   font-weight: 700;
-  color: #231733;
+  color: var(--purple-dark);
   letter-spacing: 1.2px;
   text-transform: uppercase;
   margin: 0;
@@ -384,9 +384,9 @@
   border: none;
   border-bottom: 1.5px dashed rgba(35, 23, 51, 0.65);
   padding: 3px 4px;
-  font-family: 'Special Elite', 'Courier New', monospace;
+  font-family: var(--font-typewriter);
   font-size: clamp(0.7rem, 0.84vw, 1rem);
-  color: #231733;
+  color: var(--purple-dark);
   outline: none;
   box-sizing: border-box;
   letter-spacing: 0.5px;
@@ -394,7 +394,7 @@
 
 .typewriter-input:focus {
   border-bottom-style: solid;
-  border-bottom-color: #6e2222;
+  border-bottom-color: var(--red-blood);
   background: rgba(221, 169, 90, 0.1);
 }
 
@@ -411,10 +411,10 @@
   background: transparent;
   border: none;
   padding: 4px 8px;
-  font-family: 'Special Elite', 'Courier New', monospace;
+  font-family: var(--font-typewriter);
   font-size: clamp(0.68rem, 0.82vw, 0.98rem);
   line-height: 1.5;
-  color: #231733;
+  color: var(--purple-dark);
   outline: none;
   resize: none;
   box-sizing: border-box;
@@ -431,11 +431,11 @@
   left: 50%;
   transform: translate(-50%, -50%) rotate(-6deg);
   padding: 8px 16px;
-  border: 3px double #6e2222;
+  border: 3px double var(--red-blood);
   border-radius: 3px;
-  background: rgba(246, 241, 230, 0.94);
-  color: #6e2222;
-  font-family: 'Special Elite', 'Courier New', monospace;
+  background: var(--parchment-light);
+  color: var(--red-blood);
+  font-family: var(--font-typewriter);
   font-size: clamp(0.8rem, 1vw, 1.15rem);
   font-weight: 700;
   letter-spacing: 1.5px;
@@ -446,16 +446,17 @@
   z-index: 10;
   max-width: 85%;
   box-sizing: border-box;
+  transition: opacity 0.5s ease;
 }
 
 .typewriter-stamp-status.stamp-success {
-  border-color: #6e2222;
-  color: #6e2222;
+  border-color: var(--red-blood);
+  color: var(--red-blood);
 }
 
 .typewriter-stamp-status.stamp-error {
-  border-color: #8a2e2e;
-  color: #8a2e2e;
+  border-color: var(--red-rust);
+  color: var(--red-rust);
   background: rgba(255, 240, 240, 0.95);
 }
 

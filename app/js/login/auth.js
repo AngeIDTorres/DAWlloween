@@ -1,3 +1,30 @@
+let loginMessageTimer = null;
+
+export function scheduleLoginMessageDismiss(delay = 4500) {
+  if (loginMessageTimer) {
+    clearTimeout(loginMessageTimer);
+    loginMessageTimer = null;
+  }
+  const messages = document.querySelectorAll('.plate-alert, .plate-success');
+  if (messages.length === 0) return;
+  messages.forEach(el => {
+    el.style.transition = 'opacity 0.5s ease, transform 0.5s ease';
+    el.style.opacity = '1';
+    el.style.display = 'block';
+  });
+  loginMessageTimer = setTimeout(() => {
+    messages.forEach(el => {
+      el.style.opacity = '0';
+    });
+    setTimeout(() => {
+      messages.forEach(el => {
+        el.style.display = 'none';
+      });
+      loginMessageTimer = null;
+    }, 500);
+  }, delay);
+}
+
 export function initAuth(options = {}) {
   const loginForm = options.loginForm || document.getElementById('loginForm');
   const padlockWrapper = options.padlockWrapper || document.getElementById('padlockWrapper');
@@ -76,6 +103,9 @@ export function initAuth(options = {}) {
               if (container) container.appendChild(alertEl);
             }
             alertEl.textContent = data.error || 'Combinación errónea. Clave rechazada.';
+            alertEl.style.display = 'block';
+            alertEl.style.opacity = '1';
+            scheduleLoginMessageDismiss(4500);
           }, 350);
         }
       })

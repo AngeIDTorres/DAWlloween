@@ -18,32 +18,36 @@ if (isset($_GET['logout'])) {
 }
 
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
-    $usuario = trim($_POST['usuario'] ?? '');
-    $password = trim($_POST['password'] ?? '');
-
-    if ($usuario === '' || $password === '') {
-        $error = 'Rellena todos los campos.';
+    $csrfToken = $_POST['csrf_token'] ?? '';
+    if (!validarCsrfToken($csrfToken)) {
+        $error = 'Petición inválida o sesión expirada. Recarga la página.';
         $hasError = true;
     } else {
-        $encontrado = false;
-        foreach ($_SESSION['mimatriz'] as $user) {
-            if ($user['Usuario'] === $usuario && $user['Contraseña'] === $password) {
-                currentUser($usuario);
-                $encontrado = true;
-                $loginSuccess = true;
-                break;
-            }
-        }
-        if (!$encontrado) {
-            $error = 'Combinación errónea. Clave rechazada.';
+        $usuario = trim($_POST['usuario'] ?? '');
+        $password = trim($_POST['password'] ?? '');
+
+        if ($usuario === '' || $password === '') {
+            $error = 'Rellena todos los campos.';
             $hasError = true;
+        } else {
+            $encontrado = false;
+            foreach ($_SESSION['mimatriz'] as $user) {
+                if ($user['Usuario'] === $usuario && $user['Contraseña'] === $password) {
+                    currentUser($usuario);
+                    $encontrado = true;
+                    $loginSuccess = true;
+                    break;
+                }
+            }
+            if (!$encontrado) {
+                $error = 'Combinación errónea. Clave rechazada.';
+                $hasError = true;
+            }
         }
     }
 
     if (isset($_POST['ajax']) || (isset($_SERVER['HTTP_X_REQUESTED_WITH']) && strtolower($_SERVER['HTTP_X_REQUESTED_WITH']) === 'xmlhttprequest')) {
-        header('Content-Type: application/json');
-        echo json_encode(['success' => $loginSuccess, 'error' => $error]);
-        exit;
+        enviarRespuestaJson(['success' => $loginSuccess, 'error' => $error]);
     }
 }
 $startExpanded = $hasError || $loginSuccess || isset($_GET['registrado']) || isset($_GET['pass_cambiada']) || isset($_GET['logout']);
@@ -85,6 +89,7 @@ $startExpanded = $hasError || $loginSuccess || isset($_GET['registrado']) || iss
 
           <div class="padlock-graphic">
             <form method="POST" action="login.php" id="loginForm">
+              <input type="hidden" name="csrf_token" value="<?= htmlspecialchars(generarCsrfToken()) ?>">
               <div class="plate-content">
                 <div class="plate-field">
                   <label for="usuario">USUARIO:</label>
@@ -145,6 +150,6 @@ $startExpanded = $hasError || $loginSuccess || isset($_GET['registrado']) || iss
   <div class="blackout-curtain" id="blackoutCurtain"></div>
 </div>
 
-  <script type="module" src="../js/main.js?v=20261106_01"></script>
+  <script type="module" src="../js/main.js?v=20261106_02"></script>
 </body>
 </html>
