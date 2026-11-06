@@ -46,6 +46,6 @@ graph TD
   * `index.php`: Plano arquitectónico general con linterna, bombilla de sala, posit de índice y panel de accesibilidad.
 * **Nivel 2 (Dependencias Operativas - Requiere Sesión):**
   * `pages/recetas.php`: Comedor escolar con recetario temático de Halloween y lámpara fluorescente.
-  * `pages/correo.php`: Despacho de dirección para correspondencia exterior (en desarrollo).
+  * `pages/correo.php`: Despacho de dirección con máquina de escribir analógica y correspondencia exterior vía SMTP ([correo.md](correo.md)).
   * `pages/juego.php`: Sala de juegos recreativa con minijuego 2D (en desarrollo).
   * `pages/aboutus.php`: Expediente y biografía del creador (accesible como modal o vista dedicada).

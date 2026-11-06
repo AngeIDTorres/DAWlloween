@@ -1,8 +1,8 @@
-import { AudioEngine } from './core/audio.js?v=20261029_11';
+import { AudioEngine } from './core/audio.js?v=20261106_01';
 import { RECETAS_DATA } from './data/recetasData.js';
-import { FlashlightController } from './core/flashlight.js';
-import { initHangingLamp } from './map/hanging-lamp.js?v=20261029_11';
-import { initAccessibility } from './core/accessibility.js?v=20261029_13';
+import { FlashlightController } from './core/flashlight.js?v=20261106_01';
+import { initHangingLamp } from './map/hanging-lamp.js?v=20261106_01';
+import { initAccessibility } from './core/accessibility.js?v=20261106_01';
 
 document.addEventListener('DOMContentLoaded', () => {
   AudioEngine.init();
@@ -60,7 +60,7 @@ document.addEventListener('DOMContentLoaded', () => {
     stageSelector: '.dining-stage',
     cssVarPrefix: '--dining-light',
     enableKeyToggle: true,
-    onToggle: (isOn) => {
+    onToggle: (isOn, playAudio = true) => {
       if (isOn) {
         if (darknessVeil) darknessVeil.classList.remove('lights-off');
         if (diningStage) diningStage.classList.remove('cursor-visible');
@@ -68,7 +68,9 @@ document.addEventListener('DOMContentLoaded', () => {
         if (darknessVeil) darknessVeil.classList.add('lights-off');
         if (diningStage) diningStage.classList.add('cursor-visible');
       }
-      AudioEngine.playClick('../audio/common/');
+      if (playAudio === true) {
+        AudioEngine.playClick('../audio/common/');
+      }
       if (accessibility) {
         accessibility.state.flashlight = isOn;
         accessibility.saveState();

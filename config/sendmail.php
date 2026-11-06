@@ -8,7 +8,7 @@ function logMsg($msg) {
 
 $rawEmail = file_get_contents('php://stdin');
 if ($rawEmail === false || strlen($rawEmail) === 0) {
-    logMsg("ERROR: Entrada de correo vacía desde STDIN.");
+    logMsg("ERROR: Entrada de correo vacia desde STDIN.");
     exit(1);
 }
 
@@ -41,7 +41,7 @@ $server = trim($ini['smtp_server'] ?? 'smtp.gmail.com');
 $port = (int)($ini['smtp_port'] ?? 587);
 $sslMode = strtolower(trim($ini['smtp_ssl'] ?? 'tls'));
 $username = trim($ini['auth_username'] ?? '');
-$password = trim($ini['auth_password'] ?? '');
+$password = str_replace(' ', '', trim($ini['auth_password'] ?? ''));
 $forceSender = trim($ini['force_sender'] ?? $username);
 
 $recipients = [];
@@ -75,7 +75,7 @@ if (empty($recipients)) {
 
 $recipients = array_values(array_unique(array_filter($recipients)));
 if (empty($recipients)) {
-    logMsg("ERROR: No se encontraron destinatarios válidos.");
+    logMsg("ERROR: No se encontraron destinatarios validos.");
     exit(1);
 }
 
@@ -103,13 +103,13 @@ $context = stream_context_create([
 
 $socket = @stream_socket_client($protocol . $server . ':' . $port, $errno, $errstr, $timeout, STREAM_CLIENT_CONNECT, $context);
 if (!$socket) {
-    logMsg("ERROR de conexión a {$protocol}{$server}:{$port} -> ($errno) $errstr");
+    logMsg("ERROR de conexion a {$protocol}{$server}:{$port} -> ($errno) $errstr");
     exit(1);
 }
 
 function readSmtp($socket) {
     $res = '';
-    while ($line = fgets($socket, 512)) {
+    while (!feof($socket) && ($line = fgets($socket, 512))) {
         $res .= $line;
         if (isset($line[3]) && $line[3] === ' ') {
             break;
@@ -168,19 +168,19 @@ if (!empty($username) && !empty($password)) {
         exit(1);
     }
     if (!sendSmtp($socket, base64_encode($password), 235)) {
-        logMsg("ERROR de autenticación en Gmail. Verifica tu contraseña de aplicación de 16 caracteres.");
+        logMsg("ERROR de autenticacion en Gmail. Verifica tu contrasena de aplicacion de 16 caracteres.");
         fclose($socket);
         exit(1);
     }
 }
 
-if (!sendSmtp($socket, "MAIL FROM:<$from>", 250)) {
+if (!sendSmtp($socket, "MAIL FROM:<" . $from . ">", 250)) {
     fclose($socket);
     exit(1);
 }
 
 foreach ($recipients as $toAddr) {
-    if (!sendSmtp($socket, "RCPT TO:<$toAddr>", 250)) {
+    if (!sendSmtp($socket, "RCPT TO:<" . $toAddr . ">", 250)) {
         fclose($socket);
         exit(1);
     }
@@ -205,6 +205,5 @@ if (substr($dataRes, 0, 3) !== '250') {
 sendSmtp($socket, "QUIT", 221);
 fclose($socket);
 
-logMsg("ÉXITO: Correo enviado correctamente a " . implode(', ', $recipients));
+logMsg("EXITO: Correo enviado correctamente a " . implode(', ', $recipients));
 exit(0);
-

@@ -93,13 +93,13 @@ export class AccessibilityManager {
     if (this.state.lights) {
       this.state.flashlight = false;
       if (this.flashlightController) {
-        this.flashlightController.setDisabled(true);
-        this.flashlightController.setOn(false);
+        this.flashlightController.setDisabled(true, false);
+        this.flashlightController.setOn(false, true, false);
       }
     } else {
       if (this.flashlightController) {
-        this.flashlightController.setDisabled(false);
-        this.flashlightController.setOn(true);
+        this.flashlightController.setDisabled(false, false);
+        this.flashlightController.setOn(true, true, false);
       }
       this.state.flashlight = true;
     }
@@ -123,8 +123,8 @@ export class AccessibilityManager {
       this.syncLightsAndFlashlight(true);
     } else {
       if (this.flashlightController) {
-        this.flashlightController.setDisabled(false);
-        this.flashlightController.setOn(Boolean(this.state.flashlight));
+        this.flashlightController.setDisabled(false, false);
+        this.flashlightController.setOn(Boolean(this.state.flashlight), true, false);
       }
     }
 

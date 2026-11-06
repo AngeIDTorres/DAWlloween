@@ -15,9 +15,7 @@
   width: 100vw;
   height: 100vh;
   overflow: hidden;
-  background:
-    radial-gradient(circle at 50% 50%, rgba(12, 8, 18, 0.15) 0%, rgba(4, 2, 6, 0.6) 80%, rgba(2, 1, 4, 0.85) 100%),
-    url('../img/correo/bg_despacho_director.png') center center / cover no-repeat;
+  background: #020104 url('../img/correo/bg_despacho_director.png') center center / cover no-repeat;
   display: flex;
   align-items: center;
   justify-content: center;
@@ -50,13 +48,7 @@
 }
 
 .office-darkness-veil.lights-off {
-  background: radial-gradient(
-    circle 200px at var(--office-light-x, 50vw) var(--office-light-y, 50vh),
-    transparent 0%,
-    transparent 10%,
-    rgba(1, 2, 4, 0.75) 50%,
-    rgba(0, 1, 2, 0.98) 100%
-  );
+  background: rgba(1, 2, 4, 0.97);
 }
 
 .office-stage.room-lit .office-darkness-veil {
@@ -108,11 +100,97 @@
   z-index: 62;
   transition: opacity 0.3s ease;
   will-change: transform;
+  opacity: 0;
 }
 
+.office-flashlight.visible {
+  opacity: 1;
+}
+
+.office-flashlight.off,
 .office-flashlight.flashlight-off {
-  opacity: 0;
+  opacity: 0 !important;
   pointer-events: none;
+}
+
+.office-flashlight::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  border-radius: 50%;
+  background-image: url('../img/common/luz_linterna_anim.png');
+  background-size: calc(580px * 10) 580px;
+  background-repeat: no-repeat;
+  animation: officeFlashlightFlicker 1.2s steps(10) infinite;
+  mix-blend-mode: screen;
+  opacity: 0.28;
+  filter: brightness(1.15) sepia(18%) saturate(135%);
+  pointer-events: none;
+  -webkit-mask-image: radial-gradient(circle at 50% 50%, #000 0%, #000 35%, rgba(0, 0, 0, 0.4) 65%, transparent 100%);
+  mask-image: radial-gradient(circle at 50% 50%, #000 0%, #000 35%, rgba(0, 0, 0, 0.4) 65%, transparent 100%);
+}
+
+@keyframes officeFlashlightFlicker {
+  from { background-position: 0 0; }
+  to { background-position: calc(-580px * 10) 0; }
+}
+
+.typewriter-send-btn {
+  background: #6e2222;
+  color: #e0d5b5;
+  border: 1.5px solid #c68e42;
+  padding: clamp(6px, 0.65vw, 10px) clamp(16px, 1.4vw, 26px);
+  font-family: 'Special Elite', 'Courier New', monospace;
+  font-size: clamp(0.82rem, 0.95vw, 1.15rem);
+  font-weight: 700;
+  letter-spacing: 2px;
+  text-transform: uppercase;
+  cursor: pointer;
+  border-radius: 3px;
+  box-shadow:
+    0 4px 10px rgba(0, 0, 0, 0.6),
+    inset 0 0 8px rgba(35, 23, 51, 0.5);
+  transition:
+    background-color 0.18s ease,
+    border-color 0.18s ease,
+    transform 0.12s ease,
+    box-shadow 0.18s ease;
+  user-select: none;
+}
+
+.typewriter-chassis-send-btn {
+  position: absolute;
+  left: 50.7%;
+  top: 82.55%;
+  transform: translateX(-50%);
+  z-index: 38;
+  pointer-events: auto;
+  padding: clamp(4px, 0.4vw, 7px) clamp(14px, 1.2vw, 22px);
+  font-size: clamp(0.72rem, 0.85vw, 1rem);
+  box-shadow:
+    0 4px 10px rgba(0, 0, 0, 0.75),
+    inset 0 0 6px rgba(0, 0, 0, 0.6);
+  white-space: nowrap;
+}
+
+.typewriter-chassis-send-btn:hover {
+  background: #8a2e2e;
+  border-color: #dda95a;
+  box-shadow:
+    0 6px 14px rgba(0, 0, 0, 0.85),
+    0 0 12px rgba(221, 169, 90, 0.45);
+  transform: translateX(-50%) translateY(-2px);
+}
+
+.typewriter-chassis-send-btn:active {
+  transform: translateX(-50%) translateY(1px);
+  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.8);
+}
+
+.typewriter-chassis-send-btn:disabled {
+  opacity: 0.65;
+  cursor: not-allowed;
+  filter: grayscale(40%);
 }
 
 .office-interactive-area {
@@ -222,13 +300,24 @@
 .typewriter-paper-feeder {
   position: absolute;
   left: 50%;
-  top: 7%;
+  top: 5.5%;
   transform: translateX(-50%);
-  width: 18.2%;
-  height: 40.5%;
+  width: 18.5%;
+  height: 44%;
   overflow: hidden;
   pointer-events: auto;
   z-index: 30;
+}
+
+.typewriter-roller-overlay {
+  position: absolute;
+  left: 32.7%;
+  top: 46.61%;
+  width: 34.52%;
+  aspect-ratio: 950 / 144;
+  pointer-events: none;
+  z-index: 35;
+  object-fit: fill;
 }
 
 .typewriter-paper-sheet {
@@ -238,8 +327,8 @@
   width: 100%;
   aspect-ratio: 765 / 1024;
   background: transparent;
-  transform: translateY(0);
-  transition: transform 0.26s cubic-bezier(0.2, 0.8, 0.2, 1);
+  transform: translateY(var(--paper-shift, 210px));
+  transition: transform 0.28s cubic-bezier(0.2, 0.8, 0.2, 1);
   box-sizing: border-box;
   will-change: transform;
 }
@@ -260,7 +349,7 @@
   z-index: 2;
   width: 100%;
   height: 100%;
-  padding: 8.5% 9% 7%;
+  padding: 11% 13% 10% 13%;
   box-sizing: border-box;
   display: flex;
   flex-direction: column;
@@ -270,13 +359,13 @@
   display: flex;
   flex-direction: column;
   height: 100%;
-  gap: 3.5%;
+  gap: 4%;
 }
 
 .typewriter-field {
   display: flex;
   flex-direction: column;
-  gap: 1px;
+  gap: 2px;
 }
 
 .typewriter-label {
@@ -284,7 +373,7 @@
   font-size: clamp(0.72rem, 0.88vw, 1.05rem);
   font-weight: 700;
   color: #231733;
-  letter-spacing: 1px;
+  letter-spacing: 1.2px;
   text-transform: uppercase;
   margin: 0;
 }
@@ -293,10 +382,10 @@
   width: 100%;
   background: transparent;
   border: none;
-  border-bottom: 1.5px dashed rgba(35, 23, 51, 0.7);
-  padding: 2px 4px;
+  border-bottom: 1.5px dashed rgba(35, 23, 51, 0.65);
+  padding: 3px 4px;
   font-family: 'Special Elite', 'Courier New', monospace;
-  font-size: clamp(0.68rem, 0.82vw, 0.98rem);
+  font-size: clamp(0.7rem, 0.84vw, 1rem);
   color: #231733;
   outline: none;
   box-sizing: border-box;
@@ -306,7 +395,7 @@
 .typewriter-input:focus {
   border-bottom-style: solid;
   border-bottom-color: #6e2222;
-  background: rgba(221, 169, 90, 0.08);
+  background: rgba(221, 169, 90, 0.1);
 }
 
 .typewriter-field-body {
@@ -318,14 +407,13 @@
 .typewriter-textarea {
   width: 100%;
   flex: 1;
-  min-height: clamp(80px, 9vh, 140px);
+  min-height: clamp(90px, 11vh, 160px);
   background: transparent;
   border: none;
-  border-left: 2px solid rgba(110, 34, 34, 0.4);
-  padding: 4px 6px;
+  padding: 4px 8px;
   font-family: 'Special Elite', 'Courier New', monospace;
-  font-size: clamp(0.66rem, 0.8vw, 0.95rem);
-  line-height: 1.45;
+  font-size: clamp(0.68rem, 0.82vw, 0.98rem);
+  line-height: 1.5;
   color: #231733;
   outline: none;
   resize: none;
@@ -333,52 +421,8 @@
 }
 
 .typewriter-textarea:focus {
-  border-left-color: #6e2222;
+  outline: none;
   background: rgba(221, 169, 90, 0.08);
-}
-
-.typewriter-action-row {
-  margin-top: auto;
-  padding-top: 4px;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-}
-
-.typewriter-send-btn {
-  background: #6e2222;
-  color: #e0d5b5;
-  border: 1.5px solid #c68e42;
-  padding: clamp(4px, 0.55vw, 8px) clamp(12px, 1.3vw, 22px);
-  font-family: 'Special Elite', 'Courier New', monospace;
-  font-size: clamp(0.75rem, 0.9vw, 1.1rem);
-  font-weight: 700;
-  letter-spacing: 2px;
-  text-transform: uppercase;
-  cursor: pointer;
-  border-radius: 2px;
-  box-shadow:
-    0 3px 6px rgba(0, 0, 0, 0.5),
-    inset 0 0 6px rgba(35, 23, 51, 0.4);
-  transition:
-    background-color 0.15s ease,
-    border-color 0.15s ease,
-    transform 0.1s ease,
-    box-shadow 0.15s ease;
-}
-
-.typewriter-send-btn:hover {
-  background: #8a2e2e;
-  border-color: #dda95a;
-  box-shadow:
-    0 4px 10px rgba(0, 0, 0, 0.6),
-    0 0 10px rgba(221, 169, 90, 0.4);
-  transform: translateY(-1px);
-}
-
-.typewriter-send-btn:active {
-  transform: translateY(1px);
-  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.6);
 }
 
 .typewriter-stamp-status {
@@ -417,9 +461,25 @@
 
 @media (max-width: 900px) {
   .typewriter-paper-feeder {
-    width: 28%;
-    height: 43%;
-    top: 6%;
+    width: 32%;
+    height: 44%;
+    top: 5%;
+  }
+
+  .typewriter-roller-overlay {
+    width: 48%;
+    left: 26%;
+  }
+
+  .office-top-actions {
+    top: 14px;
+    right: 14px;
+  }
+
+  .typewriter-send-btn {
+    padding: 6px 14px;
+    font-size: 0.8rem;
+    letter-spacing: 1px;
   }
 
   .office-desk-lamp {
@@ -428,4 +488,3 @@
     top: 40%;
   }
 }
-

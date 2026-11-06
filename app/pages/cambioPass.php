@@ -78,7 +78,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['actualizar'])) {
           </div>
 
           <button type="submit" class="folio-btn">
-            [ Consultar Pregunta Secreta ]
+            [ Consultar ]
           </button>
         </form>
       <?php else: ?>
@@ -113,7 +113,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['actualizar'])) {
           </div>
 
           <button type="submit" class="folio-btn">
-            [ Actualizar y Sellar Contraseña ]
+            [ Actualizar Contraseña ]
           </button>
 
           <div style="text-align: center; margin-top: 0.5rem;">

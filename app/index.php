@@ -314,7 +314,7 @@ if (!obtenerUsuarioActivo()) {
     </div>
   </main>
 
-  <script type="module" src="js/map.js?v=20261030_01"></script>
+  <script type="module" src="js/map.js?v=20261106_01"></script>
 </body>
 </html>
 

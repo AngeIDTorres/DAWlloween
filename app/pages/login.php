@@ -86,36 +86,38 @@ $startExpanded = $hasError || $loginSuccess || isset($_GET['registrado']) || iss
           <div class="padlock-graphic">
             <form method="POST" action="login.php" id="loginForm">
               <div class="plate-content">
-              <?php if ($error !== ''): ?>
-                <div class="plate-alert">
-                  <?= htmlspecialchars($error) ?>
+                <div class="plate-field">
+                  <label for="usuario">USUARIO:</label>
+                  <input type="text" id="usuario" name="usuario" autocomplete="off" required>
                 </div>
-              <?php endif; ?>
 
-              <?php if ($mensaje !== ''): ?>
-                <div class="plate-success">
-                  <?= htmlspecialchars($mensaje) ?>
+                <div class="plate-field">
+                  <label for="password">CLAVE:</label>
+                  <input type="password" id="password" name="password" required>
                 </div>
-              <?php endif; ?>
 
-              <div class="plate-field">
-                <label for="usuario">USUARIO:</label>
-                <input type="text" id="usuario" name="usuario" autocomplete="off" required>
+                <div class="plate-links">
+                  <a href="altaUsuario.php">[ REGISTRO ]</a>
+                  <span class="sep">•</span>
+                  <a href="cambioPass.php">[ ¿CLAVE PERDIDA? ]</a>
+                </div>
               </div>
 
-              <div class="plate-field">
-                <label for="password">CLAVE:</label>
-                <input type="password" id="password" name="password" required>
+              <div class="plate-messages" id="plateMessages">
+                <?php if ($error !== ''): ?>
+                  <div class="plate-alert">
+                    <?= htmlspecialchars($error) ?>
+                  </div>
+                <?php endif; ?>
+
+                <?php if ($mensaje !== ''): ?>
+                  <div class="plate-success">
+                    <?= htmlspecialchars($mensaje) ?>
+                  </div>
+                <?php endif; ?>
               </div>
 
-              <div class="plate-links">
-                <a href="altaUsuario.php">[ REGISTRO ]</a>
-                <span class="sep">•</span>
-                <a href="cambioPass.php">[ ¿CLAVE PERDIDA? ]</a>
-              </div>
-            </div>
-
-            <button type="submit" class="keyhole-btn" id="keyholeBtn" title="Gira la llave para entrar">
+              <button type="submit" class="keyhole-btn" id="keyholeBtn" title="Gira la llave para entrar">
               <div class="antique-key <?= $loginSuccess ? 'turning turned' : '' ?>" id="antiqueKey">
                 <?php if (file_exists(__DIR__ . '/../img/login/llave_antigua.png')): ?>
                   <img src="../img/login/llave_antigua.png" alt="Llave" class="key-img">
@@ -143,6 +145,6 @@ $startExpanded = $hasError || $loginSuccess || isset($_GET['registrado']) || iss
   <div class="blackout-curtain" id="blackoutCurtain"></div>
 </div>
 
-  <script type="module" src="../js/main.js"></script>
+  <script type="module" src="../js/main.js?v=20261106_01"></script>
 </body>
 </html>

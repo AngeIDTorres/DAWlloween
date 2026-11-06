@@ -1,10 +1,10 @@
-import { AudioEngine } from './core/audio.js?v=20261029_11';
-import { FlashlightController } from './core/flashlight.js';
+import { AudioEngine } from './core/audio.js?v=20261106_01';
+import { FlashlightController } from './core/flashlight.js?v=20261106_01';
 import { ROOMS_REGISTRY } from './map/rooms-data.js';
-import { initNavigation } from './map/navigation.js?v=20261029_11';
-import { initHangingLamp } from './map/hanging-lamp.js?v=20261029_11';
-import { initPostit } from './map/postit.js?v=20261029_11';
-import { initAccessibility } from './core/accessibility.js?v=20261029_13';
+import { initNavigation } from './map/navigation.js?v=20261106_01';
+import { initHangingLamp } from './map/hanging-lamp.js?v=20261106_01';
+import { initPostit } from './map/postit.js?v=20261106_01';
+import { initAccessibility } from './core/accessibility.js?v=20261106_01';
 
 document.addEventListener('DOMContentLoaded', () => {
   AudioEngine.init();
@@ -34,7 +34,7 @@ document.addEventListener('DOMContentLoaded', () => {
     stageSelector: '.map-stage',
     cssVarPrefix: '--map-light',
     enableKeyToggle: true,
-    onToggle: (isOn) => {
+    onToggle: (isOn, playAudio = true) => {
       if (isOn) {
         if (darknessVeil) darknessVeil.classList.remove('lights-off');
         if (mapStage) mapStage.classList.remove('cursor-visible');
@@ -42,7 +42,9 @@ document.addEventListener('DOMContentLoaded', () => {
         if (darknessVeil) darknessVeil.classList.add('lights-off');
         if (mapStage) mapStage.classList.add('cursor-visible');
       }
-      AudioEngine.playClick();
+      if (playAudio === true) {
+        AudioEngine.playClick();
+      }
       if (accessibility) {
         accessibility.state.flashlight = isOn;
         accessibility.saveState();

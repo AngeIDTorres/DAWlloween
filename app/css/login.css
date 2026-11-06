@@ -65,32 +65,35 @@
 
 .moon-glow {
     position: absolute;
-    top: 24.5%;
+    top: 18.6%;
     left: 50%;
     transform: translate(-50%, -50%);
-    width: clamp(280px, 16.5%, 460px);
-    height: clamp(280px, 16.5%, 460px);
+    width: clamp(340px, 18.5%, 520px);
+    height: clamp(340px, 18.5%, 520px);
     border-radius: 50%;
     background: radial-gradient(
         circle,
-        rgba(255, 255, 255, 0.6) 0%,
-        rgba(220, 242, 255, 0.38) 25%,
-        rgba(170, 212, 255, 0.16) 50%,
-        rgba(130, 185, 235, 0.05) 70%,
-        transparent 82%
+        rgba(255, 252, 238, 0.45) 0%,
+        rgba(255, 238, 190, 0.35) 45%,
+        rgba(254, 215, 140, 0.22) 65%,
+        rgba(234, 182, 94, 0.12) 80%,
+        transparent 96%
     );
-    box-shadow: 0 0 45px rgba(215, 235, 255, 0.22);
-    filter: blur(9px);
-    animation: moonGlowPulse 7s ease-in-out infinite alternate;
+    box-shadow:
+        0 0 35px rgba(255, 235, 180, 0.45),
+        0 0 70px rgba(254, 215, 140, 0.3),
+        0 0 120px rgba(234, 182, 94, 0.18);
+    filter: blur(8px);
+    animation: moonGlowPulse 8s ease-in-out infinite alternate;
     mix-blend-mode: screen;
 }
 
 .moon-rays {
     position: absolute;
-    top: 24.5%;
+    top: 18.6%;
     left: 50%;
-    width: 140%;
-    height: 125%;
+    width: 154%;
+    height: 138%;
     transform: translate(-50%, 0);
     transform-origin: 50% 0%;
     pointer-events: none;
@@ -98,13 +101,13 @@
     background: repeating-conic-gradient(
         from 65deg at 50% 0%,
         transparent 0deg,
-        rgba(215, 235, 255, 0.045) 3.5deg,
-        rgba(242, 250, 255, 0.16) 7deg,
-        rgba(195, 225, 255, 0.065) 10.5deg,
+        rgba(255, 240, 205, 0.05) 3.5deg,
+        rgba(255, 248, 225, 0.16) 7deg,
+        rgba(254, 220, 150, 0.07) 10.5deg,
         transparent 14deg,
         transparent 20deg,
-        rgba(230, 245, 255, 0.14) 24.5deg,
-        rgba(190, 225, 255, 0.045) 28.5deg,
+        rgba(255, 242, 210, 0.14) 24.5deg,
+        rgba(254, 215, 140, 0.05) 28.5deg,
         transparent 33deg
     );
     -webkit-mask-image: radial-gradient(ellipse 70% 85% at 50% 0%, rgba(0, 0, 0, 1) 0%, rgba(0, 0, 0, 0.75) 30%, rgba(0, 0, 0, 0.35) 60%, rgba(0, 0, 0, 0.08) 82%, transparent 100%);
@@ -114,66 +117,69 @@
 }
 
 .moon-rays.secondary {
-    width: 150%;
-    height: 135%;
+    width: 165%;
+    height: 148%;
     background: repeating-conic-gradient(
         from 78deg at 50% 0%,
         transparent 0deg,
-        rgba(200, 230, 255, 0.05) 4.5deg,
-        rgba(245, 252, 255, 0.14) 8deg,
-        rgba(180, 220, 255, 0.04) 12deg,
+        rgba(255, 235, 195, 0.05) 4.5deg,
+        rgba(255, 250, 230, 0.14) 8deg,
+        rgba(254, 215, 140, 0.04) 12deg,
         transparent 16deg,
         transparent 21deg,
-        rgba(225, 245, 255, 0.12) 25.5deg,
+        rgba(255, 240, 205, 0.12) 25.5deg,
         transparent 31deg
     );
     filter: blur(5px);
     animation: moonRaysSway2 22s ease-in-out infinite alternate;
-    opacity: 0.78;
+    opacity: 0.86;
 }
 
 @keyframes moonGlowPulse {
     0% {
-        transform: translate(-50%, -50%) scale(0.95);
-        opacity: 0.7;
+        opacity: 0.82;
+        filter: blur(8px) brightness(1);
     }
     50% {
-        transform: translate(-50%, -50%) scale(1.08);
-        opacity: 0.95;
+        opacity: 1;
+        filter: blur(9px) brightness(1.12);
     }
     100% {
-        transform: translate(-50%, -50%) scale(1);
-        opacity: 0.75;
+        opacity: 0.88;
+        filter: blur(8px) brightness(1.04);
     }
 }
 
 @keyframes moonRaysSway {
     0% {
-        transform: translate(-50%, 0) rotate(-1.5deg) scale(0.98);
-        opacity: 0.8;
+        transform: translate(-50%, 0) rotate(-1.5deg);
+        opacity: 0.88;
     }
     50% {
-        transform: translate(-50%, 0) rotate(1deg) scale(1.02);
+        transform: translate(-50%, 0) rotate(1deg);
         opacity: 1;
     }
     100% {
-        transform: translate(-50%, 0) rotate(1.8deg) scale(1);
-        opacity: 0.85;
+        transform: translate(-50%, 0) rotate(1.8deg);
+        opacity: 0.92;
     }
 }
 
 @keyframes moonRaysSway2 {
     0% {
-        transform: translate(-50%, 0) rotate(1.5deg) scale(1.02);
-        opacity: 0.65;
+        transform: translate(-50%, 0) rotate(1.5deg);
+        opacity: 0.72;
     }
     50% {
-        transform: translate(-50%, 0) rotate(-1deg) scale(0.98);
-        opacity: 0.85;
+        transform: translate(-50%, 0) rotate(-1deg);
+        opacity: 0.94;
     }
     100% {
-        transform: translate(-50%, 0) rotate(-2deg) scale(1.01);
-        opacity: 0.7;
+        transform: translate(-50%, 0) rotate(-2deg);
+        opacity: 0.85;
+    }
+}
+        opacity: 0.78;
     }
 }
 
@@ -507,35 +513,69 @@
     pointer-events: auto;
 }
 
+.plate-messages {
+    position: absolute;
+    top: 64.8%;
+    left: 50%;
+    transform: translateX(-50%);
+    width: clamp(220px, 60cqi, 340px);
+    z-index: 29;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    pointer-events: none;
+    opacity: 0;
+    transition: opacity 0.35s ease;
+}
+
+.padlock-wrapper.expanded .plate-messages {
+    opacity: 1;
+    pointer-events: auto;
+}
+
 .plate-alert {
-    color: #5c1515;
-    font-size: clamp(0.64rem, 2.2cqi, 0.78rem);
+    color: #ffd2d2;
+    background: rgba(18, 8, 12, 0.94);
+    border: 1.5px solid rgba(195, 45, 45, 0.85);
+    border-radius: 4px;
+    padding: clamp(0.25rem, 1.2cqi, 0.4rem) clamp(0.5rem, 2cqi, 0.85rem);
+    font-size: clamp(0.64rem, 2.3cqi, 0.8rem);
+    font-family: 'Special Elite', monospace;
     font-weight: bold;
-    text-shadow: 0 1px 0 rgba(255, 255, 255, 0.25);
+    text-shadow:
+        0 0 6px rgba(230, 50, 50, 0.75),
+        0 1px 2px rgba(0, 0, 0, 0.95);
     letter-spacing: 0.5px;
     text-align: center;
-    line-height: 1;
-    background: rgba(0, 0, 0, 0.3);
-    padding: 2px 6px;
-    border-radius: 2px;
-    white-space: nowrap;
-    overflow: hidden;
-    text-overflow: ellipsis;
-    max-width: 95%;
+    line-height: 1.25;
+    box-shadow:
+        0 4px 12px rgba(0, 0, 0, 0.9),
+        inset 0 1px 0 rgba(255, 255, 255, 0.15);
+    max-width: 100%;
+    box-sizing: border-box;
 }
 
 .plate-success {
-    color: #1f2e18;
-    font-size: clamp(0.64rem, 2.2cqi, 0.78rem);
+    color: #d6ffd0;
+    background: rgba(10, 20, 12, 0.94);
+    border: 1.5px solid rgba(50, 160, 65, 0.85);
+    border-radius: 4px;
+    padding: clamp(0.25rem, 1.2cqi, 0.4rem) clamp(0.5rem, 2cqi, 0.85rem);
+    font-size: clamp(0.64rem, 2.3cqi, 0.8rem);
+    font-family: 'Special Elite', monospace;
     font-weight: bold;
-    text-shadow: 0 1px 0 rgba(255, 255, 255, 0.25);
+    text-shadow:
+        0 0 6px rgba(60, 220, 75, 0.75),
+        0 1px 2px rgba(0, 0, 0, 0.95);
     letter-spacing: 0.5px;
     text-align: center;
-    line-height: 1;
-    white-space: nowrap;
-    overflow: hidden;
-    text-overflow: ellipsis;
-    max-width: 95%;
+    line-height: 1.25;
+    box-shadow:
+        0 4px 12px rgba(0, 0, 0, 0.9),
+        inset 0 1px 0 rgba(255, 255, 255, 0.15);
+    max-width: 100%;
+    box-sizing: border-box;
 }
 
 .plate-field {

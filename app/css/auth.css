@@ -17,7 +17,7 @@
 .folio-a4-sheet {
   position: relative;
   z-index: 2;
-  width: 100%;
+  width: min(92vw, 620px);
   max-width: 620px;
   margin: auto;
   background: #d3c6a6 url('../img/mapa/papel_mapa_pergamino.png') center center / cover no-repeat;
@@ -28,7 +28,7 @@
     inset 0 0 45px rgba(58, 35, 70, 0.22),
     inset 0 0 90px rgba(110, 34, 34, 0.15);
   box-sizing: border-box;
-  padding: 3rem 3.2rem 3.4rem;
+  padding: clamp(4.4rem, 8.5vw, 5.6rem) clamp(2.4rem, 7.5vw, 4.4rem) clamp(3.2rem, 6.5vw, 4.4rem);
   border-radius: 3px;
   transition:
     transform 0.2s ease,
@@ -63,6 +63,7 @@
 
 .folio-header {
   border-bottom: 1.5px solid #6e2222;
+  padding-top: 0.6rem;
   padding-bottom: 0.9rem;
   margin-bottom: 1.35rem;
   text-align: center;
@@ -73,17 +74,18 @@
   display: flex;
   justify-content: center;
   align-items: center;
-  font-size: 0.76rem;
+  font-size: clamp(0.72rem, 1.1vw, 0.8rem);
   letter-spacing: 2px;
   color: #8a2e2e;
   text-transform: uppercase;
   font-weight: 700;
-  margin-bottom: 0.35rem;
+  margin-top: 0.4rem;
+  margin-bottom: 0.5rem;
 }
 
 .folio-title {
   font-family: 'Creepster', cursive;
-  font-size: 2.7rem;
+  font-size: clamp(2.1rem, 4.5vw, 2.7rem);
   color: #6e2222;
   margin: 0.1rem 0;
   letter-spacing: 2px;
@@ -94,7 +96,7 @@
 }
 
 .folio-subtitle {
-  font-size: 0.86rem;
+  font-size: clamp(0.76rem, 1.3vw, 0.88rem);
   color: #3a2346;
   font-weight: 700;
   letter-spacing: 1px;
@@ -273,9 +275,8 @@
 }
 
 .folio-btn {
-  width: auto;
-  min-width: 260px;
-  max-width: 75%;
+  width: min(100%, 340px);
+  max-width: 100%;
   align-self: center;
   margin-top: 0.6rem;
   padding: 0.82rem 1.6rem;
@@ -302,6 +303,7 @@
   justify-content: center;
   text-align: center;
   box-sizing: border-box;
+  white-space: nowrap;
 }
 
 .folio-btn:hover {
@@ -428,22 +430,24 @@
 
 @media (max-width: 680px) {
   .auth-body {
-    padding: 1rem 0.6rem;
+    padding: 1.2rem 0.5rem;
   }
 
   .folio-a4-sheet {
-    padding: 2.2rem 1.5rem 1.8rem;
+    padding: clamp(3.8rem, 11vw, 4.8rem) clamp(1.8rem, 6.5vw, 2.6rem) clamp(2.5rem, 8vw, 3.4rem);
+    width: 100%;
   }
 
   .folio-title {
-    font-size: 2.2rem;
+    font-size: 2.1rem;
   }
 
   .folio-subtitle {
-    font-size: 0.8rem;
+    font-size: 0.78rem;
   }
 
   .folio-meta-bar {
-    font-size: 0.7rem;
+    font-size: 0.68rem;
+    letter-spacing: 1.5px;
   }
 }

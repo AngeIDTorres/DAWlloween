@@ -32,7 +32,7 @@ El motor `AudioEngine` gestiona todo el sonido mediante un sistema dual tolerant
 | :--- | :--- |
 | `ambiente_noche.ogg` | Fondo exterior nocturno continuo (viento otoñal limpio, sin aves). |
 | `candado_salto.mp3` | Saltos rítmicos del candado en reposo (se pausa al situar el cursor encima). |
-| `candado_expandir.mp3` | Clic sobre el candado para desplegar el formulario de acceso. |
+| `candado_expandir.mp3` | Clic sobre el candado para desplegar el formulario de acceso (volumen atenuado a 0.40). |
 | `llave_insertar.mp3` | Cursor sobre el ojo de la cerradura. |
 | `llave_girar.mp3` | Clic sobre la llave para girar el mecanismo. |
 | `candado_error.mp3` | Sacudida violenta por credenciales incorrectas. |
@@ -53,3 +53,11 @@ El motor `AudioEngine` gestiona todo el sonido mediante un sistema dual tolerant
 | :--- | :--- |
 | `lampara_tubo_on.mp3` / `off.mp3` | Arranque metálico y conmutador industrial de los tubos fluorescentes. |
 | `lampara_tubo_chisporroteo.mp3` | Chisporroteo aleatorio del cebador/starter en penumbra. |
+
+### Despacho de Dirección y Correo (`app/audio/correo/`)
+| Archivo | Disparador / Evento |
+| :--- | :--- |
+| `lampara_mesa_on.mp3` / `off.mp3` | Conmutador metálico vintage de la lámpara de sobremesa con calidez de filamento. |
+| `maquina_tecla.mp3` | Pulsación mecánica seca de tecla de máquina de escribir sobre el rodillo. |
+| `maquina_salto_linea.mp3` | Palanca de retorno de carro con campana analógica (*ding*) y cremallera dentada. |
+| `correo_enviar.mp3` | Matasellos pesado de tinta sobre pergamino con despacho de correspondencia. |

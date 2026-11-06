@@ -72,8 +72,8 @@ export function initAuth(options = {}) {
             if (!alertEl) {
               alertEl = document.createElement('div');
               alertEl.className = 'plate-alert';
-              const plateContent = document.querySelector('.plate-content');
-              if (plateContent) plateContent.prepend(alertEl);
+              const container = document.getElementById('plateMessages') || document.querySelector('.plate-content');
+              if (container) container.appendChild(alertEl);
             }
             alertEl.textContent = data.error || 'Combinación errónea. Clave rechazada.';
           }, 350);

@@ -13,6 +13,7 @@ Directorio central de arquitectura, infraestructura, diseño y lógica interacti
 | [**autenticacion.md**](autenticacion.md) | Persistencia de usuarios en memoria de sesión PHP (`$_SESSION['mimatriz']`), modelo de datos en `VarGlobales.php` y flujos de login, registro y recuperación en 2 pasos. |
 | [**mapa-navegacion.md**](mapa-navegacion.md) | Fachada exterior con cancela y candado interactivo, plano central del colegio (SVG), expediente estilo "MISSING" y arquitectura modular JavaScript. |
 | [**recetas.md**](recetas.md) | Comedor escolar, catálogo de 7 recetas temáticas (`recetasData.js`), iluminación de linterna y tubos fluorescentes, y navegación entre fichas. |
+| [**correo.md**](correo.md) | Despacho de dirección, mecanismo cinemático de folio en máquina de escribir analógica y backend de transmisión SMTP (`config/sendmail.php`). |
 | [**accesibilidad.md**](accesibilidad.md) | Panel de control estilo busca/mensáfono noventero (`.accessibility-pager`), sincronización en tiempo real, atajos de teclado y persistencia en `localStorage`. |
 | [**audio.md**](audio.md) | Motor dual `AudioEngine` (archivos HD ElevenLabs SFX con respaldo procedimental Web Audio API), persistencia de ambiente interior y catálogo sonoro completo. |
 | [**labelling.md**](labelling.md) | Nomenclatura y rótulos exactos presentes en formularios, plano, expediente y recetario confirmados con el código del repositorio. |
@@ -33,6 +34,5 @@ La carpeta [**`diseño_lofi/`**](diseño_lofi/) almacena los wireframes de baja 
 
 ## 3. Módulos en Desarrollo (Roadmap)
 
-* **`correo.md` (Fase 4):** Máquina de escribir del despacho de dirección y servicio de transmisión de correo vía SMTP (`correo.php`).
 * **`minijuego.md` (Fase 5):** Minijuego 2D con cuadrícula en JavaScript, lógica de persecución y escape en la sala de recreo (`juego.php`).
 * **`manual-usuario.md` (Fase 6):** Guía de usuario no técnica orientada a la navegación y uso del centro escolar.

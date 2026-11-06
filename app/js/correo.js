@@ -4,6 +4,13 @@ import { initAccessibility } from './core/accessibility.js';
 
 document.addEventListener('DOMContentLoaded', () => {
   AudioEngine.init();
+  AudioEngine.preload([
+    'lampara_mesa_on.mp3',
+    'lampara_mesa_off.mp3',
+    'maquina_tecla.mp3',
+    'maquina_salto_linea.mp3',
+    'correo_enviar.mp3'
+  ], '../audio/correo/');
   AudioEngine.playAmbientInterior('../audio/common/');
 
   const blackoutCurtain = document.getElementById('blackoutCurtain');
@@ -22,7 +29,6 @@ document.addEventListener('DOMContentLoaded', () => {
   const destinatarioInput = document.getElementById('destinatario');
   const asuntoInput = document.getElementById('asunto');
   const cuerpoTextarea = document.getElementById('cuerpo');
-  const sendBtn = document.getElementById('sendEmailBtn');
   const mailForm = document.getElementById('typewriterMailForm');
 
   let isNavigatingBack = false;
@@ -51,7 +57,7 @@ document.addEventListener('DOMContentLoaded', () => {
     stageSelector: '.office-stage',
     cssVarPrefix: '--office-light',
     enableKeyToggle: true,
-    onToggle: (isOn) => {
+    onToggle: (isOn, playAudio = true) => {
       if (isOn) {
         if (darknessVeil) darknessVeil.classList.remove('lights-off');
         if (officeStage) officeStage.classList.remove('cursor-visible');
@@ -59,7 +65,9 @@ document.addEventListener('DOMContentLoaded', () => {
         if (darknessVeil) darknessVeil.classList.add('lights-off');
         if (officeStage) officeStage.classList.add('cursor-visible');
       }
-      AudioEngine.playClick('../audio/common/');
+      if (playAudio === true) {
+        AudioEngine.playClick('../audio/common/');
+      }
       if (accessibility) {
         accessibility.state.flashlight = isOn;
         accessibility.saveState();
@@ -73,7 +81,9 @@ document.addEventListener('DOMContentLoaded', () => {
       if (!officeStage) return;
       officeStage.classList.add('room-lit');
       if (playAudio && AudioEngine) {
-        if (AudioEngine.playBulbOn) {
+        if (AudioEngine.playDeskLampOn) {
+          AudioEngine.playDeskLampOn('../audio/correo/');
+        } else if (AudioEngine.playBulbOn) {
           AudioEngine.playBulbOn('../audio/mapa/');
         } else if (AudioEngine.playLightSwitch) {
           AudioEngine.playLightSwitch('../audio/mapa/');
@@ -88,7 +98,9 @@ document.addEventListener('DOMContentLoaded', () => {
       if (!officeStage) return;
       officeStage.classList.remove('room-lit');
       if (playAudio && AudioEngine) {
-        if (AudioEngine.playBulbOff) {
+        if (AudioEngine.playDeskLampOff) {
+          AudioEngine.playDeskLampOff('../audio/correo/');
+        } else if (AudioEngine.playBulbOff) {
           AudioEngine.playBulbOff('../audio/mapa/');
         } else if (AudioEngine.playLightSwitch) {
           AudioEngine.playLightSwitch('../audio/mapa/');
@@ -129,45 +141,75 @@ document.addEventListener('DOMContentLoaded', () => {
   });
 
   lampController.turnOn(false);
+  flashlight.setDisabled(true, false);
+  flashlight.setOn(false, false, false);
+  if (accessibility) {
+    accessibility.syncLightsAndFlashlight(true);
+  }
 
   const calculatePaperShift = () => {
     if (!paperSheet) return;
 
+    const initialShift = 210;
+    const maxRise = 210;
     const activeEl = document.activeElement;
+
     if (activeEl === destinatarioInput) {
-      paperSheet.style.transform = 'translateY(0)';
+      paperSheet.style.setProperty('--paper-shift', `${initialShift}px`);
       return;
     }
 
     if (activeEl === asuntoInput) {
-      paperSheet.style.transform = 'translateY(-28px)';
+      paperSheet.style.setProperty('--paper-shift', `${initialShift - 35}px`);
       return;
     }
 
     if (activeEl === cuerpoTextarea) {
-      const textUntilCursor = cuerpoTextarea.value.substring(0, cuerpoTextarea.selectionStart || 0);
-      const lines = textUntilCursor.split('\n').length;
-      const baseShift = 62;
-      const lineStep = 22;
-      const totalShift = Math.min(220, baseShift + (lines - 1) * lineStep);
-      paperSheet.style.transform = `translateY(-${totalShift}px)`;
+      const val = cuerpoTextarea.value;
+      const cursorPos = cuerpoTextarea.selectionStart || val.length;
+      const textUpToCursor = val.substring(0, cursorPos);
+      const linesUpToCursor = textUpToCursor.split('\n').length;
+      const totalLines = val.split('\n').length;
+      const effectiveLines = Math.max(linesUpToCursor, Math.min(totalLines, 8));
+
+      const charCount = val.length;
+      const charRise = Math.min(45, Math.floor(charCount / 20) * 8);
+      const lineRise = (effectiveLines - 1) * 26;
+
+      const totalRise = Math.min(maxRise, 35 + lineRise + charRise);
+      const targetShift = Math.max(0, initialShift - totalRise);
+
+      paperSheet.style.setProperty('--paper-shift', `${targetShift}px`);
       return;
     }
 
-    paperSheet.style.transform = 'translateY(0)';
+    if (cuerpoTextarea && cuerpoTextarea.value.trim().length > 0) {
+      const val = cuerpoTextarea.value;
+      const totalLines = Math.min(8, val.split('\n').length);
+      const charRise = Math.min(45, Math.floor(val.length / 20) * 8);
+      const lineRise = (totalLines - 1) * 26;
+      const totalRise = Math.min(maxRise, 30 + lineRise + charRise);
+      const targetShift = Math.max(0, initialShift - totalRise);
+      paperSheet.style.setProperty('--paper-shift', `${targetShift}px`);
+      return;
+    }
+
+    paperSheet.style.setProperty('--paper-shift', `${initialShift}px`);
   };
+
+  calculatePaperShift();
 
   if (destinatarioInput) {
     destinatarioInput.addEventListener('focus', calculatePaperShift);
     destinatarioInput.addEventListener('keydown', () => {
-      AudioEngine.playClick('../audio/common/');
+      AudioEngine.playTypewriterKey('../audio/correo/');
     });
   }
 
   if (asuntoInput) {
     asuntoInput.addEventListener('focus', calculatePaperShift);
     asuntoInput.addEventListener('keydown', () => {
-      AudioEngine.playClick('../audio/common/');
+      AudioEngine.playTypewriterKey('../audio/correo/');
     });
   }
 
@@ -178,19 +220,95 @@ document.addEventListener('DOMContentLoaded', () => {
     cuerpoTextarea.addEventListener('keyup', calculatePaperShift);
 
     cuerpoTextarea.addEventListener('keydown', (e) => {
+      if ((e.ctrlKey || e.metaKey) && e.key === 'Enter') {
+        e.preventDefault();
+        if (mailForm) {
+          mailForm.requestSubmit();
+        }
+        return;
+      }
+
       if (e.key === 'Enter') {
-        AudioEngine.playPaper('../audio/common/');
+        AudioEngine.playCarriageReturn('../audio/correo/');
       } else if (!e.ctrlKey && !e.metaKey && !e.altKey) {
-        AudioEngine.playClick('../audio/common/');
+        AudioEngine.playTypewriterKey('../audio/correo/');
       }
       setTimeout(calculatePaperShift, 10);
     });
   }
 
   if (mailForm) {
-    mailForm.addEventListener('submit', () => {
-      AudioEngine.playPaper('../audio/common/');
+    mailForm.addEventListener('submit', async (e) => {
+      e.preventDefault();
+
+      const destinatario = destinatarioInput ? destinatarioInput.value.trim() : '';
+      const asunto = asuntoInput ? asuntoInput.value.trim() : '';
+      const cuerpo = cuerpoTextarea ? cuerpoTextarea.value.trim() : '';
+
+      if (!destinatario || !asunto || !cuerpo) {
+        return;
+      }
+
+      const sendBtn = document.getElementById('sendEmailBtn');
+      if (sendBtn) {
+        sendBtn.disabled = true;
+        sendBtn.textContent = '[ ENVIANDO... ]';
+      }
+
+      if (AudioEngine && AudioEngine.playMailSend) {
+        AudioEngine.playMailSend('../audio/correo/');
+      }
+
+      const formData = new FormData(mailForm);
+      formData.append('ajax', '1');
+
+      try {
+        const resp = await fetch('correo.php', {
+          method: 'POST',
+          body: formData,
+          headers: {
+            'X-Requested-With': 'XMLHttpRequest',
+            'Accept': 'application/json'
+          }
+        });
+
+        const data = await resp.json();
+
+        let stampEl = document.getElementById('typewriterStampStatus');
+        if (!stampEl && paperSheet) {
+          const formContent = paperSheet.querySelector('.typewriter-form-content');
+          if (formContent) {
+            stampEl = document.createElement('div');
+            stampEl.id = 'typewriterStampStatus';
+            stampEl.className = 'typewriter-stamp-status';
+            formContent.insertBefore(stampEl, formContent.firstChild);
+          }
+        }
+
+        if (stampEl) {
+          stampEl.textContent = data.message || (data.success ? '¡Correo enviado con éxito!' : 'Error al enviar el correo.');
+          stampEl.className = `typewriter-stamp-status ${data.success ? 'stamp-success' : 'stamp-error'}`;
+          stampEl.style.display = 'block';
+        }
+
+        if (data.success) {
+          if (cuerpoTextarea) cuerpoTextarea.value = '';
+          if (asuntoInput) asuntoInput.value = '';
+          calculatePaperShift();
+        }
+      } catch (err) {
+        let stampEl = document.getElementById('typewriterStampStatus');
+        if (stampEl) {
+          stampEl.textContent = 'Error de conexión al enviar el correo.';
+          stampEl.className = 'typewriter-stamp-status stamp-error';
+          stampEl.style.display = 'block';
+        }
+      } finally {
+        if (sendBtn) {
+          sendBtn.disabled = false;
+          sendBtn.textContent = '[ ENVIAR ]';
+        }
+      }
     });
   }
 });
-

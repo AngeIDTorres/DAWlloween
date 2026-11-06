@@ -54,13 +54,7 @@
 }
 
 .dining-darkness-veil.lights-off {
-  background: radial-gradient(
-    circle 200px at var(--dining-light-x, 50vw) var(--dining-light-y, 50vh),
-    transparent 0%,
-    transparent 10%,
-    rgba(1, 2, 4, 0.75) 50%,
-    rgba(0, 1, 2, 0.98) 100%
-  );
+  background: rgba(1, 2, 4, 0.97);
 }
 
 .dining-stage.room-lit .dining-darkness-veil {
@@ -135,6 +129,13 @@
 
 .dining-flashlight.visible {
   opacity: 1;
+}
+
+.dining-flashlight.off,
+.dining-flashlight.flashlight-off {
+  opacity: 0 !important;
+  display: none !important;
+  pointer-events: none;
 }
 
 .dining-stage.room-lit .dining-flashlight {

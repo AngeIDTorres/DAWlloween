@@ -19,6 +19,8 @@ export const AudioEngine = {
   ambientStartTime: null,
   ambientDuration: null,
   ambientSyncTimer: null,
+  typewriterVoicePool: [],
+  typewriterVoiceIndex: 0,
 
   autoUnlockBound: false,
 
@@ -118,13 +120,13 @@ export const AudioEngine = {
       osc1.type = 'triangle';
       osc1.frequency.setValueAtTime(140, now);
       osc1.frequency.exponentialRampToValueAtTime(55, now + 0.16);
-      gain1.gain.setValueAtTime(0.35, now);
+      gain1.gain.setValueAtTime(0.15, now);
       gain1.gain.exponentialRampToValueAtTime(0.001, now + 0.18);
       osc1.connect(gain1);
       gain1.connect(this.ctx.destination);
       osc1.start(now);
       osc1.stop(now + 0.19);
-    });
+    }, basePath, 0.4);
   },
 
   playKeyInsert(basePath = '../audio/login/') {
@@ -743,6 +745,82 @@ export const AudioEngine = {
         osc.stop(now + 0.12);
       } catch (e) {}
     }, basePath);
+  },
+
+  playDeskLampOn(basePath = '../audio/correo/') {
+    this.playFileOrFallback('lampara_mesa_on.mp3', () => {
+      this.playBulbOn('../audio/mapa/');
+    }, basePath, 0.6);
+  },
+
+  playDeskLampOff(basePath = '../audio/correo/') {
+    this.playFileOrFallback('lampara_mesa_off.mp3', () => {
+      this.playBulbOff('../audio/mapa/');
+    }, basePath, 0.6);
+  },
+
+  playTypewriterKey(basePath = '../audio/correo/') {
+    if (this.isMuted) return;
+    const path = basePath + 'maquina_tecla.mp3';
+    if (!this.typewriterVoicePool || this.typewriterVoicePool.length === 0) {
+      this.typewriterVoicePool = [];
+      const poolSize = 12;
+      for (let i = 0; i < poolSize; i++) {
+        const aud = new Audio(path);
+        aud.preload = 'auto';
+        this.typewriterVoicePool.push(aud);
+      }
+    }
+    const voice = this.typewriterVoicePool[this.typewriterVoiceIndex];
+    this.typewriterVoiceIndex = (this.typewriterVoiceIndex + 1) % this.typewriterVoicePool.length;
+    if (voice) {
+      voice.volume = 0.55;
+      voice.currentTime = 0;
+      voice.play().catch(() => {});
+    }
+  },
+
+  playCarriageReturn(basePath = '../audio/correo/') {
+    this.playFileOrFallback('maquina_salto_linea.mp3', () => {
+      this.init();
+      if (!this.ctx) return;
+      try {
+        const now = this.ctx.currentTime;
+        const bell = this.ctx.createOscillator();
+        const bellGain = this.ctx.createGain();
+        bell.type = 'sine';
+        bell.frequency.setValueAtTime(2400, now);
+        bellGain.gain.setValueAtTime(0.12, now);
+        bellGain.gain.exponentialRampToValueAtTime(0.001, now + 0.35);
+        bell.connect(bellGain);
+        bellGain.connect(this.ctx.destination);
+        bell.start(now);
+        bell.stop(now + 0.36);
+        this.playPaper('../audio/common/');
+      } catch (e) {}
+    }, basePath, 0.65);
+  },
+
+  playMailSend(basePath = '../audio/correo/') {
+    this.playFileOrFallback('correo_enviar.mp3', () => {
+      this.init();
+      if (!this.ctx) return;
+      try {
+        const now = this.ctx.currentTime;
+        const osc = this.ctx.createOscillator();
+        const gain = this.ctx.createGain();
+        osc.type = 'sine';
+        osc.frequency.setValueAtTime(160, now);
+        osc.frequency.exponentialRampToValueAtTime(45, now + 0.2);
+        gain.gain.setValueAtTime(0.18, now);
+        gain.gain.exponentialRampToValueAtTime(0.001, now + 0.22);
+        osc.connect(gain);
+        gain.connect(this.ctx.destination);
+        osc.start(now);
+        osc.stop(now + 0.24);
+        this.playPaper('../audio/common/');
+      } catch (e) {}
+    }, basePath, 0.7);
   }
 };
 

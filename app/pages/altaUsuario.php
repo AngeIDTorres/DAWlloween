@@ -53,10 +53,10 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     <div class="folio-content">
       <header class="folio-header">
         <div class="folio-meta-bar">
-          <span>ARCHIVO ESCOLAR · SECTOR ESTE</span>
+          <span>ARCHIVO ESCOLAR</span>
         </div>
         <h1 class="folio-title">Ficha de Ingreso</h1>
-        <p class="folio-subtitle">Registro de Nuevo Alumno · Censo Institucional</p>
+        <p class="folio-subtitle">Registro de Nuevo Alumno</p>
       </header>
 
       <?php if ($error !== ''): ?>
@@ -106,7 +106,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         </div>
 
         <button type="submit" class="folio-btn">
-          [ Formalizar Registro de Alumno ]
+          [ Registrarse ]
         </button>
       </form>
 

@@ -20,9 +20,9 @@ export class FlashlightController {
 
   bindEvents() {
     const handlePointer = (clientX, clientY) => {
-      if (!this.activeCondition()) return;
       this.mouseX = clientX;
       this.mouseY = clientY;
+      if (!this.activeCondition()) return;
       if (!this.element.classList.contains('visible') && this.isOn && !this.disabled) {
         this.element.classList.add('visible');
       }
@@ -33,6 +33,11 @@ export class FlashlightController {
         });
       }
     };
+
+    window.addEventListener('pointermove', (e) => {
+      this.mouseX = e.clientX;
+      this.mouseY = e.clientY;
+    }, { passive: true, capture: true });
 
     window.addEventListener('mousemove', (e) => handlePointer(e.clientX, e.clientY));
     window.addEventListener('touchmove', (e) => {
@@ -75,35 +80,38 @@ export class FlashlightController {
       this.stage.style.setProperty(`${this.cssVarPrefix}-x`, `${this.mouseX}px`);
       this.stage.style.setProperty(`${this.cssVarPrefix}-y`, `${this.mouseY}px`);
     }
-    if (this.isOn && !this.disabled) {
-      this.element.style.transform = `translate(${this.mouseX}px, ${this.mouseY}px) translate(-50%, -50%)`;
-    }
+    this.element.style.transform = `translate(${this.mouseX}px, ${this.mouseY}px) translate(-50%, -50%)`;
   }
 
-  setDisabled(disabled) {
+  setDisabled(disabled, playSound = false) {
     this.disabled = Boolean(disabled);
     if (this.disabled && this.isOn) {
-      this.setOn(false);
+      this.setOn(false, true, playSound);
     }
   }
 
   toggle() {
     if (this.disabled) return;
-    this.setOn(!this.isOn);
+    this.setOn(!this.isOn, true, true);
   }
 
-  setOn(state, triggerCallback = true) {
+  setOn(state, triggerCallback = true, playSound = false) {
     if (this.disabled && state) return;
     this.isOn = Boolean(state);
-    if (this.isOn) {
-      this.element.classList.remove('off');
-      this.element.classList.add('visible');
-    } else {
-      this.element.classList.add('off');
-      this.element.classList.remove('visible');
+    if (this.element) {
+      if (this.isOn) {
+        this.element.classList.remove('off');
+        this.element.classList.remove('flashlight-off');
+        this.element.classList.add('visible');
+        this.updatePosition();
+      } else {
+        this.element.classList.add('off');
+        this.element.classList.add('flashlight-off');
+        this.element.classList.remove('visible');
+      }
     }
     if (triggerCallback && typeof this.onToggle === 'function') {
-      this.onToggle(this.isOn);
+      this.onToggle(this.isOn, playSound);
     }
   }
 

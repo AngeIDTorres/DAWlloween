@@ -203,12 +203,12 @@
     position: absolute;
     top: 1.8%;
     left: 50%;
-    width: clamp(74px, 8cqi, 104px);
+    width: clamp(76px, 8.5cqi, 110px);
     aspect-ratio: 1;
     height: auto;
     background: url('../img/mapa/posit.png') center / 100% 100% no-repeat;
     color: #1A1412;
-    padding: 16px 8px 8px;
+    padding: clamp(12px, 15%, 20px) clamp(8px, 11%, 15px) clamp(8px, 11%, 15px);
     transform-origin: 50% 0%;
     transform: perspective(600px) rotateX(0deg) translateX(-50%) rotate(0.5deg);
     transition: width 0.3s cubic-bezier(0.25, 1, 0.5, 1), height 0.3s cubic-bezier(0.25, 1, 0.5, 1), transform 0.35s cubic-bezier(0.25, 1, 0.5, 1), filter 0.35s ease;
@@ -226,11 +226,11 @@
 }
 
 .frame-postit.expanded {
-    width: min(90cqi, 242px);
-    height: min(85cqb, 232px);
-    min-height: 180px;
-    aspect-ratio: auto;
-    padding: 24px 18px 14px 28px;
+    width: min(92cqi, clamp(195px, 20cqi, 255px));
+    height: auto;
+    aspect-ratio: 1;
+    min-height: auto;
+    padding: clamp(18px, 2.2cqi, 26px) clamp(16px, 1.8cqi, 24px) clamp(14px, 1.5cqi, 20px) clamp(18px, 2.2cqi, 26px);
     transform: perspective(600px) rotateX(0deg) translateX(-50%);
     filter: drop-shadow(0 20px 32px rgba(0, 0, 0, 0.92)) drop-shadow(0 4px 10px rgba(0, 0, 0, 0.7));
     cursor: default;
@@ -247,6 +247,7 @@
     justify-content: center;
     height: 100%;
     width: 100%;
+    text-align: center;
 }
 
 .frame-postit.expanded .postit-collapsed-view {
@@ -255,10 +256,13 @@
 
 .postit-title-main {
     font-family: 'Special Elite', monospace;
-    font-size: 19px;
+    font-size: clamp(11.5px, 1.4cqi, 18px);
     font-weight: bold;
     color: #1A1412;
-    letter-spacing: 1px;
+    letter-spacing: clamp(0.4px, 0.08cqi, 1px);
+    line-height: 1.1;
+    white-space: nowrap;
+    text-align: center;
 }
 
 .postit-expanded-view {
@@ -289,25 +293,25 @@
     align-items: center;
     justify-content: space-between;
     border-bottom: 1.5px solid rgba(26, 20, 18, 0.25);
-    padding-bottom: 6px;
-    margin-bottom: 12px;
-    margin-left: 4px;
-    margin-right: 4px;
+    padding-bottom: clamp(3px, 0.4cqi, 6px);
+    margin-bottom: clamp(6px, 0.8cqi, 11px);
+    margin-left: 2px;
+    margin-right: 2px;
 }
 
 .postit-header-title {
     font-family: 'Special Elite', monospace;
-    font-size: 14px;
+    font-size: clamp(11px, 1.15cqi, 14.5px);
     font-weight: bold;
     color: #1A1412;
-    letter-spacing: 1.5px;
+    letter-spacing: clamp(1px, 0.12cqi, 1.5px);
 }
 
 .postit-close-btn {
     background: none;
     border: none;
     font-family: 'Special Elite', monospace;
-    font-size: 19px;
+    font-size: clamp(14px, 1.5cqi, 19px);
     font-weight: bold;
     color: #1A1412;
     cursor: pointer;
@@ -325,19 +329,20 @@
 .postit-content {
     display: flex;
     flex-direction: column;
-    gap: 10px;
-    margin-left: 6px;
+    gap: clamp(6px, 0.8cqi, 11px);
+    margin-left: clamp(2px, 0.4cqi, 6px);
 }
 
 .postit-link {
     font-family: 'Special Elite', monospace;
-    font-size: 17px;
+    font-size: clamp(11.5px, 1.35cqi, 16.5px);
     font-weight: bold;
     color: #1A1412;
-    letter-spacing: 0.5px;
+    letter-spacing: clamp(0.3px, 0.05cqi, 0.5px);
     cursor: pointer;
     transition: color 0.2s ease, transform 0.2s ease;
-    padding: 2px 0;
+    padding: clamp(1px, 0.15cqi, 3px) 0;
+    white-space: nowrap;
 }
 
 .postit-link:hover {
@@ -569,13 +574,7 @@
 }
 
 .map-darkness-veil.lights-off {
-    background: radial-gradient(
-        circle 200px at var(--map-light-x, 50vw) var(--map-light-y, 50vh),
-        transparent 0%,
-        transparent 10%,
-        rgba(1, 2, 4, 0.75) 50%,
-        rgba(0, 1, 2, 0.98) 100%
-    );
+    background: rgba(1, 2, 4, 0.97);
 }
 
 .map-flashlight {

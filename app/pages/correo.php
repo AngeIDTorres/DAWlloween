@@ -52,6 +52,16 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             $debugLog = file_get_contents('/tmp/sendmail.log');
         }
     }
+
+    if (isset($_POST['ajax']) || (isset($_SERVER['HTTP_X_REQUESTED_WITH']) && strtolower($_SERVER['HTTP_X_REQUESTED_WITH']) === 'xmlhttprequest') || (isset($_SERVER['HTTP_ACCEPT']) && strpos($_SERVER['HTTP_ACCEPT'], 'application/json') !== false)) {
+        header('Content-Type: application/json; charset=UTF-8');
+        echo json_encode([
+            'success' => ($tipoEstado === 'exito'),
+            'message' => $mensajeEstado,
+            'status' => $tipoEstado
+        ]);
+        exit;
+    }
 } elseif (file_exists('/tmp/sendmail.log')) {
     $debugLog = file_get_contents('/tmp/sendmail.log');
 }
@@ -71,7 +81,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 
   <main class="office-stage room-lit" id="officeStage">
     <div class="office-darkness-veil" id="officeDarknessVeil"></div>
-    <div class="office-flashlight" id="officeFlashlight"></div>
+    <div class="office-flashlight flashlight-off" id="officeFlashlight"></div>
 
     <div class="office-interactive-area" id="officeInteractiveArea">
       <div class="office-desk-lamp" id="officeDeskLamp" title="Encender / Apagar lámpara de sobremesa (Tecla L)">
@@ -86,11 +96,9 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
           <img src="../img/correo/folio_maquina_escribir.png" alt="Folio mecanografiado" class="typewriter-paper-bg">
 
           <div class="typewriter-form-content">
-            <?php if ($mensajeEstado !== ''): ?>
-              <div class="typewriter-stamp-status <?= $tipoEstado === 'exito' ? 'stamp-success' : 'stamp-error' ?>">
-                <?= htmlspecialchars($mensajeEstado) ?>
-              </div>
-            <?php endif; ?>
+            <div class="typewriter-stamp-status <?= $tipoEstado === 'exito' ? 'stamp-success' : ($tipoEstado === 'error' ? 'stamp-error' : '') ?>" id="typewriterStampStatus" <?= $mensajeEstado === '' ? 'style="display: none;"' : '' ?>>
+              <?= htmlspecialchars($mensajeEstado) ?>
+            </div>
 
             <form method="POST" action="correo.php" id="typewriterMailForm" class="typewriter-form">
               <div class="typewriter-field">
@@ -105,19 +113,18 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 
               <div class="typewriter-field typewriter-field-body">
                 <label for="cuerpo" class="typewriter-label">PEORES PESADILLAS:</label>
-                <textarea id="cuerpo" name="cuerpo" rows="5" required class="typewriter-textarea" placeholder="Escribe tu mensaje a máquina..."><?= htmlspecialchars($cuerpo) ?></textarea>
-              </div>
-
-              <div class="typewriter-action-row">
-                <button type="submit" id="sendEmailBtn" class="typewriter-send-btn">[ ENVIAR ]</button>
+                <textarea id="cuerpo" name="cuerpo" rows="7" required class="typewriter-textarea" placeholder="Escribe tu mensaje a máquina..."><?= htmlspecialchars($cuerpo) ?></textarea>
               </div>
             </form>
           </div>
         </div>
       </div>
+
+      <img src="../img/correo/rodillo_maquina_front.png" alt="" class="typewriter-roller-overlay" aria-hidden="true">
+      <button type="submit" id="sendEmailBtn" form="typewriterMailForm" class="typewriter-send-btn typewriter-chassis-send-btn" title="Enviar correspondencia (Ctrl + Enter)">[ ENVIAR ]</button>
     </div>
   </main>
 
-  <script type="module" src="../js/correo.js"></script>
+  <script type="module" src="../js/correo.js?v=20261106_01"></script>
 </body>
 </html>

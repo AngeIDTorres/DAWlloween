@@ -27,7 +27,7 @@ Hub neurálgico de exploración del centro clausurado en vista cenital:
 * **Cuadro Institucional:** Fondo de pared con moldura perimetral de madera (`marco_madera_vacio.png`), vano acristalado con cristal cuarteado (`cristal_quebrado.png`) y plano arquitectónico en pergamino vectorial (SVG).
 * **Iluminación Dinámica:**
   * **Bombilla Colgante (`hanging-lamp.js`):** Luminaria suspendida con balanceo pendular continuo. Conmuta entre encendido/apagado general (clic o tecla `L`), proyectando un haz cálido sobre el plano.
-  * **Linterna Manual (`flashlight.js`):** Haz óptico sincronizado con las coordenadas del cursor sobre el velo oscuro continuo. Alternable mediante la tecla `F`.
+  * **Linterna Manual (`flashlight.js`):** Haz óptico sincronizado con las coordenadas del cursor sobre el velo oscuro continuo. Alternable mediante la tecla `F`. Al apagarse, el velo de penumbra adopta una oscuridad homogénea sin conos de luz residuales; al encenderse de nuevo, sus coordenadas espaciales se actualizan de inmediato a la posición real del puntero sin arrastrar la posición anterior.
 * **Distribución de Salas:**
   * **Dependencias Operativas:**
     * `COMEDOR Y COCINAS` (`pages/recetas.php`): Acceso al recetario escolar temático.
@@ -36,7 +36,7 @@ Hub neurálgico de exploración del centro clausurado en vista cenital:
     * `EXPEDIENTE` (`pages/aboutus.php`): Acceso a la ficha y biografía del proyecto.
   * **Dependencias Clausuradas:** Aula de Música, Aseos, Sala de Profesores, Laboratorio y Gimnasio Polideportivo. Están marcadas con aspas rojas y rótulos «INACCESIBLE»; al clicar sobre ellas emiten el foley de cerrojos bloqueados (`puerta_clausurada.mp3`) sin modales intrusivos.
 * **Navegación Rápida:**
-  * **Posit Desplegable (`frame-postit`):** Índice adhesivo en el marco con enlaces directos a las tres dependencias activas.
+  * **Posit Desplegable (`frame-postit`):** Índice adhesivo en el marco con enlaces directos a las tres dependencias activas. Su tipografía y espaciado interno emplean unidades de contenedor fluidas (`clamp()` con `cqi`), garantizando un encuadre centrado y márgenes de seguridad que evitan colisiones con los bordes del pergamino adhesivo en cualquier resolución de pantalla.
   * **Pegatina Adhesiva (`frame-sticker-about`):** Etiqueta «EXPEDIENTE / Sobre mí» en la base del marco para abrir el expediente del creador.
 * **Transiciones de Sala:** Toda navegación activa el sonido de pasos pesados sobre tarima (`pasos_madera.mp3`, 1.75s) sincronizado con el telón de fundido a negro (`.blackout-curtain`), garantizando una transición inmersiva sin cortes abruptos.
 
